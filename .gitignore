@@ -1,0 +1,20 @@
+# Compiled Object Files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic Libraries
+*.so
+
+# Compiled Static Libraries
+*.lai
+*.la
+*.a
+
+# Build Directories
+build/
+
+# Temporary Files
+.*.sw[a-z]
+*.swp
+*~
