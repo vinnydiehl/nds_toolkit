@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# @file Makefile - Builds the Loop Code Generator page.
+# @file Makefile - Builds the Code Compressor page.
 
 # Orientation of this Makefile
 ROOT = ../..
@@ -33,7 +33,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = pgLoopCodeGenerator.o
+OBJ = pgCodeCompressor.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -54,9 +54,9 @@ debug: $(OPATHS)
 configure:
 	mkdir -p $(OBJDIR)
 
-$(OBJDIR)/pgLoopCodeGenerator.o: $(INCDIR)/pgLoopCodeGenerator.h \
+$(OBJDIR)/pgCodeCompressor.o: $(INCDIR)/pgCodeCompressor.h \
 		                 $(SHAREDINCDIR)/globals.h
-	$(CXX) $(CFLAGS) pgLoopCodeGenerator.cpp
+	$(CXX) $(CFLAGS) pgCodeCompressor.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

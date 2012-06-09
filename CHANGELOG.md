@@ -9,6 +9,11 @@ release.
 
 ### Development Status
 
- + **08 July 2012**: GUI framework is set up; ready to begin development on individual pages.
- + **09 July 2012**: GUI for the Code Porter tab implemented.
+ + **08 July 2012**
+   + GUI framework is set up; ready to begin development on individual pages.
+ + **09 July 2012**
+   + GUI for the Code Porter page implemented.
+   + Made the tab control a wxAuiNotebook.
+   + Renamed Loop Code Generator page to Code Compressor
+   + Unnecessary wx/notebook.h includes in the pages' header files removed.
 

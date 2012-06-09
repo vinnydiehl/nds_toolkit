@@ -29,7 +29,7 @@ OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
 OBJ = pgButtonActivatorGenerator.o pgCodePorter.o \
-      pgLoopCodeGenerator.o pgPointerSearcher.o
+      pgPointerSearcher.o pgCodeCompressor.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
@@ -52,11 +52,11 @@ $(OBJDIR)/pgButtonActivatorGenerator.o:
 $(OBJDIR)/pgCodePorter.o:
 	$(MAKE) -C code-porter $(MAKETGT)
 
-$(OBJDIR)/pgLoopCodeGenerator.o:
-	$(MAKE) -C loop-generator $(MAKETGT)
-
 $(OBJDIR)/pgPointerSearcher.o:
 	$(MAKE) -C pointer-searcher $(MAKETGT)
+
+$(OBJDIR)/pgCodeCompressor.o:
+	$(MAKE) -C code-compressor $(MAKETGT)
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

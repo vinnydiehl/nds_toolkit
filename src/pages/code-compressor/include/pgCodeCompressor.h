@@ -17,24 +17,24 @@
 **/
 
 /**
- * @file pgLoopCodeGenerator.h - Header file for the Loop Code Generator page.
+ * @file pgCodeCompressor.h - Header file for the Code Compressor page.
 **/
 
-#ifndef PGLOOPCODEGENERATOR_H_INCLUDED
-#define PGLOOPCODEGENERATOR_H_INCLUDED
+#ifndef PGCODECOMPRESSOR_H_INCLUDED
+#define PGCODECOMPRESSOR_H_INCLUDED
 
 #include <wx/wx.h>
 #include <wx/notebook.h>
 
 #include "globals.h"
 
-class pgLoopCodeGenerator : public wxPanel
+class pgCodeCompressor : public wxPanel
 {
 public:
 
     static wxString Title;
 
-    pgLoopCodeGenerator(wxWindow *parent);
+    pgCodeCompressor(wxWindow *parent);
 
     /** Main Content **/
 
@@ -57,5 +57,5 @@ private:
     // static const long ID_NAME;
 };
 
-#endif // PGLOOPCODEGENERATOR_H_INCLUDED
+#endif // PGCODECOMPRESSOR_H_INCLUDED
 

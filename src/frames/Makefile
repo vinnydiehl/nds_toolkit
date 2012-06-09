@@ -23,8 +23,8 @@ ROOT = ..
 INCDIR = include
 BASEINCDIR = $(ROOT)/base/include
 PAGESINCDIR = $(ROOT)/pages/activator-generator/include \
+	      $(ROOT)/pages/code-compressor/include \
 	      $(ROOT)/pages/code-porter/include \
-	      $(ROOT)/pages/loop-generator/include \
 	      $(ROOT)/pages/pointer-searcher/include
 SHAREDINCDIR = $(ROOT)/shared
 INCPATHS = $(INCDIR) $(BASEINCDIR) $(PAGESINCDIR) $(SHAREDINCDIR)
@@ -33,8 +33,8 @@ INCFLAGS = $(addprefix -I,$(INCPATHS))
 PAGESINCLDS = \
   $(ROOT)/pages/activator-generator/include/pgButtonActivatorGenerator.h \
   $(ROOT)/pages/code-porter/include/pgCodePorter.h \
-  $(ROOT)/pages/loop-generator/include/pgLoopCodeGenerator.h \
-  $(ROOT)/pages/pointer-searcher/include/pgPointerSearcher.h
+  $(ROOT)/pages/pointer-searcher/include/pgPointerSearcher.h \
+  $(ROOT)/pages/code-compressor/include/pgCodeCompressor.h
 
 # wxWidgets Options
 WXCFLAGS = `wx-config --cxxflags`

@@ -59,7 +59,7 @@ INSTALL = /usr/bin
 # Output Files
 EXE = $(BINDIR)/$(NAME)
 OBJ = Program.o frmMain.o MenuBar.o pgButtonActivatorGenerator.o \
-      pgCodePorter.o pgLoopCodeGenerator.o pgPointerSearcher.o
+      pgCodePorter.o pgPointerSearcher.o pgCodeCompressor.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -111,10 +111,10 @@ $(OBJDIR)/MenuBar.o:
 $(OBJDIR)/pgButtonActivatorGenerator.o:
 	$(MAKE) -C pages $(MAKETGT)
 
-$(OBJDIR)/pgCodePorter.o:
+$(OBJDIR)/pgCodeCompressor.o:
 	$(MAKE) -C pages $(MAKETGT)
 
-$(OBJDIR)/pgLoopCodeGenerator.o:
+$(OBJDIR)/pgCodePorter.o:
 	$(MAKE) -C pages $(MAKETGT)
 
 $(OBJDIR)/pgPointerSearcher.o:

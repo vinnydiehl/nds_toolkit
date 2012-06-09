@@ -17,21 +17,21 @@
 **/
 
 /**
- * @file pgLoopCodeGenerator.cpp - The program's Loop Code Generator page.
+ * @file pgCodeCompressor.cpp - The program's Code Compressor page.
 **/
 
-#include "pgLoopCodeGenerator.h"
+#include "pgCodeCompressor.h"
 
 // Title of the page:
-wxString pgLoopCodeGenerator::Title = _T("Loop Code Generator");
+wxString pgCodeCompressor::Title = _T("Code Compressor");
 
 /** Initialize Identifiers **/
 
 // Format:
 // const long ClassName::ID_NAME = wxNewId();
 
-pgLoopCodeGenerator::pgLoopCodeGenerator(wxWindow *parent)
-                   : wxPanel(parent, wxID_ANY)
+pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
+                : wxPanel(parent, wxID_ANY)
 {
     /** Main Content **/
 

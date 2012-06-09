@@ -32,16 +32,20 @@ frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, TITLE)
     pnlNotebook = new wxPanel(this, wxID_ANY);
     vboxNotebook = new wxBoxSizer(wxVERTICAL);
 
-    nbMain = new wxNotebook(pnlNotebook, wxID_ANY);
+    // 2012-06-09 gbchaosmaster - How about using a wxAuiNotebook?
+    nbMain = new wxAuiNotebook(pnlNotebook, wxID_ANY, wxDefaultPosition,
+                               wxDefaultSize, wxAUI_NB_TOP |
+                               wxAUI_NB_TAB_SPLIT | wxAUI_NB_TAB_MOVE |
+                               wxAUI_NB_SCROLL_BUTTONS);
 
     nbMain->AddPage(new pgButtonActivatorGenerator(nbMain),
                     pgButtonActivatorGenerator::Title);
-    nbMain->AddPage(new pgLoopCodeGenerator(nbMain),
-                    pgLoopCodeGenerator::Title);
     nbMain->AddPage(new pgPointerSearcher(nbMain),
                     pgPointerSearcher::Title);
     nbMain->AddPage(new pgCodePorter(nbMain),
                     pgCodePorter::Title);
+    nbMain->AddPage(new pgCodeCompressor(nbMain),
+                    pgCodeCompressor::Title);
 
     vboxNotebook->Add(nbMain, 1, wxEXPAND);
     pnlNotebook->SetSizer(vboxNotebook);

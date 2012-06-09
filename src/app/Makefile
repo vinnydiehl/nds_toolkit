@@ -24,8 +24,8 @@ INCDIR = include
 BASEINCDIR = $(ROOT)/base/include
 FRAMEINCDIR = $(ROOT)/frames/include
 PAGESINCDIR = $(ROOT)/pages/activator-generator/include \
+	      $(ROOT)/pages/code-compressor/include \
 	      $(ROOT)/pages/code-porter/include \
-	      $(ROOT)/pages/loop-generator/include \
 	      $(ROOT)/pages/pointer-searcher/include
 SHAREDINCDIR = $(ROOT)/shared
 INCPATHS = $(INCDIR) $(BASEINCDIR) $(FRAMEINCDIR) $(PAGESINCDIR) \

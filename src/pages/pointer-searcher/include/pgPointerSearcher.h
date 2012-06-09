@@ -24,7 +24,6 @@
 #define PGPOINTERSEARCHER_H_INCLUDED
 
 #include <wx/wx.h>
-#include <wx/notebook.h>
 
 #include "globals.h"
 

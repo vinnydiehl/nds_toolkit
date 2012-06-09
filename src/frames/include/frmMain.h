@@ -24,14 +24,15 @@
 #define FRMMAIN_H_INCLUDED
 
 #include <wx/wx.h>
-#include <wx/notebook.h>
+#include <wx/aui/auibook.h>
+// #include <wx/notebook.h>
 
 #include "MenuBar.h"
 
 #include "pgButtonActivatorGenerator.h"
-#include "pgLoopCodeGenerator.h"
 #include "pgPointerSearcher.h"
 #include "pgCodePorter.h"
+#include "pgCodeCompressor.h"
 
 class frmMain : public wxFrame
 {
@@ -43,7 +44,7 @@ public:
 
     wxPanel *pnlNotebook;
     wxBoxSizer *vboxNotebook;
-    wxNotebook *nbMain;
+    wxAuiNotebook *nbMain;
 };
 
 #endif // FRMMAIN_H_INCLUDED
