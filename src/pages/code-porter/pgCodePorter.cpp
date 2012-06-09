@@ -27,8 +27,11 @@ wxString pgCodePorter::Title = _T("Code Porter");
 
 /** Initialize Identifiers **/
 
-// Format:
-// const long ClassName::ID_NAME = wxNewId();
+const long pgCodePorter::ID_PORT = wxNewId();
+
+const long pgCodePorter::ID_CLEAR = wxNewId();
+const long pgCodePorter::ID_COPY = wxNewId();
+const long pgCodePorter::ID_PASTE = wxNewId();
 
 pgCodePorter::pgCodePorter(wxWindow *parent)
             : wxPanel(parent, wxID_ANY)
@@ -38,29 +41,124 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
     vboxMargin = new wxBoxSizer(wxVERTICAL);
 
     pnlMain = new wxPanel(this, wxID_ANY);
-    vboxMain = new wxBoxSizer(wxVERTICAL);
+    hboxMain = new wxBoxSizer(wxHORIZONTAL);
 
-    // Add layout boxes and whatnot like so:
-    // hboxName = new wxBoxSizer(wxHORIZONTAL);
-    // And then items to that:
-    // lblFoo = new wxStaticText(pnlMain, wxID_ANY, _T("Whatever..."));
-    // hboxName->Add(lblFoo, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
-    // Then add it to the main box...
-    // vboxMain->Add(hboxName, 0, wxEXPAND);
-    // Maybe add a separator? This uses the SEPARATOR macro from globals.h.
-    // vboxMain->Add(-1, SEPARATOR);
-    // You get the idea...
+    // vboxInput - Contains the Code Input section.
 
-    pnlMain->SetSizer(vboxMain);
-    vboxMain->SetSizeHints(pnlMain);
+    vboxInput = new wxBoxSizer(wxVERTICAL);
+
+    lblInput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Input"));
+    txtInput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                              wxDefaultPosition, wxDefaultSize,
+                              wxTE_MULTILINE);
+
+    vboxInput->Add(lblInput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
+    vboxInput->Add(txtInput, 1, wxEXPAND);
+
+    // End vboxInput
+
+    // vboxControls - The user control section of the page.
+
+    vboxControls = new wxBoxSizer(wxVERTICAL);
+
+        // Begin svboxOperation
+
+    svboxOperation = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
+                                          _T("Operation"));
+
+            // Begin hboxOperationRadios
+
+    hboxOperationRadios = new wxBoxSizer(wxHORIZONTAL);
+
+    radAdd = new wxRadioButton(pnlMain, wxID_ANY, _T("&Add"),
+                               wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+    radSub = new wxRadioButton(pnlMain, wxID_ANY, _T("&Sub"));
+
+    hboxOperationRadios->Add(radAdd, 1, wxEXPAND);
+    hboxOperationRadios->Add(radSub, 1, wxEXPAND);
+
+            // End hboxOperationRadios
+
+    lblOffset = new wxStaticText(pnlMain, wxID_ANY, _T("Offset (hex):"));
+    txtOffset = new wxTextCtrl(pnlMain, wxID_ANY);
+
+    svboxOperation->Add(hboxOperationRadios, 0, wxEXPAND | wxBOTTOM, 5);
+    svboxOperation->Add(lblOffset, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
+    svboxOperation->Add(txtOffset, 0, wxEXPAND);
+
+        // End svboxOperation
+
+    btnPort = new wxButton(pnlMain, ID_PORT, _T("&Port"));
+
+        // Begin svboxTools
+
+    svboxTools = new wxStaticBoxSizer(wxVERTICAL, pnlMain, _T("Tools"));
+
+    btnClear = new wxButton(pnlMain, ID_CLEAR, _T("C&lear"));
+    btnCopy = new wxButton(pnlMain, ID_COPY, _T("&Copy"));
+    btnPaste = new wxButton(pnlMain, ID_PASTE, _T("&Paste"));
+
+    svboxTools->Add(btnClear, 0, wxEXPAND | wxBOTTOM, 2);
+    svboxTools->Add(btnCopy, 0, wxEXPAND | wxBOTTOM, 2);
+    svboxTools->Add(btnPaste, 0, wxEXPAND);
+
+        // End svboxTools
+
+    vboxControls->Add(svboxOperation, 0, wxEXPAND | wxLEFT |
+                      wxRIGHT | wxBOTTOM, 5);
+    vboxControls->Add(btnPort, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
+    vboxControls->Add(svboxTools, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
+
+    // End vboxControls
+
+    // vboxOutput - Contains the Code Output section.
+
+    vboxOutput = new wxBoxSizer(wxVERTICAL);
+
+    lblOutput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Output"));
+    txtOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                              wxDefaultPosition, wxDefaultSize,
+                              wxTE_MULTILINE);
+
+    vboxOutput->Add(lblOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
+    vboxOutput->Add(txtOutput, 1, wxEXPAND);
+
+    // End vboxOutput
+
+    hboxMain->Add(vboxInput, 2, wxEXPAND);
+    hboxMain->Add(vboxControls, 1, wxEXPAND | wxLEFT | wxRIGHT, 5);
+    hboxMain->Add(vboxOutput, 2, wxEXPAND);
+
+    pnlMain->SetSizer(hboxMain);
+    hboxMain->SetSizeHints(pnlMain);
 
     vboxMargin->Add(pnlMain, 1, wxEXPAND | wxALL, MARGIN);
     SetSizer(vboxMargin);
     vboxMargin->SetSizeHints(this);
 
-    // Connect main window events
-    // Put all of your event connections here. Example:
-//  Connect(ID_NAME, wxEVT_COMMAND_BUTTON_CLICKED,
-//          wxCommandEventHandler(ClassName::MethodName));
+    // Connect Code Porter events
+    Connect(ID_PORT, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodePorter::Port));
+
+    Connect(ID_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodePorter::Clear));
+    Connect(ID_COPY, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodePorter::Copy));
+    Connect(ID_PASTE, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodePorter::Paste));
+}
+
+void pgCodePorter::Port(wxCommandEvent &WXUNUSED(event))
+{
+}
+
+void pgCodePorter::Clear(wxCommandEvent &WXUNUSED(event))
+{
+}
+void pgCodePorter::Copy(wxCommandEvent &WXUNUSED(event))
+{
+}
+void pgCodePorter::Paste(wxCommandEvent &WXUNUSED(event))
+{
 }
 

@@ -26,8 +26,6 @@
 
 // The margin between the edge of each page and the contents of the page:
 #define MARGIN 5
-// The standard spacing between sections of pages:
-#define SEPARATOR 3
 
 #endif // GLOBALS_H_INCLUDED
 

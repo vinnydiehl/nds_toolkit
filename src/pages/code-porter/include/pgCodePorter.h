@@ -38,23 +38,44 @@ public:
 
     /** Main Content **/
 
-    wxBoxSizer *vboxMargin, *vboxMain;
+    wxBoxSizer *vboxMargin, *hboxMain;
     wxPanel *pnlMain;
 
-    // Add layout boxes and such like so:
-    // wxBoxSizer *hboxName;
-    // wxStaticText *lblFoo;
+    wxBoxSizer *vboxInput;
+      wxStaticText *lblInput;
+      wxTextCtrl *txtInput;
+
+    wxBoxSizer *vboxControls;
+      wxStaticBoxSizer *svboxOperation;
+        wxBoxSizer *hboxOperationRadios;
+          wxRadioButton *radAdd, *radSub;
+        wxStaticText *lblOffset;
+        wxTextCtrl *txtOffset;
+      wxButton *btnPort;
+      wxStaticBoxSizer *svboxTools;
+        wxButton *btnClear, *btnCopy, *btnPaste;
+
+    wxBoxSizer *vboxOutput;
+      wxStaticText *lblOutput;
+      wxTextCtrl *txtOutput;
 
     /** Events **/
 
-    // Insert events here.
+    void Port(wxCommandEvent &event);
+
+    void Clear(wxCommandEvent &event);
+    void Copy(wxCommandEvent &event);
+    void Paste(wxCommandEvent &event);
 
 private:
 
     /** Identifiers **/
 
-    // Format:
-    // static const long ID_NAME;
+    static const long ID_PORT;
+
+    static const long ID_CLEAR;
+    static const long ID_COPY;
+    static const long ID_PASTE;
 };
 
 #endif // PGCODEPORTER_H_INCLUDED

@@ -9,5 +9,6 @@ release.
 
 ### Development Status
 
- + GUI framework is set up; ready to begin development on individual pages.
+ + **08 July 2012**: GUI framework is set up; ready to begin development on individual pages.
+ + **09 July 2012**: GUI for the Code Porter tab implemented.
 
