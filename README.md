@@ -12,9 +12,10 @@ Running one of these will install all of the needed build tools for this applica
 
 [](/blank)
 
-    sudo yum install gcc gcc-c++ wxGTK
+    sudo yum groupinstall 'Development Tools'
+    sudo yum install wxGTK
 
-If you're using Pacman/Portage/whatever, you know enough to be able to find G++ and wxWidgets on your own.
+If you're using Pacman/Portage/whatever, you know enough to be able to find GCC and wxWidgets on your own.
 
 The NDS Hacking Kit is written in C++ using wxWidgets 2.8.12. If your compiler is having trouble finding the wxWidgets library and you know that you have it installed, check that there is output for the following commands:
 
