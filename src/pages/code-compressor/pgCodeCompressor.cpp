@@ -125,7 +125,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     // Output Box
     txtLoopOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                                    wxDefaultPosition, wxDefaultSize,
-                                   wxTE_MULTILINE);
+                                   wxTE_MULTILINE | wxHSCROLL);
 
     // Copy Button
     btnLoopCopy = new wxButton(pnlMain, ID_LOOP_COPY,
@@ -156,7 +156,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     lblInput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Input"));
     txtInput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                               wxDefaultPosition, wxDefaultSize,
-                              wxTE_MULTILINE);
+                              wxTE_MULTILINE | wxHSCROLL);
     btnBuild = new wxButton(pnlMain, ID_BUILD, _T("&Build"));
 
     vboxInput->Add(lblInput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
@@ -172,7 +172,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     lblOutput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Output"));
     txtOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                                wxDefaultPosition, wxDefaultSize,
-                               wxTE_MULTILINE);
+                               wxTE_MULTILINE | wxHSCROLL);
     btnECopy = new wxButton(pnlMain, ID_E_COPY, _T("C&opy to Clipboard"));
 
     vboxOutput->Add(lblOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);

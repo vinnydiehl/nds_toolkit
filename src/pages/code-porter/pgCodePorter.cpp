@@ -50,7 +50,7 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
     lblInput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Input"));
     txtInput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                               wxDefaultPosition, wxDefaultSize,
-                              wxTE_MULTILINE);
+                              wxTE_MULTILINE | wxHSCROLL);
 
     vboxInput->Add(lblInput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxInput->Add(txtInput, 1, wxEXPAND);
@@ -118,7 +118,7 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
     lblOutput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Output"));
     txtOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                               wxDefaultPosition, wxDefaultSize,
-                              wxTE_MULTILINE);
+                              wxTE_MULTILINE | wxHSCROLL);
 
     vboxOutput->Add(lblOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxOutput->Add(txtOutput, 1, wxEXPAND);
