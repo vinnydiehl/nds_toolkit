@@ -23,9 +23,10 @@
 #ifndef FRMMAIN_H_INCLUDED
 #define FRMMAIN_H_INCLUDED
 
-#include <wx/wx.h>
+#include <wx/frame.h>
+#include <wx/panel.h>
+#include <wx/sizer.h>
 #include <wx/aui/auibook.h>
-// #include <wx/notebook.h>
 
 #include "MenuBar.h"
 

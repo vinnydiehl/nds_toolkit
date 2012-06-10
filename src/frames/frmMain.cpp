@@ -55,8 +55,8 @@ frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, TITLE)
 
     // Set the menu bar to a new instance of MenuBar
     SetMenuBar(new MenuBar(this));
-    // Give it a starting size of 750x450 for now.
-    SetSize(wxSize(750, 450));
+    // Give it a starting size of 800x500 for now.
+    SetSize(wxSize(800, 500)); // 2012-06-09 gbchaosmaster from 750x450
     // Center the window on screen on startup
     Center();
 }

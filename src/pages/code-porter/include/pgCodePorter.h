@@ -23,7 +23,12 @@
 #ifndef PGCODEPORTER_H_INCLUDED
 #define PGCODEPORTER_H_INCLUDED
 
-#include <wx/wx.h>
+#include <wx/button.h>
+#include <wx/panel.h>
+#include <wx/radiobut.h>
+#include <wx/sizer.h>
+#include <wx/stattext.h>
+#include <wx/textctrl.h>
 
 #include "globals.h"
 
@@ -71,10 +76,7 @@ private:
     /** Identifiers **/
 
     static const long ID_PORT;
-
-    static const long ID_CLEAR;
-    static const long ID_COPY;
-    static const long ID_PASTE;
+    static const long ID_CLEAR, ID_COPY, ID_PASTE;
 };
 
 #endif // PGCODEPORTER_H_INCLUDED

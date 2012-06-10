@@ -23,8 +23,9 @@
 #ifndef MENUBAR_H_INCLUDED
 #define MENUBAR_H_INCLUDED
 
-#include <wx/wx.h>
 #include <wx/aboutdlg.h>
+#include <wx/frame.h>
+#include <wx/menu.h>
 
 class MenuBar : public wxMenuBar
 {

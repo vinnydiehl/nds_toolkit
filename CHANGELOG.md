@@ -16,4 +16,7 @@ release.
    + Made the tab control a wxAuiNotebook.
    + Renamed Loop Code Generator page to Code Compressor
    + Unnecessary wx/notebook.h includes in the pages' header files removed.
+   + Replaced generic wx/wx.h includes with includes for each separate item
+     in favor of faster builds.
+   + GUI for the Code Compressor page implemented.
 

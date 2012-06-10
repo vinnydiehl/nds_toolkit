@@ -23,7 +23,7 @@
 #ifndef PROGRAM_H_INCLUDED
 #define PROGRAM_H_INCLUDED
 
-#include <wx/wx.h>
+#include <wx/app.h>
 
 class NDSHackingKit : public wxApp
 {

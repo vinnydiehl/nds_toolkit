@@ -23,8 +23,13 @@
 #ifndef PGCODECOMPRESSOR_H_INCLUDED
 #define PGCODECOMPRESSOR_H_INCLUDED
 
-#include <wx/wx.h>
-#include <wx/notebook.h>
+#include <wx/button.h>
+#include <wx/checkbox.h>
+#include <wx/panel.h>
+#include <wx/sizer.h>
+#include <wx/statline.h>
+#include <wx/stattext.h>
+#include <wx/textctrl.h>
 
 #include "globals.h"
 
@@ -38,8 +43,38 @@ public:
 
     /** Main Content **/
 
-    wxBoxSizer *vboxMargin, *vboxMain;
+    wxBoxSizer *vboxMargin, *hboxMain;
     wxPanel *pnlMain;
+
+    wxStaticBoxSizer *svboxLoopCodeGenerator;
+      wxBoxSizer *hboxBaseCode;
+        wxStaticText *lblBaseCode;
+        wxTextCtrl *txtBaseCode;
+      wxBoxSizer *hboxTotalLoopCount;
+        wxStaticText *lblTotalLoopCount;
+        wxTextCtrl *txtTotalLoopCount;
+      wxBoxSizer *hboxOffsetIncrement;
+        wxStaticText *lblOffsetIncrement;
+        wxTextCtrl *txtOffsetIncrement;
+      wxBoxSizer *hboxValueIncrement;
+        wxStaticText *lblValueIncrement;
+        wxTextCtrl *txtValueIncrement;
+        wxCheckBox *chkValueIncrement;
+      wxBoxSizer *hboxLoopControls;
+        wxButton *btnGenerate, *btnClearAll;
+      wxStaticLine *slnLoopCodeGenerator;
+      wxTextCtrl *txtLoopOutput;
+      wxButton *btnLoopCopy;
+
+    wxStaticBoxSizer *shboxEBuilder;
+      wxBoxSizer *vboxInput;
+        wxStaticText *lblInput;
+        wxTextCtrl *txtInput;
+        wxButton *btnBuild;
+      wxBoxSizer *vboxOutput;
+        wxStaticText *lblOutput;
+        wxTextCtrl *txtOutput;
+        wxButton *btnECopy;
 
     // Add layout boxes and such like so:
     // wxBoxSizer *hboxName;
@@ -47,14 +82,22 @@ public:
 
     /** Events **/
 
-    // Insert events here.
+    // Loop Code Generator
+    void LoopGenerate(wxCommandEvent &event);
+    void LoopClearAll(wxCommandEvent &event);
+    void LoopCopy(wxCommandEvent &event);
+
+    // E Builder
+    void EBuild(wxCommandEvent &event);
+    void ECopy(wxCommandEvent &event);
 
 private:
 
     /** Identifiers **/
 
-    // Format:
-    // static const long ID_NAME;
+    static const long ID_GENERATE, ID_CLEAR_ALL;
+    static const long ID_BUILD;
+    static const long ID_LOOP_COPY, ID_E_COPY;
 };
 
 #endif // PGCODECOMPRESSOR_H_INCLUDED

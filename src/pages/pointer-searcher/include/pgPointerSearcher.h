@@ -23,7 +23,8 @@
 #ifndef PGPOINTERSEARCHER_H_INCLUDED
 #define PGPOINTERSEARCHER_H_INCLUDED
 
-#include <wx/wx.h>
+#include <wx/panel.h>
+#include <wx/sizer.h>
 
 #include "globals.h"
 

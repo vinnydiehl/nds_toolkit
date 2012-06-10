@@ -27,7 +27,8 @@
 #ifndef PGBLANK_H_INCLUDED
 #define PGBLANK_H_INCLUDED
 
-#include <wx/wx.h>
+#include <wx/panel.h>
+#include <wx/sizer.h>
 
 #include "globals.h"
 
