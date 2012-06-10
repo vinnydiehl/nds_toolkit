@@ -154,7 +154,9 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     vboxInput = new wxBoxSizer(wxVERTICAL);
 
     lblInput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Input"));
-    txtInput = new wxTextCtrl(pnlMain, wxID_ANY);
+    txtInput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                              wxDefaultPosition, wxDefaultSize,
+                              wxTE_MULTILINE);
     btnBuild = new wxButton(pnlMain, ID_BUILD, _T("&Build"));
 
     vboxInput->Add(lblInput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
@@ -168,7 +170,9 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     vboxOutput = new wxBoxSizer(wxVERTICAL);
 
     lblOutput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Output"));
-    txtOutput = new wxTextCtrl(pnlMain, wxID_ANY);
+    txtOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                               wxDefaultPosition, wxDefaultSize,
+                               wxTE_MULTILINE);
     btnECopy = new wxButton(pnlMain, ID_E_COPY, _T("C&opy to Clipboard"));
 
     vboxOutput->Add(lblOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
