@@ -237,6 +237,7 @@ def configure(makefile_input=_MAKEFILE_DEFAULT,
 if not config:
     # Set up the default configuration and leave if there's no .ndsconfig.
     configure()
+    print 'Configuration complete!'
     exit(0)
 
 # If they do have a .ndsconfig, parse the options out of it and store them
@@ -290,5 +291,16 @@ for option in config:
         break
 
 # We've parsed all of the options, now send them off to configure().
-configure('\n'.join(makefile_options), '\n'.join(config_header_options))
+
+if not makefile_options and not config_header_options:
+    # If, after looking through all of their options, there aren't any valid
+    # ones, tell them so and then fall back to the default configuration.
+    print 'No valid options in .ndsconfig; using default configuration.'
+    configure()
+else:
+    # Otherwise, they made it, do the final configuration and finish up.
+    print 'Successfully read .ndsconfig options, configuring now.'
+    configure('\n'.join(makefile_options), '\n'.join(config_header_options))
+
+print 'Configuration complete!'
 
