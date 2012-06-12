@@ -18,3 +18,7 @@ build/
 .*.sw[a-z]
 *.swp
 *~
+
+# Local Configuration File
+.ndsconfig
+

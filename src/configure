@@ -19,21 +19,23 @@
 # @file configure - Generates certain files to configure the build.
 
 from os import rename
+from re import search
 
 # Constants. Make sure these stay up to date with any file moves/renames.
 _CONFIG_FILE = '.ndsconfig'
 _MAKEFILE = 'Makefile'
+_CLIENTMAKE = 'client.mk'
 _CONFIG_HEADER = 'shared/config.h'
 _CONFIG_HEADER_DIR = 'shared'
 _CONFIG_HEADER_NAME = 'config.h'
 
 # Defaults:
 _MAKEFILE_DEFAULT = 'SETUP = default'
-_CONFIG_HEADER_DEFAULT = '''
+_CONFIG_HEADER_DEFAULT = '''\
 #define ADD_BUTTON_ACTIVATOR_GENERATOR
 #define ADD_POINTER_SEARCHER
 #define ADD_CODE_PORTER
-#define ADD_CODE_COMPRESSOR
+#define ADD_CODE_COMPRESSOR\
 '''
 
 # Check all fatals before anything else.
@@ -80,6 +82,49 @@ Please check to make sure the file is in the right spot.
 Aborting configuration.\
 '''
     exit(404) # Hahaha...
+
+try:
+    # Verify client.mk. If the file doesn't exist or doesn't have a proper
+    # area for this to generate into, error.
+    with open(_CLIENTMAKE) as clientmake_file:
+        clientmake = clientmake_file.read().split('\n')
+        clientmake_strip = [line.strip() for line in clientmake]
+
+        # Kill it if it doesn't have config designators
+        # :WARNING: 2012-06-11 gbchaosmaster - Not complete protection here!
+        # If the end designator is before the begin, it will still make it
+        # past this. But if somebody does that, fuck them.
+        if '### BEGIN CONFIG ###' not in clientmake_strip or \
+           '### END CONFIG ###' not in clientmake_strip:
+            print '''\
+ERROR: client.mk is not set up for this configuration.
+Ensure that the designated area for the configutation has not been modified.
+
+It should contain an area near the top (just under the file description) with
+the following format:
+
+### BEGIN CONFIG ###
+<there may or may not be content inside>
+### END CONFIG ###
+
+If this is not present, contact whoever messed with it.
+
+Aborting configuration.\
+'''
+            exit(1)
+
+        # While we're here, if we succeeded, grab the indexes of the things.
+        clientmake_begin_index = clientmake_strip.index('### BEGIN CONFIG ###')
+        clientmake_end_index = clientmake_strip.index('### END CONFIG ###')
+except IOError:
+    # If they don't have a Makefile, that's a Bad Thing. Bail!
+    print '''\
+ERROR: Either you don't have a client.mk, or something went wrong.
+Please check to make sure the file is in the right spot.
+
+Aborting configuration.\
+'''
+    exit(404)
 
 try:
     # Verify shared/config.h. If the file doesn't exist or doesn't have proper
@@ -157,25 +202,35 @@ def configure(makefile_input=_MAKEFILE_DEFAULT,
                    [makefile_input] + \
                    makefile[makefile_end_index:]
 
-    # And now the config.h...
+    # client.mk is no different; note that it uses the same input as above.
+    clientmake_new = clientmake[:clientmake_begin_index + 1] + \
+                     [makefile_input] + \
+                     clientmake[clientmake_end_index:]
+
+    # And now the config.h... For this one we want blank lines in between the
+    # options and the header guards.
     config_header_new = config_header[:config_header_begin_index + 1] + \
-                        [config_header_input] + \
+                        ['\n%s\n' % config_header_input] + \
                         config_header[config_header_end_index:]
 
     # And now, time to write the files, saving our configuration.
 
     # Be responsible and use swap files, format .<original name>.configure.swp
     makefile_swap = '.%s.configure.swp' % _MAKEFILE
+    clientmake_swap = '.%s.configure.swp' % _CLIENTMAKE
     config_header_swap = \
         '%s/.%s.configure.swp' % (_CONFIG_HEADER_DIR, _CONFIG_HEADER_NAME)
 
     # Join the compiled lists into strings to write to the swap files.
     open(makefile_swap, 'w').write('\n'.join(makefile_new))
+    open(clientmake_swap, 'w').write('\n'.join(clientmake_new))
     open(config_header_swap, 'w').write('\n'.join(config_header_new))
 
     # Overwrite the originals with the swap files and we're done.
     rename(makefile_swap, _MAKEFILE)
     print 'Success: %s written.' % _MAKEFILE
+    rename(clientmake_swap, _CLIENTMAKE)
+    print 'Success: %s written.' % _CLIENTMAKE
     rename(config_header_swap, _CONFIG_HEADER)
     print 'Success: %s written.' % _CONFIG_HEADER
 
@@ -183,4 +238,57 @@ if not config:
     # Set up the default configuration and leave if there's no .ndsconfig.
     configure()
     exit(0)
+
+# If they do have a .ndsconfig, parse the options out of it and store them
+# in their appropriate lists.
+
+makefile_options = []
+config_header_options = []
+
+# :KLUDGE: 2012-06-12 gbchaosmaster - Very WET code repeating the same loop.
+# Ouch. The purpose of this is twofold: It stops duplicate entries, and
+# enforces the order of the options in the configured files. Just having one
+# loop with a series of if statements inside gives the writer of the .ndsconfig
+# way too much power. There has to be a better way to do this, though. Maybe
+# try abstracting the loop to a function?
+
+for option in config:
+    if search(r'add[_-]options?\s+--add-button-activator-generator', option):
+        makefile_options.append(
+            'BUTTON_ACTIVATOR_GENERATOR = pgButtonActivatorGenerator.o'
+        )
+        config_header_options.append(
+            '#define ADD_BUTTON_ACTIVATOR_GENERATOR'
+        )
+        break
+for option in config:
+    if search(r'add[_-]options?\s+--add-pointer-searcher', option):
+        makefile_options.append(
+            'POINTER_SEARCHER = pgPointerSearcher.o'
+        )
+        config_header_options.append(
+            '#define ADD_POINTER_SEARCHER'
+        )
+        break
+for option in config:
+    if search(r'add[_-]options?\s+--add-code-porter', option):
+        makefile_options.append(
+            'CODE_PORTER = pgCodePorter.o'
+        )
+        config_header_options.append(
+            '#define ADD_CODE_PORTER'
+        )
+        break
+for option in config:
+    if search(r'add[_-]options?\s+--add-code-compressor', option):
+        makefile_options.append(
+            'CODE_COMPRESSOR = pgCodeCompressor.o'
+        )
+        config_header_options.append(
+            '#define ADD_CODE_COMPRESSOR'
+        )
+        break
+
+# We've parsed all of the options, now send them off to configure().
+configure('\n'.join(makefile_options), '\n'.join(config_header_options))
 
