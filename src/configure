@@ -116,7 +116,7 @@ Aborting configuration.\
         config_header_end_index = \
                 config_header_strip.index('#endif // CONFIG_H_INCLUDED')
 except IOError:
-    # If they don't have a Makefile, that's a Bad Thing. Bail!
+    # Bail if they're missing the config header.
     print '''\
 ERROR: Either shared/config.h doesn't exist, or something went wrong.
        Please re-check and try again.\
