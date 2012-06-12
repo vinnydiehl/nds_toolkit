@@ -16,6 +16,14 @@
 
 # @file Makefile - Recursively builds all of the application's pages.
 
+# If we aren't enforcing the config settings, just build everything.
+ifndef $(ENFORCE_CONFIG)
+    BUTTON_ACTIVATOR_GENERATOR = pgButtonActivatorGenerator.o
+    POINTER_SEARCHER = pgPointerSearcher.o
+    CODE_PORTER = pgCodePorter.o
+    CODE_COMPRESSOR = pgCodeCompressor.o
+endif
+
 # Make Utility
 MAKE = make
 MAKETGT =
@@ -28,8 +36,8 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = pgButtonActivatorGenerator.o pgCodePorter.o \
-      pgPointerSearcher.o pgCodeCompressor.o
+OBJ = $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
+      $(CODE_PORTER) $(CODE_COMPRESSOR)
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 .PHONY: all debug configure clean rebuild rebuild-dbg

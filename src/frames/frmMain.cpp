@@ -33,19 +33,33 @@ frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, TITLE)
     vboxNotebook = new wxBoxSizer(wxVERTICAL);
 
     // 2012-06-09 gbchaosmaster - How about using a wxAuiNotebook?
+    // Changed nbMain, wxAuiNotebook from wxNotebook
     nbMain = new wxAuiNotebook(pnlNotebook, wxID_ANY, wxDefaultPosition,
                                wxDefaultSize, wxAUI_NB_TOP |
                                wxAUI_NB_TAB_SPLIT | wxAUI_NB_TAB_MOVE |
                                wxAUI_NB_SCROLL_BUTTONS);
 
+    // Add the pages selectively depending on the build configuration.
+
+#ifdef ADD_BUTTON_ACTIVATOR_GENERATOR
     nbMain->AddPage(new pgButtonActivatorGenerator(nbMain),
                     pgButtonActivatorGenerator::Title);
+#endif
+
+#ifdef ADD_POINTER_SEARCHER
     nbMain->AddPage(new pgPointerSearcher(nbMain),
                     pgPointerSearcher::Title);
+#endif
+
+#ifdef ADD_CODE_PORTER
     nbMain->AddPage(new pgCodePorter(nbMain),
                     pgCodePorter::Title);
+#endif
+
+#ifdef ADD_CODE_COMPRESSOR
     nbMain->AddPage(new pgCodeCompressor(nbMain),
                     pgCodeCompressor::Title);
+#endif
 
     vboxNotebook->Add(nbMain, 1, wxEXPAND);
     pnlNotebook->SetSizer(vboxNotebook);

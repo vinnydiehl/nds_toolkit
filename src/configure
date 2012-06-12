@@ -1,0 +1,186 @@
+#!/usr/bin/env python
+
+# NDS Hacking Kit - A suite of tools for hacking Nintendo video games.
+# Copyright (C) 2012 Vinny Diehl
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# @file configure - Generates certain files to configure the build.
+
+from os import rename
+
+# Constants. Make sure these stay up to date with any file moves/renames.
+_CONFIG_FILE = '.ndsconfig'
+_MAKEFILE = 'Makefile'
+_CONFIG_HEADER = 'shared/config.h'
+_CONFIG_HEADER_DIR = 'shared'
+_CONFIG_HEADER_NAME = 'config.h'
+
+# Defaults:
+_MAKEFILE_DEFAULT = 'SETUP = default'
+_CONFIG_HEADER_DEFAULT = '''
+#define ADD_BUTTON_ACTIVATOR_GENERATOR
+#define ADD_POINTER_SEARCHER
+#define ADD_CODE_PORTER
+#define ADD_CODE_COMPRESSOR
+'''
+
+# Check all fatals before anything else.
+
+try:
+    # Verify Makefile. If the file doesn't exist or doesn't have a proper
+    # area for this to generate into, error.
+    with open(_MAKEFILE) as makefile_file:
+        makefile = makefile_file.read().split('\n')
+        makefile_strip = [line.strip() for line in makefile]
+
+        # Kill it if it doesn't have config designators
+        # :WARNING: 2012-06-11 gbchaosmaster - Not complete protection here!
+        # If the end designator is before the begin, it will still make it
+        # past this. But if somebody does that, fuck them.
+        if '### BEGIN CONFIG ###' not in makefile_strip or \
+           '### END CONFIG ###' not in makefile_strip:
+            print '''\
+ERROR: Your Makefile is not set up for this configuration.
+Ensure that the designated area for the configutation has not been modified.
+
+It should contain an area near the top (just under the usage description)
+with the following format:
+
+### BEGIN CONFIG ###
+<there may or may not be content inside>
+### END CONFIG ###
+
+If this is not present, contact whoever messed with it.
+
+Aborting configuration.\
+'''
+            exit(1)
+
+        # While we're here, if we succeeded, grab the indexes of the things.
+        makefile_begin_index = makefile_strip.index('### BEGIN CONFIG ###')
+        makefile_end_index = makefile_strip.index('### END CONFIG ###')
+except IOError:
+    # If they don't have a Makefile, that's a Bad Thing. Bail!
+    print '''\
+ERROR: Either you don't have a Makefile, or something went wrong.
+Please check to make sure the file is in the right spot.
+
+Aborting configuration.\
+'''
+    exit(404) # Hahaha...
+
+try:
+    # Verify shared/config.h. If the file doesn't exist or doesn't have proper
+    # header guards in place, that's a problem; error.
+    with open(_CONFIG_HEADER) as config_header_file:
+        config_header = config_header_file.read().split('\n')
+        config_header_strip = [line.strip() for line in config_header]
+
+        # Kill it if it doesn't have header guards
+        if '#define CONFIG_H_INCLUDED' not in config_header_strip or \
+           '#endif // CONFIG_H_INCLUDED' not in config_header_strip:
+            print '''\
+ERROR: The file shared/config.h is not set up for this configuration.
+Ensure that the file contains proper header guard words.
+
+Near the top (just under the @file doc comment) should be the lines:
+
+#ifndef CONFIG_H_INCLUDED
+#define CONFIG_H_INCLUDED
+
+And at the very bottom should be the line:
+
+#endif // CONFIG_H_INCLUDED
+
+If these are not present, please contact whoever messed with them.
+
+Aborting configuration.\
+'''
+            exit(1)
+
+        # Same as above, grab the indexes
+        config_header_begin_index = \
+                config_header_strip.index('#define CONFIG_H_INCLUDED')
+        config_header_end_index = \
+                config_header_strip.index('#endif // CONFIG_H_INCLUDED')
+except IOError:
+    # If they don't have a Makefile, that's a Bad Thing. Bail!
+    print '''\
+ERROR: Either shared/config.h doesn't exist, or something went wrong.
+       Please re-check and try again.\
+'''
+    exit(404)
+
+try:
+    # If we can open up the file successfully, that's great, read it into
+    # a list containing its non-empty lines.
+    with open(_CONFIG_FILE) as config_file:
+        config = [
+            line
+            for line in [l.strip() for l in config_file.read().split('\n')]
+            if line != ''
+        ]
+
+        # A blank .ndsconfig will fall back to the default configuration.
+        # [] is an implicit False; might as well use the same test as below
+        # for clarity. This is intended behavior, but is it the best?
+        if not config:
+            print 'WARNING: .ndsconfig is blank, using default configuration.'
+except IOError:
+    # If there is no .ndsconfig file or if there is an error of any kind,
+    # it's not fatal; just use the default configuration.
+    config = []
+    print 'No .ndsconfig file found; using default configuration.'
+
+# Now that everything is loaded okay, time to define this:
+def configure(makefile_input=_MAKEFILE_DEFAULT,
+              config_header_input=_CONFIG_HEADER_DEFAULT):
+    '''Write the files that need to be configured.'''
+
+    print 'Writing files...'
+
+    # We'll do the Makefile first. Pull in the part up to (and including!) the
+    # first designator, then add the input, then slap on the rest.
+    makefile_new = makefile[:makefile_begin_index + 1] + \
+                   [makefile_input] + \
+                   makefile[makefile_end_index:]
+
+    # And now the config.h...
+    config_header_new = config_header[:config_header_begin_index + 1] + \
+                        [config_header_input] + \
+                        config_header[config_header_end_index:]
+
+    # And now, time to write the files, saving our configuration.
+
+    # Be responsible and use swap files, format .<original name>.configure.swp
+    makefile_swap = '.%s.configure.swp' % _MAKEFILE
+    config_header_swap = \
+        '%s/.%s.configure.swp' % (_CONFIG_HEADER_DIR, _CONFIG_HEADER_NAME)
+
+    # Join the compiled lists into strings to write to the swap files.
+    open(makefile_swap, 'w').write('\n'.join(makefile_new))
+    open(config_header_swap, 'w').write('\n'.join(config_header_new))
+
+    # Overwrite the originals with the swap files and we're done.
+    rename(makefile_swap, _MAKEFILE)
+    print 'Success: %s written.' % _MAKEFILE
+    rename(config_header_swap, _CONFIG_HEADER)
+    print 'Success: %s written.' % _CONFIG_HEADER
+
+if not config:
+    # Set up the default configuration and leave if there's no .ndsconfig.
+    configure()
+    exit(0)
+
