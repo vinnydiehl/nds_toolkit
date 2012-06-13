@@ -101,6 +101,7 @@ private:
     /** Identifiers **/
 
     static const long ID_BROWSE_FILE_1, ID_BROWSE_FILE_2;
+    static const long ID_FIND_POINTERS;
 };
 
 #endif // PGPOINTERSEARCHER_H_INCLUDED

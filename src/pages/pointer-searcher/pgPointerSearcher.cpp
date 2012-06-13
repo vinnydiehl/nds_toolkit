@@ -30,6 +30,8 @@ wxString pgPointerSearcher::Title = _T("Pointer Searcher");
 const long pgPointerSearcher::ID_BROWSE_FILE_1 = wxNewId();
 const long pgPointerSearcher::ID_BROWSE_FILE_2 = wxNewId();
 
+const long pgPointerSearcher::ID_FIND_POINTERS = wxNewId();
+
 pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
                  :  wxPanel(parent, wxID_ANY)
 {
@@ -93,6 +95,31 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
 
     shboxOffsetTarget = new wxStaticBoxSizer(wxHORIZONTAL, pnlMain,
                                              _T("Offset Target"));
+    // vboxOnlyPosNegOptions:
+    vboxOnlyPosNegOptions = new wxBoxSizer(wxVERTICAL);
+    radOnlyPositive = new wxRadioButton(pnlMain, wxID_ANY,
+                                        _T("Only &Positive"),
+                                        wxDefaultPosition, wxDefaultSize,
+                                        wxRB_GROUP);
+    radOnlyNegative = new wxRadioButton(pnlMain, wxID_ANY,
+                                        _T("Only &Negative"));
+
+    vboxOnlyPosNegOptions->Add(radOnlyPositive, 0, wxBOTTOM, 5);
+    vboxOnlyPosNegOptions->Add(radOnlyNegative, 0);
+
+    // vboxMaxPtrOffset:
+    vboxMaxPtrOffset = new wxBoxSizer(wxVERTICAL);
+    lblMaxPtrOffset = new wxStaticText(pnlMain, wxID_ANY,
+                                       _T("Maximum Pointer Offset"));
+    txtMaxPtrOffset = new wxTextCtrl(pnlMain, wxID_ANY);
+
+    vboxMaxPtrOffset->Add(lblMaxPtrOffset, 0,
+                          wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
+    vboxMaxPtrOffset->Add(txtMaxPtrOffset, 1, wxEXPAND);
+
+    // Add the above to the static
+    shboxOffsetTarget->Add(vboxOnlyPosNegOptions, 0, wxRIGHT, 10);
+    shboxOffsetTarget->Add(vboxMaxPtrOffset, 1, wxEXPAND);
 
             // End shboxOffsetTarget
 
@@ -100,6 +127,39 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
 
     shboxDataInput = new wxStaticBoxSizer(wxHORIZONTAL, pnlMain,
                                           _T("Data Input"));
+
+    // vboxDataInputFields (contains 3 further sizers):
+    vboxDataInputFields = new wxBoxSizer(wxVERTICAL);
+
+    hboxAddress1 = new wxBoxSizer(wxHORIZONTAL);
+    lblAddress1 = new wxStaticText(pnlMain, wxID_ANY, _T("Address 1:"));
+    txtAddress1 = new wxTextCtrl(pnlMain, wxID_ANY);
+    hboxAddress1->Add(lblAddress1, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
+    hboxAddress1->Add(txtAddress1, 1, wxEXPAND);
+    //
+    hboxAddress2 = new wxBoxSizer(wxHORIZONTAL);
+    lblAddress2 = new wxStaticText(pnlMain, wxID_ANY, _T("Address 2:"));
+    txtAddress2 = new wxTextCtrl(pnlMain, wxID_ANY);
+    hboxAddress2->Add(lblAddress2, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
+    hboxAddress2->Add(txtAddress2, 1, wxEXPAND);
+    //
+    hboxHexValue = new wxBoxSizer(wxHORIZONTAL);
+    lblHexValue = new wxStaticText(pnlMain, wxID_ANY, _T("Hex Value:"));
+    txtHexValue = new wxTextCtrl(pnlMain, wxID_ANY);
+    hboxHexValue->Add(lblHexValue, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
+    hboxHexValue->Add(txtHexValue, 1, wxEXPAND);
+
+    vboxDataInputFields->Add(hboxAddress1, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxDataInputFields->Add(hboxAddress2, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxDataInputFields->Add(hboxHexValue, 0, wxEXPAND);
+
+    // The button is without a sizer:
+    btnFindPointers = new wxButton(pnlMain, ID_FIND_POINTERS,
+                                   _T("&Find Pointers"));
+
+    // Add the above to the static
+    shboxDataInput->Add(vboxDataInputFields, 1, wxEXPAND | wxRIGHT, 5);
+    shboxDataInput->Add(btnFindPointers, 0, wxEXPAND);
 
             // End shboxDataInput
 
@@ -109,9 +169,33 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
 
         // End vboxControls
 
-        // vboxAddresses - Area on the right listing the discovered addresses.
+        // vboxAddresses - Area on the right listing the found addresses.
 
     vboxAddresses = new wxBoxSizer(wxVERTICAL);
+
+            // Begin hboxAddressLabels
+
+    hboxAddressesLabels = new wxBoxSizer(wxHORIZONTAL);
+
+    // Thinking of just making these anonymous... they're not that complex
+    lblPtrAddress = new wxStaticText(pnlMain, wxID_ANY,
+                                     _T("Pointer Address"));
+    lblValueAt = new wxStaticText(pnlMain, wxID_ANY, _T("Value At"));
+    lblOffset = new wxStaticText(pnlMain, wxID_ANY, _T("Offset"));
+
+    hboxAddressesLabels->Add(lblPtrAddress, 0);
+    hboxAddressesLabels->Add(lblValueAt, 0, wxALIGN_CENTER_HORIZONTAL);
+    hboxAddressesLabels->Add(lblOffset, 0, wxALIGN_RIGHT);
+
+            // End hboxAddressLabels
+
+    txtAddresses = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                                  wxDefaultPosition,
+                                  wxSize(300, wxDefaultCoord),
+                                  wxTE_MULTILINE | wxHSCROLL);
+
+    vboxAddresses->Add(hboxAddressesLabels, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxAddresses->Add(txtAddresses, 1, wxEXPAND);
 
         // End vboxAddresses
 
