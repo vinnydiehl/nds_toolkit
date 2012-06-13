@@ -24,6 +24,11 @@
 #ifndef GLOBALS_H_INCLUDED
 #define GLOBALS_H_INCLUDED
 
+#include <wx/string.h>
+
+// Current program version:
+const wxString VERSION = _T("0.1");
+
 // The margin between the edge of each page and the contents of the page:
 #define MARGIN 5
 

@@ -60,7 +60,7 @@ void MenuBar::About(wxCommandEvent &WXUNUSED(event))
 {
     wxAboutDialogInfo info;
     info.SetName(_T("NDS Hacking Kit"));
-    info.SetVersion(_T("0.1"));
+    info.SetVersion(VERSION);
     info.SetDescription(_T("A suite of tools for hacking Nintendo games."));
     info.SetCopyright(_T("Copyright (c) 2012 Vinny Diehl"));
 

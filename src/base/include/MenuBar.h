@@ -27,6 +27,8 @@
 #include <wx/frame.h>
 #include <wx/menu.h>
 
+#include "globals.h"
+
 class MenuBar : public wxMenuBar
 {
 public:

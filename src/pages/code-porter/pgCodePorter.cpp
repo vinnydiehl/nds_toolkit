@@ -71,7 +71,8 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
     hboxOperationRadios = new wxBoxSizer(wxHORIZONTAL);
 
     radAdd = new wxRadioButton(pnlMain, wxID_ANY, _T("&Add"),
-                               wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+                               wxDefaultPosition, wxDefaultSize,
+                               wxRB_GROUP);
     radSub = new wxRadioButton(pnlMain, wxID_ANY, _T("&Sub"));
 
     hboxOperationRadios->Add(radAdd, 1, wxEXPAND);
@@ -117,8 +118,8 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
 
     lblOutput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Output"));
     txtOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
-                              wxDefaultPosition, wxDefaultSize,
-                              wxTE_MULTILINE | wxHSCROLL);
+                               wxDefaultPosition, wxDefaultSize,
+                               wxTE_MULTILINE | wxHSCROLL);
 
     vboxOutput->Add(lblOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxOutput->Add(txtOutput, 1, wxEXPAND);
