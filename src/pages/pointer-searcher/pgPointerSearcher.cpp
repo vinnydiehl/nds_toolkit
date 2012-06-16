@@ -42,7 +42,156 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     pnlMain = new wxPanel(this, wxID_ANY);
     vboxMain = new wxBoxSizer(wxVERTICAL);
 
+////////////////////////////////////////////////////////////////////////////////
 
+    svboxFileDumps = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
+                                          _T("File Dumps"));
+
+    gridFileDumps = new wxFlexGridSizer(2, 2, 5, 5);
+
+    txtFile1 = new wxTextCtrl(pnlMain, wxID_ANY);
+    btnFile1 = new wxButton(pnlMain, ID_BROWSE_FILE_1, _T("File &1"));
+    txtFile2 = new wxTextCtrl(pnlMain, wxID_ANY);
+    btnFile2 = new wxButton(pnlMain, ID_BROWSE_FILE_2, _T("File &2"));
+
+    // Row 1
+    gridFileDumps->Add(txtFile1, 1, wxEXPAND);
+    gridFileDumps->Add(btnFile1);
+
+    // Row 2
+    gridFileDumps->Add(txtFile2, 1, wxEXPAND);
+    gridFileDumps->Add(btnFile2);
+
+    gridFileDumps->AddGrowableCol(0, 1);
+
+    svboxFileDumps->Add(gridFileDumps, 1, wxEXPAND);
+
+////////////////////////////////////////////////////////////////////////////////
+
+    gridLower = new wxFlexGridSizer(2, 2, 5, 5);
+
+    ///// Begin svboxDataInput
+
+    svboxDataInput = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
+                                          _T("Data Input"));
+
+    gridDataInput = new wxFlexGridSizer(2, 3, 5, 5);
+
+    lblAddress1 = new wxStaticText(pnlMain, wxID_ANY, _T("Address 1"));
+    txtAddress1 = new wxTextCtrl(pnlMain, wxID_ANY);
+
+    lblAddress2 = new wxStaticText(pnlMain, wxID_ANY, _T("Address 2"));
+    txtAddress2 = new wxTextCtrl(pnlMain, wxID_ANY);
+
+    lblHexValue = new wxStaticText(pnlMain, wxID_ANY, _T("Hex Value"));
+    txtHexValue = new wxTextCtrl(pnlMain, wxID_ANY);
+
+    // Row 1
+    gridDataInput->Add(lblAddress1, 0, wxALIGN_CENTER_HORIZONTAL);
+    gridDataInput->Add(lblAddress2, 0, wxALIGN_CENTER_HORIZONTAL);
+    gridDataInput->Add(lblHexValue, 0, wxALIGN_CENTER_HORIZONTAL);
+
+    // Row 2
+    gridDataInput->Add(txtAddress1, 1, wxEXPAND);
+    gridDataInput->Add(txtAddress2, 1, wxEXPAND);
+    gridDataInput->Add(txtHexValue, 1, wxEXPAND);
+
+    svboxDataInput->Add(gridDataInput, 1, wxEXPAND);
+
+    gridDataInput->AddGrowableCol(0, 1);
+    gridDataInput->AddGrowableCol(1, 1);
+    gridDataInput->AddGrowableCol(2, 1);
+
+    ///// Begin shboxOffsetTarget
+
+    shboxOffsetTarget = new wxStaticBoxSizer(wxHORIZONTAL, pnlMain,
+                                             _T("Offset Target"));
+
+    // This vbox has everything left of the button in the Offset Target group.
+    // It has two internal hboxes to line things up further. Try to follow
+    // along, this is probably the messiest part.
+    vboxOffsetTarget = new wxBoxSizer(wxVERTICAL);
+
+    // Top half of Offset Target, contains radio buttons
+    hboxOnlyPosNeg = new wxBoxSizer(wxHORIZONTAL);
+
+    radOnlyPos = new wxRadioButton(pnlMain, wxID_ANY, _T("Only &Positive"),
+                                   wxDefaultPosition, wxDefaultSize,
+                                   wxRB_GROUP);
+    radOnlyNeg = new wxRadioButton(pnlMain, wxID_ANY, _T("Only &Negative"));
+
+    // With this setup, radOnlyPos will stay to the left half and
+    // radOnlyNeg will stay to the right half, good for resizing.
+    hboxOnlyPosNeg->Add(radOnlyPos, 1, wxEXPAND);
+    hboxOnlyPosNeg->Add(radOnlyNeg, 1, wxEXPAND);
+
+    // Lower half of Offset Target, contains "Max Pointer Offset:" input
+    hboxMaxPtrOffset = new wxBoxSizer(wxHORIZONTAL);
+
+    lblMaxPtrOffset = new wxStaticText(pnlMain, wxID_ANY,
+                                       _T("Max Pointer Offset:"));
+    txtMaxPtrOffset = new wxTextCtrl(pnlMain, wxID_ANY);
+
+    hboxMaxPtrOffset->Add(lblMaxPtrOffset, 0,
+                          wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
+    hboxMaxPtrOffset->Add(txtMaxPtrOffset, 1, wxEXPAND);
+
+    vboxOffsetTarget->Add(hboxOnlyPosNeg, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxOffsetTarget->Add(hboxMaxPtrOffset, 1, wxEXPAND);
+
+    // This button goes directly into shboxOffsetTarget
+    btnFindPointers = new wxButton(pnlMain, ID_FIND_POINTERS,
+                                   _T("&Find Pointers"));
+
+    shboxOffsetTarget->Add(vboxOffsetTarget, 1, wxEXPAND | wxRIGHT, 5);
+    shboxOffsetTarget->Add(btnFindPointers, 0, wxEXPAND);
+
+    ///// Begin vboxSearchResults
+
+    vboxSearchResults = new wxBoxSizer(wxVERTICAL);
+
+    lblSearchResults = new wxStaticText(
+        pnlMain, wxID_ANY, _T("Pointer Address : Value At :: Offset")
+    );
+    txtSearchResults = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                                      wxDefaultPosition, wxDefaultSize,
+                                      wxTE_MULTILINE | wxHSCROLL);
+
+    vboxSearchResults->Add(lblSearchResults, 0,
+                           wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
+    vboxSearchResults->Add(txtSearchResults, 1, wxEXPAND);
+
+    ///// Begin vboxPtrCode
+
+    vboxPtrCode = new wxBoxSizer(wxVERTICAL);
+
+    lblPtrCode = new wxStaticText(pnlMain, wxID_ANY, _T("Pointer Code"));
+    txtPtrCode = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                                      wxDefaultPosition, wxDefaultSize,
+                                      wxTE_MULTILINE | wxHSCROLL);
+
+    vboxPtrCode->Add(lblPtrCode, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
+    vboxPtrCode->Add(txtPtrCode, 1, wxEXPAND);
+
+    ///// Finish up gridLower
+
+    // Row 1
+    gridLower->Add(svboxDataInput, 0, wxEXPAND);
+    gridLower->Add(shboxOffsetTarget, 0, wxEXPAND);
+
+    // Row 2
+    gridLower->Add(vboxSearchResults, 1, wxEXPAND);
+    gridLower->Add(vboxPtrCode, 1, wxEXPAND);
+
+    gridLower->AddGrowableCol(0, 1);
+    gridLower->AddGrowableCol(1, 1);
+
+    gridLower->AddGrowableRow(1, 1);
+
+////////////////////////////////////////////////////////////////////////////////
+
+    vboxMain->Add(svboxFileDumps, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxMain->Add(gridLower, 1, wxEXPAND);
 
     pnlMain->SetSizer(vboxMain);
     vboxMain->SetSizeHints(pnlMain);
@@ -52,8 +201,16 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     vboxMargin->SetSizeHints(this);
 
     // Connect main window events
-    // Put all of your event connections here. Example:
-//  Connect(ID_NAME, wxEVT_COMMAND_BUTTON_CLICKED,
-//          wxCommandEventHandler(ClassName::MethodName));
+    Connect(ID_BROWSE_FILE_1, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgPointerSearcher::selectFile1));
+    Connect(ID_BROWSE_FILE_2, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgPointerSearcher::selectFile2));
+}
+
+void pgPointerSearcher::selectFile1(wxCommandEvent &WXUNUSED(event))
+{
+}
+void pgPointerSearcher::selectFile2(wxCommandEvent &WXUNUSED(event))
+{
 }
 

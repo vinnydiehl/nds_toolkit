@@ -25,10 +25,11 @@
 
 #include <wx/button.h>
 #include <wx/checkbox.h>
+#include <wx/ffile.h>
+#include <wx/filedlg.h>
 #include <wx/panel.h>
 #include <wx/radiobut.h>
 #include <wx/sizer.h>
-#include <wx/statline.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 
@@ -47,9 +48,37 @@ public:
     wxBoxSizer *vboxMargin, *vboxMain;
     wxPanel *pnlMain;
 
+    wxStaticBoxSizer *svboxFileDumps;
+      wxFlexGridSizer *gridFileDumps;
+        wxTextCtrl *txtFile1, *txtFile2;
+        wxButton *btnFile1, *btnFile2;
+
+    // gridLower contains everything under the File Dumps section.
+
+    wxFlexGridSizer *gridLower;
+      wxStaticBoxSizer *svboxDataInput;
+        wxFlexGridSizer *gridDataInput;
+          wxStaticText *lblAddress1, *lblAddress2, *lblHexValue;
+          wxTextCtrl *txtAddress1, *txtAddress2, *txtHexValue;
+      wxStaticBoxSizer *shboxOffsetTarget;
+        wxBoxSizer *vboxOffsetTarget;
+          wxBoxSizer *hboxOnlyPosNeg;
+            wxRadioButton *radOnlyPos, *radOnlyNeg;
+          wxBoxSizer *hboxMaxPtrOffset;
+            wxStaticText *lblMaxPtrOffset;
+            wxTextCtrl *txtMaxPtrOffset;
+        wxButton *btnFindPointers;
+      wxBoxSizer *vboxSearchResults;
+        wxStaticText *lblSearchResults;
+        wxTextCtrl *txtSearchResults;
+      wxBoxSizer *vboxPtrCode;
+        wxStaticText *lblPtrCode;
+        wxTextCtrl *txtPtrCode;
+
     /** Events **/
 
-    // Insert events here.
+    void selectFile1(wxCommandEvent &event);
+    void selectFile2(wxCommandEvent &event);
 
 private:
 
