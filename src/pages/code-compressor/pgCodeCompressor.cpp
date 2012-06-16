@@ -45,12 +45,12 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     pnlMain = new wxPanel(this, wxID_ANY);
     hboxMain = new wxBoxSizer(wxHORIZONTAL);
 
-    // svboxLoopCodeGenerator - Loop Code Generator section
+////////////////////////////////////////////////////////////////////////////////
 
     svboxLoopCodeGenerator = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
                                                   _T("Loop Code Generator"));
 
-        // Begin hboxBaseCode
+    ///// Begin hboxBaseCode
 
     hboxBaseCode = new wxBoxSizer(wxHORIZONTAL);
 
@@ -60,9 +60,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     hboxBaseCode->Add(lblBaseCode, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
     hboxBaseCode->Add(txtBaseCode, 1, wxEXPAND);
 
-        // End hboxBaseCode
-
-        // Begin hboxTotalLoopCount
+    ///// Begin hboxTotalLoopCount
 
     hboxTotalLoopCount = new wxBoxSizer(wxHORIZONTAL);
 
@@ -74,9 +72,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
                             wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
     hboxTotalLoopCount->Add(txtTotalLoopCount, 1, wxEXPAND);
 
-        // End hboxTotalLoopCount
-
-        // Begin hboxOffsetIncrement
+    ///// Begin hboxOffsetIncrement
 
     hboxOffsetIncrement = new wxBoxSizer(wxHORIZONTAL);
 
@@ -88,9 +84,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
                              wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
     hboxOffsetIncrement->Add(txtOffsetIncrement, 1, wxEXPAND);
 
-        // End hboxOffsetIncrement
-
-        // Begin hboxValueIncrement
+    ///// Begin hboxValueIncrement
 
     hboxValueIncrement = new wxBoxSizer(wxHORIZONTAL);
 
@@ -105,9 +99,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     hboxValueIncrement->Add(chkValueIncrement, 0,
                             wxALIGN_CENTER_VERTICAL | wxLEFT, 5);
 
-        // End hboxValueIncrement
-
-        // Begin hboxLoopControls
+    ///// Begin hboxLoopControls
 
     hboxLoopControls = new wxBoxSizer(wxHORIZONTAL);
 
@@ -117,7 +109,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     hboxLoopControls->Add(btnGenerate, 1, wxEXPAND | wxRIGHT, 5);
     hboxLoopControls->Add(btnClearAll, 1, wxEXPAND);
 
-        // End hboxLoopControls
+    // Now to do the lower part:
 
     // Divider Line
     slnLoopCodeGenerator = new wxStaticLine(pnlMain);
@@ -131,6 +123,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     btnLoopCopy = new wxButton(pnlMain, ID_LOOP_COPY,
                                _T("&Copy to Clipboard"));
 
+    // Finish up svboxLoopCodeGenerator
     svboxLoopCodeGenerator->Add(hboxBaseCode, 0, wxEXPAND | wxBOTTOM, 5);
     svboxLoopCodeGenerator->Add(hboxTotalLoopCount, 0, wxEXPAND | wxBOTTOM, 5);
     svboxLoopCodeGenerator->Add(hboxOffsetIncrement, 0,
@@ -142,14 +135,12 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     svboxLoopCodeGenerator->Add(txtLoopOutput, 1, wxEXPAND | wxBOTTOM, 5);
     svboxLoopCodeGenerator->Add(btnLoopCopy, 0, wxEXPAND);
 
-    // End svboxLoopCodeGenerator
-
-    // shboxEBuilder - E Builder section
+////////////////////////////////////////////////////////////////////////////////
 
     shboxEBuilder = new wxStaticBoxSizer(wxHORIZONTAL, pnlMain,
                                          _T("E Builder"));
 
-        // Begin vboxInput
+    ///// Begin vboxInput
 
     vboxInput = new wxBoxSizer(wxVERTICAL);
 
@@ -163,9 +154,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     vboxInput->Add(txtInput, 1, wxEXPAND | wxBOTTOM, 5);
     vboxInput->Add(btnBuild, 0, wxEXPAND);
 
-        // End vboxInput
-
-        // Begin vboxOutput
+    ///// Begin vboxOutput
 
     vboxOutput = new wxBoxSizer(wxVERTICAL);
 
@@ -179,12 +168,11 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     vboxOutput->Add(txtOutput, 1, wxEXPAND | wxBOTTOM, 5);
     vboxOutput->Add(btnECopy, 0, wxEXPAND);
 
-        // End vboxOutput
-
+    // Finish up shboxEbuilder
     shboxEBuilder->Add(vboxInput, 1, wxEXPAND | wxRIGHT, 5);
     shboxEBuilder->Add(vboxOutput, 1, wxEXPAND);
 
-    // End shboxEBuilder
+////////////////////////////////////////////////////////////////////////////////
 
     hboxMain->Add(svboxLoopCodeGenerator, 1, wxEXPAND | wxRIGHT, 5);
     hboxMain->Add(shboxEBuilder, 2, wxEXPAND);
