@@ -24,7 +24,6 @@
 #define PGCODECOMPRESSOR_H_INCLUDED
 
 #include <wx/button.h>
-#include <wx/checkbox.h>
 #include <wx/panel.h>
 #include <wx/sizer.h>
 #include <wx/statline.h>
@@ -32,6 +31,11 @@
 #include <wx/textctrl.h>
 
 #include "globals.h"
+
+// Set this to 1 if you want to use the old layout.
+// In this layout, the text boxes in the Loop Code Generator aren't aligned
+// on the left side.
+#define USE_OLD_LAYOUT 0
 
 class pgCodeCompressor : public wxPanel
 {
@@ -47,6 +51,7 @@ public:
     wxPanel *pnlMain;
 
     wxStaticBoxSizer *svboxLoopCodeGenerator;
+#if USE_OLD_LAYOUT
       wxBoxSizer *hboxBaseCode;
         wxStaticText *lblBaseCode;
         wxTextCtrl *txtBaseCode;
@@ -59,7 +64,13 @@ public:
       wxBoxSizer *hboxValueIncrement;
         wxStaticText *lblValueIncrement;
         wxTextCtrl *txtValueIncrement;
-        wxCheckBox *chkValueIncrement;
+#else
+      wxFlexGridSizer *gridLoopCodeGenerator;
+        wxStaticText *lblBaseCode, *lblTotalLoopCount,
+                     *lblOffsetIncrement, *lblValueIncrement;
+        wxTextCtrl *txtBaseCode, *txtTotalLoopCount,
+                   *txtOffsetIncrement, *txtValueIncrement;
+#endif
       wxBoxSizer *hboxLoopControls;
         wxButton *btnGenerate, *btnClearAll;
       wxStaticLine *slnLoopCodeGenerator;

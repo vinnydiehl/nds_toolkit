@@ -50,6 +50,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     svboxLoopCodeGenerator = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
                                                   _T("Loop Code Generator"));
 
+#if USE_OLD_LAYOUT
     ///// Begin hboxBaseCode
 
     hboxBaseCode = new wxBoxSizer(wxHORIZONTAL);
@@ -91,13 +92,50 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     lblValueIncrement = new wxStaticText(pnlMain, wxID_ANY,
                                          _T("Value Increment:"));
     txtValueIncrement = new wxTextCtrl(pnlMain, wxID_ANY);
-    chkValueIncrement = new wxCheckBox(pnlMain, wxID_ANY, wxEmptyString);
 
     hboxValueIncrement->Add(lblValueIncrement, 0,
                             wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
     hboxValueIncrement->Add(txtValueIncrement, 1, wxEXPAND);
-    hboxValueIncrement->Add(chkValueIncrement, 0,
-                            wxALIGN_CENTER_VERTICAL | wxLEFT, 5);
+#else
+    gridLoopCodeGenerator = new wxFlexGridSizer(4, 2, 5, 5);
+
+    // Base Code:
+    lblBaseCode = new wxStaticText(pnlMain, wxID_ANY, _T("Base Code:"));
+    txtBaseCode = new wxTextCtrl(pnlMain, wxID_ANY);
+
+    // Total Loop Count:
+    lblTotalLoopCount = new wxStaticText(pnlMain, wxID_ANY,
+                                         _T("Total Loop Count:"));
+    txtTotalLoopCount = new wxTextCtrl(pnlMain, wxID_ANY);
+
+    // Offset Increment:
+    lblOffsetIncrement = new wxStaticText(pnlMain, wxID_ANY,
+                                          _T("Offset Increment:"));
+    txtOffsetIncrement = new wxTextCtrl(pnlMain, wxID_ANY);
+
+    // Value Increment:
+    lblValueIncrement = new wxStaticText(pnlMain, wxID_ANY,
+                                         _T("Value Increment:"));
+    txtValueIncrement = new wxTextCtrl(pnlMain, wxID_ANY);
+
+    // Row 1
+    gridLoopCodeGenerator->Add(lblBaseCode, 0, wxALIGN_CENTER_VERTICAL);
+    gridLoopCodeGenerator->Add(txtBaseCode, 1, wxEXPAND);
+
+    // Row 2
+    gridLoopCodeGenerator->Add(lblTotalLoopCount, 0, wxALIGN_CENTER_VERTICAL);
+    gridLoopCodeGenerator->Add(txtTotalLoopCount, 1, wxEXPAND);
+
+    // Row 3
+    gridLoopCodeGenerator->Add(lblOffsetIncrement, 0, wxALIGN_CENTER_VERTICAL);
+    gridLoopCodeGenerator->Add(txtOffsetIncrement, 1, wxEXPAND);
+
+    /// Row 4
+    gridLoopCodeGenerator->Add(lblValueIncrement, 0, wxALIGN_CENTER_VERTICAL);
+    gridLoopCodeGenerator->Add(txtValueIncrement, 1, wxEXPAND);
+
+    gridLoopCodeGenerator->AddGrowableCol(1, 1);
+#endif
 
     ///// Begin hboxLoopControls
 
@@ -124,11 +162,16 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
                                _T("&Copy to Clipboard"));
 
     // Finish up svboxLoopCodeGenerator
+#if USE_OLD_LAYOUT
     svboxLoopCodeGenerator->Add(hboxBaseCode, 0, wxEXPAND | wxBOTTOM, 5);
     svboxLoopCodeGenerator->Add(hboxTotalLoopCount, 0, wxEXPAND | wxBOTTOM, 5);
     svboxLoopCodeGenerator->Add(hboxOffsetIncrement, 0,
                                 wxEXPAND | wxBOTTOM, 5);
     svboxLoopCodeGenerator->Add(hboxValueIncrement, 0, wxEXPAND | wxBOTTOM, 5);
+#else
+    svboxLoopCodeGenerator->Add(gridLoopCodeGenerator, 0,
+                                wxEXPAND | wxBOTTOM, 5);
+#endif
     svboxLoopCodeGenerator->Add(hboxLoopControls, 0, wxEXPAND | wxBOTTOM, 5);
     svboxLoopCodeGenerator->Add(slnLoopCodeGenerator, 0,
                                 wxEXPAND | wxBOTTOM, 5);
