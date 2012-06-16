@@ -40,9 +40,6 @@ ROOT = .
 # Output Name
 NAME = NDSHackingKit
 
-# Source Directories
-INCDIR = $(ROOT)/include
-
 # wxWidgets Options
 WXLDFLAGS = `wx-config --libs`
 
@@ -60,7 +57,7 @@ OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 # Compiler
 CXX = g++
 DEBUG = -g -DDEBUG
-LDFLAGS = -Wall $(WXLDFLAGS) -I$(INCDIR)
+LDFLAGS = -Wall $(WXLDFLAGS)
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
 
