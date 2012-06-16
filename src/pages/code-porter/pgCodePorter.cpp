@@ -43,7 +43,7 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
     pnlMain = new wxPanel(this, wxID_ANY);
     hboxMain = new wxBoxSizer(wxHORIZONTAL);
 
-    // vboxInput - Contains the Code Input section.
+////////////////////////////////////////////////////////////////////////////////
 
     vboxInput = new wxBoxSizer(wxVERTICAL);
 
@@ -55,19 +55,16 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
     vboxInput->Add(lblInput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxInput->Add(txtInput, 1, wxEXPAND);
 
-    // End vboxInput
-
-    // vboxControls - The user control section of the page.
+////////////////////////////////////////////////////////////////////////////////
 
     vboxControls = new wxBoxSizer(wxVERTICAL);
 
-        // Begin svboxOperation
+    ///// Begin svboxOperation
 
     svboxOperation = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
                                           _T("Operation"));
 
-            // Begin hboxOperationRadios
-
+    // The radio buttons in here have their own hbox
     hboxOperationRadios = new wxBoxSizer(wxHORIZONTAL);
 
     radAdd = new wxRadioButton(pnlMain, wxID_ANY, _T("&Add"),
@@ -78,8 +75,6 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
     hboxOperationRadios->Add(radAdd, 1, wxEXPAND);
     hboxOperationRadios->Add(radSub, 1, wxEXPAND);
 
-            // End hboxOperationRadios
-
     lblOffset = new wxStaticText(pnlMain, wxID_ANY, _T("Offset (hex):"));
     txtOffset = new wxTextCtrl(pnlMain, wxID_ANY);
 
@@ -87,11 +82,11 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
     svboxOperation->Add(lblOffset, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     svboxOperation->Add(txtOffset, 0, wxEXPAND);
 
-        // End svboxOperation
+    ///// btnPort is top-level
 
     btnPort = new wxButton(pnlMain, ID_PORT, _T("&Port"));
 
-        // Begin svboxTools
+    ///// Begin svboxTools
 
     svboxTools = new wxStaticBoxSizer(wxVERTICAL, pnlMain, _T("Tools"));
 
@@ -103,16 +98,14 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
     svboxTools->Add(btnCopy, 0, wxEXPAND | wxBOTTOM, 2);
     svboxTools->Add(btnPaste, 0, wxEXPAND);
 
-        // End svboxTools
 
+    // Finish up vboxControls
     vboxControls->Add(svboxOperation, 0, wxEXPAND | wxLEFT |
                       wxRIGHT | wxBOTTOM, 5);
     vboxControls->Add(btnPort, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
     vboxControls->Add(svboxTools, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
 
-    // End vboxControls
-
-    // vboxOutput - Contains the Code Output section.
+////////////////////////////////////////////////////////////////////////////////
 
     vboxOutput = new wxBoxSizer(wxVERTICAL);
 
@@ -124,7 +117,7 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
     vboxOutput->Add(lblOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxOutput->Add(txtOutput, 1, wxEXPAND);
 
-    // End vboxOutput
+////////////////////////////////////////////////////////////////////////////////
 
     hboxMain->Add(vboxInput, 2, wxEXPAND);
     hboxMain->Add(vboxControls, 1, wxEXPAND | wxLEFT | wxRIGHT, 5);
