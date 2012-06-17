@@ -2,7 +2,7 @@
 
 Welcome to the development branch of the NDS Hacking Kit!
 
-The code is in the ```src``` directory. Check ```CHANGELOG.md``` for the latest
+The code is in the ```src``` directory. Check the commit history for the latest
 development status and hack away.
 
 ## Build Instructions
@@ -35,11 +35,22 @@ Run ```make -f client.mk``` to fully build the program, or
 ```make -f client.mk rebuild``` to completely rebuild the program and all
 object files.
 
-```make -f client.mk clean``` will delete all object files while leaving the
-application intact, and ```make -f client.mk delete``` or
-```make -f client.mk erase``` will completely delete all build artifacts,
-including the compiled application. ```make -f client.mk distclean``` will
-reset the build configuration to default if you have changed it.
+Other options:
+
+```make -f client.mk debug``` fully builds the program with debugging symbols
+and options, and disables optimization.
+
+```make -f client.mk rebuild-dbg``` rebuilds the program in the debug
+configuration.
+
+```make -f client.mk clean``` deletes all object files while leaving the
+application intact
+
+```make -f client.mk delete``` or ```make -f client.mk erase``` will completely
+delete all build artifacts, including the compiled application.
+
+```make -f client.mk distclean``` will reset the build configuration to
+default, but retains your ```.ndsconfig``` if you have one.
 
 ### Incremental Builds
 
