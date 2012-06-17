@@ -28,8 +28,10 @@ wxString pgButtonActivatorGenerator::Title = _T("Button Activator Generator");
 
 /** Initialize Identifiers **/
 
-// Format:
-// const long ClassName::ID_NAME = wxNewId();
+const long pgButtonActivatorGenerator::ID_GENERATE = wxNewId();
+
+const long pgButtonActivatorGenerator::ID_COPY = wxNewId();
+const long pgButtonActivatorGenerator::ID_CLEAR = wxNewId();
 
 pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
                           : wxPanel(parent, wxID_ANY)
@@ -41,16 +43,136 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     pnlMain = new wxPanel(this, wxID_ANY);
     vboxMain = new wxBoxSizer(wxVERTICAL);
 
-    // Add layout boxes and whatnot like so:
-    // hboxName = new wxBoxSizer(wxHORIZONTAL);
-    // And then items to that:
-    // lblFoo = new wxStaticText(pnlMain, wxID_ANY, _T("Whatever..."));
-    // hboxName->Add(lblFoo, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
-    // Then add it to the main box...
-    // vboxMain->Add(hboxName, 0, wxEXPAND);
-    // Maybe add a separator? This uses the SEPARATOR macro from globals.h.
-    // vboxMain->Add(-1, SEPARATOR);
-    // You get the idea...
+////////////////////////////////////////////////////////////////////////////////
+
+    gridGroups = new wxFlexGridSizer(2, 2, 5, 5);
+
+    ///// Begin svboxButtonType
+
+    svboxButtonType = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
+                                           _T("Button Type"));
+
+    radGba = new wxRadioButton(pnlMain, wxID_ANY, _T("&GBA"),
+                               wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+    radNds = new wxRadioButton(pnlMain, wxID_ANY, _T("&NDS"));
+
+    // :TODO: 2012-06-16 gbchaosmaster - Check cross-platform layout looks
+    // I'm putting some padding to the right of these because it seems to look
+    // better, it's a little too close to the edge of the static box without
+    // it. Check out what this looks like on other platforms.
+    svboxButtonType->Add(radGba, 0, wxBOTTOM | wxRIGHT, 5);
+    svboxButtonType->Add(radNds, 0, wxRIGHT, 5);
+
+    ///// Begin svboxGbaButtons
+
+    svboxGbaButtons = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
+                                           _T("GBA Buttons"));
+
+    // In here we have gridGbaButtons with the checkboxes
+    gridGbaButtons = new wxFlexGridSizer(2, 5, 5, 5);
+
+    chkA = new wxCheckBox(pnlMain, wxID_ANY, _T("&A"));
+    chkUp = new wxCheckBox(pnlMain, wxID_ANY, _T("&Up"));
+    chkL = new wxCheckBox(pnlMain, wxID_ANY, _T("&L"));
+    chkR = new wxCheckBox(pnlMain, wxID_ANY, _T("&R"));
+    chkStart = new wxCheckBox(pnlMain, wxID_ANY, _T("&Start"));
+    chkB = new wxCheckBox(pnlMain, wxID_ANY, _T("&B"));
+    chkDown = new wxCheckBox(pnlMain, wxID_ANY, _T("&Down"));
+    chkLeft = new wxCheckBox(pnlMain, wxID_ANY, _T("L&eft"));
+    chkRight = new wxCheckBox(pnlMain, wxID_ANY, _T("R&ight"));
+    chkSelect = new wxCheckBox(pnlMain, wxID_ANY, _T("Selec&t"));
+
+    gridGbaButtons->Add(chkA);
+    gridGbaButtons->Add(chkUp);
+    gridGbaButtons->Add(chkL);
+    gridGbaButtons->Add(chkR);
+    gridGbaButtons->Add(chkStart);
+    gridGbaButtons->Add(chkB);
+    gridGbaButtons->Add(chkDown);
+    gridGbaButtons->Add(chkLeft);
+    gridGbaButtons->Add(chkRight);
+    gridGbaButtons->Add(chkSelect);
+
+    gridGbaButtons->AddGrowableCol(0, 2);
+    gridGbaButtons->AddGrowableCol(1, 3);
+    gridGbaButtons->AddGrowableCol(2, 3);
+    gridGbaButtons->AddGrowableCol(3, 3);
+    gridGbaButtons->AddGrowableCol(4, 3);
+
+    svboxGbaButtons->Add(gridGbaButtons, 1, wxEXPAND);
+
+    ///// Begin svboxTarget
+
+    svboxTarget = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
+                                       _T("Target"));
+
+    radArCode = new wxRadioButton(pnlMain, wxID_ANY, _T("AR &Code"),
+                                  wxDefaultPosition, wxDefaultSize,
+                                  wxRB_GROUP);
+    radTstValue = new wxRadioButton(pnlMain, wxID_ANY, _T("TST &Value"));
+
+    // See svboxButtonType for comment on the 5px padding to the right
+    svboxTarget->Add(radArCode, 0, wxBOTTOM | wxRIGHT, 5);
+    svboxTarget->Add(radTstValue, 0, wxRIGHT, 5);
+
+    ///// Begin shboxNdsButtons
+
+    shboxNdsButtons = new wxStaticBoxSizer(wxHORIZONTAL, pnlMain,
+                                           _T("NDS Buttons"));
+
+    chkX = new wxCheckBox(pnlMain, wxID_ANY, _T("&X"));
+    chkY = new wxCheckBox(pnlMain, wxID_ANY, _T("&Y"));
+    chkNdsFolded = new wxCheckBox(pnlMain, wxID_ANY, _T("NDS &Folded"));
+    chkDebugButton = new wxCheckBox(pnlMain, wxID_ANY, _T("Deb&ug Button"));
+
+    shboxNdsButtons->Add(chkX, 1, wxALIGN_CENTER_VERTICAL);
+    shboxNdsButtons->Add(chkY, 1, wxALIGN_CENTER_VERTICAL);
+    shboxNdsButtons->Add(chkNdsFolded, 2, wxALIGN_CENTER_VERTICAL);
+    shboxNdsButtons->Add(chkDebugButton, 2, wxALIGN_CENTER_VERTICAL);
+
+    // Row 1
+    gridGroups->Add(svboxButtonType, 0, wxEXPAND);
+    gridGroups->Add(svboxGbaButtons, 1, wxEXPAND);
+
+    // Row 2
+    gridGroups->Add(svboxTarget, 0, wxEXPAND);
+    gridGroups->Add(shboxNdsButtons, 1, wxEXPAND);
+
+    gridGroups->AddGrowableCol(1, 1);
+
+////////////////////////////////////////////////////////////////////////////////
+
+    // We have some top-level controls here
+
+    btnGenerate = new wxButton(pnlMain, ID_GENERATE,
+                               _T("Generate Acti&vator"));
+
+    slnSeparator = new wxStaticLine(pnlMain);
+
+    lblCodeOutput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Output"));
+    txtCodeOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                                   wxDefaultPosition, wxDefaultSize,
+                                   wxTE_MULTILINE | wxHSCROLL);
+
+////////////////////////////////////////////////////////////////////////////////
+
+    hboxCodeOutputControls = new wxBoxSizer(wxHORIZONTAL);
+
+    // Shit, I ran out of shortcut characters to use for these
+    btnCopy = new wxButton(pnlMain, ID_COPY, _T("Copy"));
+    btnClear = new wxButton(pnlMain, ID_CLEAR, _T("Clear"));
+
+    hboxCodeOutputControls->Add(btnCopy, 1, wxEXPAND | wxRIGHT, 5);
+    hboxCodeOutputControls->Add(btnClear, 1, wxEXPAND);
+
+////////////////////////////////////////////////////////////////////////////////
+
+    vboxMain->Add(gridGroups, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxMain->Add(btnGenerate, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxMain->Add(slnSeparator, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxMain->Add(lblCodeOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
+    vboxMain->Add(txtCodeOutput, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxMain->Add(hboxCodeOutputControls, 0, wxEXPAND);
 
     pnlMain->SetSizer(vboxMain);
     vboxMain->SetSizeHints(pnlMain);

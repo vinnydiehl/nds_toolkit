@@ -24,8 +24,14 @@
 #ifndef PGBUTTONACTIVATORGENERATOR_H_INCLUDED
 #define PGBUTTONACTIVATORGENERATOR_H_INCLUDED
 
+#include <wx/button.h>
+#include <wx/checkbox.h>
 #include <wx/panel.h>
+#include <wx/radiobut.h>
 #include <wx/sizer.h>
+#include <wx/statline.h>
+#include <wx/stattext.h>
+#include <wx/textctrl.h>
 
 #include "globals.h"
 
@@ -42,9 +48,27 @@ public:
     wxBoxSizer *vboxMargin, *vboxMain;
     wxPanel *pnlMain;
 
-    // Add layout boxes and such like so:
-    // wxBoxSizer *hboxName;
-    // wxStaticText *lblFoo;
+    wxFlexGridSizer *gridGroups;
+      wxStaticBoxSizer *svboxButtonType;
+        wxRadioButton *radGba, *radNds;
+      wxStaticBoxSizer *svboxGbaButtons;
+        wxFlexGridSizer *gridGbaButtons;
+          wxCheckBox *chkA, *chkUp, *chkL, *chkR, *chkStart,
+                     *chkB, *chkDown, *chkLeft, *chkRight, *chkSelect;
+      wxStaticBoxSizer *svboxTarget;
+        wxRadioButton *radArCode, *radTstValue;
+      wxStaticBoxSizer *shboxNdsButtons;
+        wxCheckBox *chkX, *chkY, *chkNdsFolded, *chkDebugButton;
+
+    wxButton *btnGenerate;
+
+    wxStaticLine *slnSeparator;
+
+    wxStaticText *lblCodeOutput;
+    wxTextCtrl *txtCodeOutput;
+
+    wxBoxSizer *hboxCodeOutputControls;
+      wxButton *btnCopy, *btnClear;
 
     /** Events **/
 
@@ -54,8 +78,8 @@ private:
 
     /** Identifiers **/
 
-    // Format:
-    // static const long ID_NAME;
+    static const long ID_GENERATE;
+    static const long ID_COPY, ID_CLEAR;
 };
 
 #endif // PGBUTTONACTIVATORGENERATOR_H_INCLUDED
