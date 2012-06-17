@@ -72,12 +72,18 @@ public:
 
     /** Events **/
 
-    // Insert events here.
+    void ChangeType(wxCommandEvent &event);
+
+    void Generate(wxCommandEvent &event);
+
+    void Copy(wxCommandEvent &event);
+    void Clear(wxCommandEvent &event);
 
 private:
 
     /** Identifiers **/
 
+    static const long ID_CHANGE_TYPE;
     static const long ID_GENERATE;
     static const long ID_COPY, ID_CLEAR;
 };

@@ -28,6 +28,8 @@ wxString pgButtonActivatorGenerator::Title = _T("Button Activator Generator");
 
 /** Initialize Identifiers **/
 
+const long pgButtonActivatorGenerator::ID_CHANGE_TYPE = wxNewId();
+
 const long pgButtonActivatorGenerator::ID_GENERATE = wxNewId();
 
 const long pgButtonActivatorGenerator::ID_COPY = wxNewId();
@@ -52,9 +54,9 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     svboxButtonType = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
                                            _T("Button Type"));
 
-    radGba = new wxRadioButton(pnlMain, wxID_ANY, _T("&GBA"),
+    radGba = new wxRadioButton(pnlMain, ID_CHANGE_TYPE, _T("&GBA"),
                                wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-    radNds = new wxRadioButton(pnlMain, wxID_ANY, _T("&NDS"));
+    radNds = new wxRadioButton(pnlMain, ID_CHANGE_TYPE, _T("&NDS"));
 
     // :TODO: 2012-06-16 gbchaosmaster - Check cross-platform layout looks
     // I'm putting some padding to the right of these because it seems to look
@@ -130,6 +132,12 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     shboxNdsButtons->Add(chkNdsFolded, 2, wxALIGN_CENTER_VERTICAL);
     shboxNdsButtons->Add(chkDebugButton, 2, wxALIGN_CENTER_VERTICAL);
 
+    // These are all disabled to start
+    chkX->Disable();
+    chkY->Disable();
+    chkNdsFolded->Disable();
+    chkDebugButton->Disable();
+
     // Row 1
     gridGroups->Add(svboxButtonType, 0, wxEXPAND);
     gridGroups->Add(svboxGbaButtons, 1, wxEXPAND);
@@ -182,8 +190,30 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     vboxMargin->SetSizeHints(this);
 
     // Connect main window events
-    // Put all of your event connections here. Example:
-//  Connect(ID_NAME, wxEVT_COMMAND_BUTTON_CLICKED,
-//          wxCommandEventHandler(ClassName::MethodName));
+    Connect(ID_CHANGE_TYPE, wxEVT_COMMAND_RADIOBUTTON_SELECTED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ChangeType));
+    Connect(ID_GENERATE, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::Generate));
+    Connect(ID_COPY, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::Copy));
+    Connect(ID_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::Clear));
+}
+
+/** Events **/
+
+void pgButtonActivatorGenerator::ChangeType(wxCommandEvent &WXUNUSED(event))
+{
+}
+
+void pgButtonActivatorGenerator::Generate(wxCommandEvent &WXUNUSED(event))
+{
+}
+
+void pgButtonActivatorGenerator::Copy(wxCommandEvent &WXUNUSED(event))
+{
+}
+void pgButtonActivatorGenerator::Clear(wxCommandEvent &WXUNUSED(event))
+{
 }
 
