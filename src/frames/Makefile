@@ -20,21 +20,21 @@
 ROOT = ..
 
 # Source Directories
-INCDIR = include
-BASEINCDIR = $(ROOT)/base/include
-PAGESINCDIR = $(ROOT)/pages/activator-generator/include \
-	      $(ROOT)/pages/code-compressor/include \
-	      $(ROOT)/pages/code-porter/include \
-	      $(ROOT)/pages/pointer-searcher/include
+INCDIR = .
+BASEINCDIR = $(ROOT)/base
+PAGESINCDIR = $(ROOT)/pages/activator-generator \
+	      $(ROOT)/pages/code-compressor \
+	      $(ROOT)/pages/code-porter \
+	      $(ROOT)/pages/pointer-searcher
 SHAREDINCDIR = $(ROOT)/shared
 INCPATHS = $(INCDIR) $(BASEINCDIR) $(PAGESINCDIR) $(SHAREDINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 PAGESINCLDS = \
-  $(ROOT)/pages/activator-generator/include/pgButtonActivatorGenerator.h \
-  $(ROOT)/pages/code-porter/include/pgCodePorter.h \
-  $(ROOT)/pages/pointer-searcher/include/pgPointerSearcher.h \
-  $(ROOT)/pages/code-compressor/include/pgCodeCompressor.h
+  $(ROOT)/pages/activator-generator/pgButtonActivatorGenerator.h \
+  $(ROOT)/pages/code-porter/pgCodePorter.h \
+  $(ROOT)/pages/pointer-searcher/pgPointerSearcher.h \
+  $(ROOT)/pages/code-compressor/pgCodeCompressor.h
 
 # wxWidgets Options
 WXCFLAGS = `wx-config --cxxflags`

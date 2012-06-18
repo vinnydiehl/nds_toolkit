@@ -22,7 +22,7 @@
 ROOT = ../..
 
 # Source Directories
-INCDIR = include
+INCDIR = .
 INCPATHS = $(INCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 

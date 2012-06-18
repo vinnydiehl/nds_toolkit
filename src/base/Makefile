@@ -20,7 +20,7 @@
 ROOT = ..
 
 # Source Directories
-INCDIR = include
+INCDIR = .
 SHAREDINCDIR = $(ROOT)/shared
 INCPATHS = $(INCDIR) $(SHAREDINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))

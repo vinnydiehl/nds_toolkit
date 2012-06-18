@@ -20,13 +20,13 @@
 ROOT = ..
 
 # Source Directories
-INCDIR = include
-BASEINCDIR = $(ROOT)/base/include
-FRAMEINCDIR = $(ROOT)/frames/include
-PAGESINCDIR = $(ROOT)/pages/activator-generator/include \
-	      $(ROOT)/pages/code-compressor/include \
-	      $(ROOT)/pages/code-porter/include \
-	      $(ROOT)/pages/pointer-searcher/include
+INCDIR = .
+BASEINCDIR = $(ROOT)/base
+FRAMEINCDIR = $(ROOT)/frames
+PAGESINCDIR = $(ROOT)/pages/activator-generator \
+	      $(ROOT)/pages/code-compressor \
+	      $(ROOT)/pages/code-porter \
+	      $(ROOT)/pages/pointer-searcher
 SHAREDINCDIR = $(ROOT)/shared
 INCPATHS = $(INCDIR) $(BASEINCDIR) $(FRAMEINCDIR) $(PAGESINCDIR) \
 	   $(SHAREDINCDIR)
