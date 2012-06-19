@@ -231,7 +231,16 @@ void pgButtonActivatorGenerator::Generate(wxCommandEvent &WXUNUSED(event))
 
 void pgButtonActivatorGenerator::Copy(wxCommandEvent &WXUNUSED(event))
 {
-    Clipboard::SetClipboard(txtCodeOutput->GetValue());
+    wxString str = txtCodeOutput->GetValue();
+
+    if (!str.IsEmpty())
+    {
+        Clipboard::SetClipboard(str);
+
+        if (Clipboard::GetClipboard() == str)
+            wxMessageBox(_T("Code output copied successfully."),
+                         _T("Success"));
+    }
 }
 void pgButtonActivatorGenerator::Clear(wxCommandEvent &WXUNUSED(event))
 {

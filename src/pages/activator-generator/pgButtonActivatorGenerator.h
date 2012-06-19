@@ -26,11 +26,13 @@
 
 #include <wx/button.h>
 #include <wx/checkbox.h>
+#include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <wx/radiobut.h>
 #include <wx/sizer.h>
 #include <wx/statline.h>
 #include <wx/stattext.h>
+#include <wx/string.h>
 #include <wx/textctrl.h>
 
 #include "Clipboard.h"
