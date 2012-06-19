@@ -244,6 +244,12 @@ void pgButtonActivatorGenerator::Copy(wxCommandEvent &WXUNUSED(event))
 }
 void pgButtonActivatorGenerator::Clear(wxCommandEvent &WXUNUSED(event))
 {
-    txtCodeOutput->SetValue(_T(""));
+    int dlgresult = wxMessageBox(
+        _T("Are you sure that you would like to clear the code output?"),
+        _T("Clear Output?"), wxYES_NO
+    );
+
+    if (dlgresult == wxYES)
+        txtCodeOutput->SetValue(_T(""));
 }
 
