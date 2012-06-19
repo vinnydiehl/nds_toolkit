@@ -33,6 +33,7 @@
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 
+#include "Clipboard.h"
 #include "globals.h"
 
 class pgButtonActivatorGenerator : public wxPanel

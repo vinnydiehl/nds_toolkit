@@ -24,6 +24,7 @@
 #define CLIPBOARD_H_INLCUDED
 
 #include <wx/clipbrd.h>
+#include <wx/dataobj.h>
 #include <wx/string.h>
 
 class Clipboard

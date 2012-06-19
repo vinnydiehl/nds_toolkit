@@ -231,8 +231,10 @@ void pgButtonActivatorGenerator::Generate(wxCommandEvent &WXUNUSED(event))
 
 void pgButtonActivatorGenerator::Copy(wxCommandEvent &WXUNUSED(event))
 {
+    Clipboard::SetClipboard(txtCodeOutput->GetValue());
 }
 void pgButtonActivatorGenerator::Clear(wxCommandEvent &WXUNUSED(event))
 {
+    txtCodeOutput->SetValue(_T(""));
 }
 

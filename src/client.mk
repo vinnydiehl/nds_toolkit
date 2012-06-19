@@ -83,8 +83,9 @@ INSTALL = /usr/bin
 
 # Output Files
 EXE = $(BINDIR)/$(NAME)
-OBJ = Program.o frmMain.o MenuBar.o $(BUTTON_ACTIVATOR_GENERATOR) \
-      $(POINTER_SEARCHER) $(CODE_PORTER) $(CODE_COMPRESSOR)
+OBJ = Program.o frmMain.o MenuBar.o \
+      Clipboard.o $(BUTTON_ACTIVATOR_GENERATOR) \
+      $(POINTER_SEARCHER) $(CODE_PORTER) $(CODE_COMPRESSOR) Clipboard.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Make
@@ -139,6 +140,11 @@ $(OBJDIR)/pgCodePorter.o:
 
 $(OBJDIR)/pgPointerSearcher.o:
 	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
+
+# clipboard
+
+$(OBJDIR)/Clipboard.o:
+	$(MAKE) -C clipboard $(MAKETGT)
 
 ### End Object Builds
 
