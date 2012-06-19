@@ -20,6 +20,8 @@
  * @file Clipboard.h - Header file for the Clipboard class.
 **/
 
+#pragma once
+
 #ifndef CLIPBOARD_H_INCLUDED
 #define CLIPBOARD_H_INLCUDED
 
