@@ -24,12 +24,15 @@
 #define PGCODECOMPRESSOR_H_INCLUDED
 
 #include <wx/button.h>
+#include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <wx/sizer.h>
 #include <wx/statline.h>
 #include <wx/stattext.h>
+#include <wx/string.h>
 #include <wx/textctrl.h>
 
+#include "Clipboard.h"
 #include "globals.h"
 
 // Set this to 1 if you want to use the old layout.
@@ -81,11 +84,13 @@ public:
       wxBoxSizer *vboxInput;
         wxStaticText *lblInput;
         wxTextCtrl *txtInput;
-        wxButton *btnBuild;
+        wxBoxSizer *hboxInputButtons;
+          wxButton *btnPaste, *btnBuild;
       wxBoxSizer *vboxOutput;
         wxStaticText *lblOutput;
         wxTextCtrl *txtOutput;
-        wxButton *btnECopy;
+        wxBoxSizer *hboxOutputButtons;
+          wxButton *btnECopy, *btnEClear;
 
     // Add layout boxes and such like so:
     // wxBoxSizer *hboxName;
@@ -101,14 +106,16 @@ public:
     // E Builder
     void EBuild(wxCommandEvent &event);
     void ECopy(wxCommandEvent &event);
+    void EPaste(wxCommandEvent &event);
+    void EClear(wxCommandEvent &event);
 
 private:
 
     /** Identifiers **/
 
-    static const long ID_GENERATE, ID_CLEAR_ALL;
-    static const long ID_BUILD;
-    static const long ID_LOOP_COPY, ID_E_COPY;
+    static const long ID_LOOP_GENERATE, ID_LOOP_CLEAR_ALL;
+    static const long ID_LOOP_COPY;
+    static const long ID_E_BUILD, ID_E_COPY, ID_E_PASTE, ID_E_CLEAR;
 };
 
 #endif // PGCODECOMPRESSOR_H_INCLUDED

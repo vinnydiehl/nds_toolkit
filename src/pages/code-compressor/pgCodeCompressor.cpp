@@ -27,13 +27,15 @@ wxString pgCodeCompressor::Title = _T("Code Compressor");
 
 /** Initialize Identifiers **/
 
-const long pgCodeCompressor::ID_GENERATE = wxNewId();
-const long pgCodeCompressor::ID_CLEAR_ALL = wxNewId();
-
-const long pgCodeCompressor::ID_BUILD = wxNewId();
+const long pgCodeCompressor::ID_LOOP_GENERATE = wxNewId();
+const long pgCodeCompressor::ID_LOOP_CLEAR_ALL = wxNewId();
 
 const long pgCodeCompressor::ID_LOOP_COPY = wxNewId();
+
+const long pgCodeCompressor::ID_E_BUILD = wxNewId();
 const long pgCodeCompressor::ID_E_COPY = wxNewId();
+const long pgCodeCompressor::ID_E_PASTE = wxNewId();
+const long pgCodeCompressor::ID_E_CLEAR = wxNewId();
 
 pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
                 : wxPanel(parent, wxID_ANY)
@@ -141,8 +143,8 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
 
     hboxLoopControls = new wxBoxSizer(wxHORIZONTAL);
 
-    btnGenerate = new wxButton(pnlMain, ID_GENERATE, _T("&Generate"));
-    btnClearAll = new wxButton(pnlMain, ID_CLEAR_ALL, _T("Clear &All"));
+    btnGenerate = new wxButton(pnlMain, ID_LOOP_GENERATE, _T("&Generate"));
+    btnClearAll = new wxButton(pnlMain, ID_LOOP_CLEAR_ALL, _T("Clear &All"));
 
     hboxLoopControls->Add(btnGenerate, 1, wxEXPAND | wxRIGHT, 5);
     hboxLoopControls->Add(btnClearAll, 1, wxEXPAND);
@@ -191,11 +193,17 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     txtInput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                               wxDefaultPosition, wxDefaultSize,
                               wxTE_MULTILINE | wxHSCROLL);
-    btnBuild = new wxButton(pnlMain, ID_BUILD, _T("&Build"));
+
+    // hbox to align the buttons in here
+    hboxInputButtons = new wxBoxSizer(wxHORIZONTAL);
+    btnPaste = new wxButton(pnlMain, ID_E_PASTE, _T("&Paste"));
+    btnBuild = new wxButton(pnlMain, ID_E_BUILD, _T("&Build"));
+    hboxInputButtons->Add(btnPaste, 1, wxEXPAND | wxRIGHT, 5);
+    hboxInputButtons->Add(btnBuild, 1, wxEXPAND);
 
     vboxInput->Add(lblInput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxInput->Add(txtInput, 1, wxEXPAND | wxBOTTOM, 5);
-    vboxInput->Add(btnBuild, 0, wxEXPAND);
+    vboxInput->Add(hboxInputButtons, 0, wxEXPAND);
 
     ///// Begin vboxOutput
 
@@ -205,11 +213,17 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     txtOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                                wxDefaultPosition, wxDefaultSize,
                                wxTE_MULTILINE | wxHSCROLL);
-    btnECopy = new wxButton(pnlMain, ID_E_COPY, _T("C&opy to Clipboard"));
+
+    // hbox to align the buttons in here
+    hboxOutputButtons = new wxBoxSizer(wxHORIZONTAL);
+    btnECopy = new wxButton(pnlMain, ID_E_COPY, _T("C&opy"));
+    btnEClear = new wxButton(pnlMain, ID_E_CLEAR, _T("C&lear"));
+    hboxOutputButtons->Add(btnECopy, 1, wxEXPAND | wxRIGHT, 5);
+    hboxOutputButtons->Add(btnEClear, 1, wxEXPAND);
 
     vboxOutput->Add(lblOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxOutput->Add(txtOutput, 1, wxEXPAND | wxBOTTOM, 5);
-    vboxOutput->Add(btnECopy, 0, wxEXPAND);
+    vboxOutput->Add(hboxOutputButtons, 0, wxEXPAND);
 
     // Finish up shboxEbuilder
     shboxEBuilder->Add(vboxInput, 1, wxEXPAND | wxRIGHT, 5);
@@ -228,40 +242,114 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     vboxMargin->SetSizeHints(this);
 
     // Connect main window events
-    Connect(ID_GENERATE, wxEVT_COMMAND_BUTTON_CLICKED,
+    Connect(ID_LOOP_GENERATE, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgCodeCompressor::LoopGenerate));
-    Connect(ID_CLEAR_ALL, wxEVT_COMMAND_BUTTON_CLICKED,
+    Connect(ID_LOOP_CLEAR_ALL, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgCodeCompressor::LoopClearAll));
+
     Connect(ID_LOOP_COPY, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgCodeCompressor::LoopCopy));
 
-    Connect(ID_BUILD, wxEVT_COMMAND_BUTTON_CLICKED,
+    Connect(ID_E_PASTE, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodeCompressor::EPaste));
+    Connect(ID_E_BUILD, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgCodeCompressor::EBuild));
     Connect(ID_E_COPY, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgCodeCompressor::ECopy));
+    Connect(ID_E_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodeCompressor::EClear));
 }
 
-/** Loop Code Generator Events **/
+/** Main Algorithms **/
 
 void pgCodeCompressor::LoopGenerate(wxCommandEvent &WXUNUSED(event))
 {
 }
 
-void pgCodeCompressor::LoopClearAll(wxCommandEvent &WXUNUSED(event))
-{
-}
-
-void pgCodeCompressor::LoopCopy(wxCommandEvent &WXUNUSED(event))
-{
-}
-
-/** E Builder Events **/
-
 void pgCodeCompressor::EBuild(wxCommandEvent &WXUNUSED(event))
 {
 }
 
+/** Loop Code Generator GUI Events **/
+
+void pgCodeCompressor::LoopClearAll(wxCommandEvent &WXUNUSED(event))
+{
+    // Don't bother if they're all empty
+    if (txtBaseCode->IsEmpty() && txtTotalLoopCount->IsEmpty() &&
+        txtOffsetIncrement->IsEmpty() && txtValueIncrement->IsEmpty())
+        return;
+
+    int dlgresult = wxMessageBox(
+        _T("Are you sure that you would like to clear the loop code input?"),
+        _T("Clear Loop Code Input?"), wxYES_NO
+    );
+
+    if (dlgresult == wxYES)
+    {
+        txtBaseCode->SetValue(_T(""));
+        txtTotalLoopCount->SetValue(_T(""));
+        txtOffsetIncrement->SetValue(_T(""));
+        txtValueIncrement->SetValue(_T(""));
+    }
+}
+
+void pgCodeCompressor::LoopCopy(wxCommandEvent &WXUNUSED(event))
+{
+    wxString str = txtLoopOutput->GetValue();
+
+    if (!str.IsEmpty())
+    {
+        Clipboard::SetClipboard(str);
+
+        if (Clipboard::GetClipboard() == str)
+            wxMessageBox(_T("Loop output copied successfully."),
+                         _T("Success"));
+    }
+}
+
+/** E Builder GUI Events **/
+
+void pgCodeCompressor::EPaste(wxCommandEvent &WXUNUSED(event))
+{
+    // Prompt them if the input box isn't empty.
+    int dlgresult = !txtInput->GetValue().IsEmpty()
+                    ? wxMessageBox(
+                        _T("\
+Are you sure that you would like to paste in a new input?\n\
+This will overwrite any current data in the input box.\
+"),
+                        _T("Overwrite Input?"), wxYES_NO
+                    )
+                    : wxYES;
+
+    if (dlgresult == wxYES)
+        txtInput->SetValue(Clipboard::GetClipboard());
+}
 void pgCodeCompressor::ECopy(wxCommandEvent &WXUNUSED(event))
 {
+    wxString str = txtOutput->GetValue();
+
+    if (!str.IsEmpty())
+    {
+        Clipboard::SetClipboard(str);
+
+        if (Clipboard::GetClipboard() == str)
+            wxMessageBox(_T("Code output copied successfully."),
+                         _T("Success"));
+    }
+}
+void pgCodeCompressor::EClear(wxCommandEvent &WXUNUSED(event))
+{    int dlgresult = wxMessageBox(
+        _T("\
+Are you sure that you would like to clear the input and output boxes?\
+"),
+        _T("Clear Input/Output?"), wxYES_NO
+    );
+
+    if (dlgresult == wxYES)
+    {
+        txtInput->SetValue(_T(""));
+        txtOutput->SetValue(_T(""));
+    }
 }
 
