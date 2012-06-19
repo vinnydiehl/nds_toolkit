@@ -22,14 +22,15 @@ ROOT = ..
 # Source Directories
 INCDIR = .
 BASEINCDIR = $(ROOT)/base
+CLIPINCDIR = $(ROOT)/clipboard
 FRAMEINCDIR = $(ROOT)/frames
 PAGESINCDIR = $(ROOT)/pages/activator-generator \
 	      $(ROOT)/pages/code-compressor \
 	      $(ROOT)/pages/code-porter \
 	      $(ROOT)/pages/pointer-searcher
 SHAREDINCDIR = $(ROOT)/shared
-INCPATHS = $(INCDIR) $(BASEINCDIR) $(FRAMEINCDIR) $(PAGESINCDIR) \
-	   $(SHAREDINCDIR)
+INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(FRAMEINCDIR) \
+	   $(PAGESINCDIR) $(SHAREDINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options

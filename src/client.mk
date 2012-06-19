@@ -84,7 +84,7 @@ INSTALL = /usr/bin
 # Output Files
 EXE = $(BINDIR)/$(NAME)
 OBJ = Program.o frmMain.o MenuBar.o \
-      Clipboard $(BUTTON_ACTIVATOR_GENERATOR) \
+      Clipboard.o $(BUTTON_ACTIVATOR_GENERATOR) \
       $(POINTER_SEARCHER) $(CODE_PORTER) $(CODE_COMPRESSOR) Clipboard.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
