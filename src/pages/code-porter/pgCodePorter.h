@@ -24,12 +24,15 @@
 #define PGCODEPORTER_H_INCLUDED
 
 #include <wx/button.h>
+#include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <wx/radiobut.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
+#include <wx/string.h>
 #include <wx/textctrl.h>
 
+#include "Clipboard.h"
 #include "globals.h"
 
 class pgCodePorter : public wxPanel

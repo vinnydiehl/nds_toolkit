@@ -148,11 +148,46 @@ void pgCodePorter::Port(wxCommandEvent &WXUNUSED(event))
 
 void pgCodePorter::Clear(wxCommandEvent &WXUNUSED(event))
 {
+    int dlgresult = wxMessageBox(
+        _T("\
+Are you sure that you would like to clear the input and output boxes?\
+"),
+        _T("Clear Input/Output?"), wxYES_NO
+    );
+
+    if (dlgresult == wxYES)
+    {
+        txtInput->SetValue(_T(""));
+        txtOutput->SetValue(_T(""));
+    }
 }
 void pgCodePorter::Copy(wxCommandEvent &WXUNUSED(event))
 {
+    wxString str = txtOutput->GetValue();
+
+    if (!str.IsEmpty())
+    {
+        Clipboard::SetClipboard(str);
+
+        if (Clipboard::GetClipboard() == str)
+            wxMessageBox(_T("Code output copied successfully."),
+                         _T("Success"));
+    }
 }
 void pgCodePorter::Paste(wxCommandEvent &WXUNUSED(event))
 {
+    // Prompt them if the input box isn't empty.
+    int dlgresult = !txtInput->GetValue().IsEmpty()
+                    ? wxMessageBox(
+                        _T("\
+Are you sure that you would like to paste in a new input?\n\
+This will overwrite any current data in the input box.\
+"),
+                        _T("Overwrite Input?"), wxYES_NO
+                    )
+                    : wxYES;
+
+    if (dlgresult == wxYES)
+        txtInput->SetValue(Clipboard::GetClipboard());
 }
 
