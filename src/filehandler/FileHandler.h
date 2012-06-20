@@ -34,7 +34,7 @@ class FileHandler
 public:
     static wxString ReadFile(wxWindow *parent, wxString *tgt=NULL,
                              wxTextCtrl *display=NULL,
-                             wxString formats=_T("All Files|*.*"),
+                             wxString wildcard=_T("All Files (*.*)|*.*"),
                              wxString title=_T("Select a File"));
 };
 
