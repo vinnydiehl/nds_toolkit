@@ -79,8 +79,9 @@ public:
 
     /** Events **/
 
-    void selectFile1(wxCommandEvent &event);
-    void selectFile2(wxCommandEvent &event);
+    void FindPointers(wxCommandEvent &event);
+    void SelectFile1(wxCommandEvent &event);
+    void SelectFile2(wxCommandEvent &event);
 
     /** Member Variables **/
 

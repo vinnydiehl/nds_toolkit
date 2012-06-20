@@ -205,20 +205,31 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     vboxMargin->SetSizeHints(this);
 
     // Connect main window events
+    Connect(ID_FIND_POINTERS, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgPointerSearcher::FindPointers));
+
     Connect(ID_BROWSE_FILE_1, wxEVT_COMMAND_BUTTON_CLICKED,
-            wxCommandEventHandler(pgPointerSearcher::selectFile1));
+            wxCommandEventHandler(pgPointerSearcher::SelectFile1));
     Connect(ID_BROWSE_FILE_2, wxEVT_COMMAND_BUTTON_CLICKED,
-            wxCommandEventHandler(pgPointerSearcher::selectFile2));
+            wxCommandEventHandler(pgPointerSearcher::SelectFile2));
 }
 
-void pgPointerSearcher::selectFile1(wxCommandEvent &WXUNUSED(event))
+/** Main Algorithm **/
+
+void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
 {
-    wxString path = FileHandler::ReadFile(this, &File1Contents, txtFile1,
-                                          AllowedFileTypes);
 }
-void pgPointerSearcher::selectFile2(wxCommandEvent &WXUNUSED(event))
+
+/** File Input **/
+
+void pgPointerSearcher::SelectFile1(wxCommandEvent &WXUNUSED(event))
 {
-    wxString path = FileHandler::ReadFile(this, &File2Contents, txtFile2,
-                                          AllowedFileTypes);
+    wxString path = FileHandler::ReadFile(this, &File1Contents,
+                                          txtFile1, Wildcard);
+}
+void pgPointerSearcher::SelectFile2(wxCommandEvent &WXUNUSED(event))
+{
+    wxString path = FileHandler::ReadFile(this, &File2Contents,
+                                          txtFile2, Wildcard);
 }
 
