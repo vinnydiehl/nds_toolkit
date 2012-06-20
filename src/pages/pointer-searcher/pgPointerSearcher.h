@@ -84,7 +84,7 @@ public:
 
     /** Member Variables **/
 
-    wxString AllowedFileTypes;
+    wxString Wildcard;
     wxString File1Contents, File2Contents;
 
 private:

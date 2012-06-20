@@ -37,7 +37,7 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
 {
     /** Initialize Member Variables **/
 
-    AllowedFileTypes = _T("Binary Files (*.bin)|*.bin|All Files (*.*)|*.*");
+    Wildcard = _T("Binary Files (*.bin)|*.bin|All Files (*.*)|*.*");
 
     /** Main Content **/
 
