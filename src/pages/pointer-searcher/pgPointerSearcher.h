@@ -31,8 +31,10 @@
 #include <wx/radiobut.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
+#include <wx/string.h>
 #include <wx/textctrl.h>
 
+#include "FileHandler.h"
 #include "globals.h"
 
 class pgPointerSearcher : public wxPanel
@@ -79,6 +81,11 @@ public:
 
     void selectFile1(wxCommandEvent &event);
     void selectFile2(wxCommandEvent &event);
+
+    /** Member Variables **/
+
+    wxString AllowedFileTypes;
+    wxString File1Contents, File2Contents;
 
 private:
 

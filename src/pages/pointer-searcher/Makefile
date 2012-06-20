@@ -21,8 +21,9 @@ ROOT = ../..
 
 # Source Directories
 INCDIR = .
+FHINCDIR = $(ROOT)/filehandler
 SHAREDINCDIR = $(ROOT)/shared
-INCPATHS = $(INCDIR) $(SHAREDINCDIR)
+INCPATHS = $(INCDIR) $(FHINCDIR) $(SHAREDINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -55,6 +56,7 @@ configure:
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgPointerSearcher.o: $(INCDIR)/pgPointerSearcher.h \
+                               $(FHINCDIR)/FileHandler.h \
 		               $(SHAREDINCDIR)/globals.h
 	$(CXX) $(CFLAGS) pgPointerSearcher.cpp
 

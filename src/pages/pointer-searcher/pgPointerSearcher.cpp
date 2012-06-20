@@ -35,6 +35,10 @@ const long pgPointerSearcher::ID_FIND_POINTERS = wxNewId();
 pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
                  :  wxPanel(parent, wxID_ANY)
 {
+    /** Initialize Member Variables **/
+
+    AllowedFileTypes = _T("Binary Files (*.bin)|*.bin|All Files (*.*)|*.*");
+
     /** Main Content **/
 
     vboxMargin = new wxBoxSizer(wxVERTICAL);
@@ -209,8 +213,12 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
 
 void pgPointerSearcher::selectFile1(wxCommandEvent &WXUNUSED(event))
 {
+    wxString path = FileHandler::ReadFile(this, &File1Contents, txtFile1,
+                                          AllowedFileTypes);
 }
 void pgPointerSearcher::selectFile2(wxCommandEvent &WXUNUSED(event))
 {
+    wxString path = FileHandler::ReadFile(this, &File2Contents, txtFile2,
+                                          AllowedFileTypes);
 }
 
