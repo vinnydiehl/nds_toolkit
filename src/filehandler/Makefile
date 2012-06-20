@@ -14,30 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# @file Makefile - Builds the application's frames.
+# @file Makefile - Builds the FileHandler class.
 
 # Orientation of this Makefile
 ROOT = ..
 
 # Source Directories
 INCDIR = .
-BASEINCDIR = $(ROOT)/base
-CLIPINCDIR = $(ROOT)/clipboard
-FHINCDIR = $(ROOT)/filehandler
-PAGESINCDIR = $(ROOT)/pages/activator-generator \
-	      $(ROOT)/pages/code-compressor \
-	      $(ROOT)/pages/code-porter \
-	      $(ROOT)/pages/pointer-searcher
-SHAREDINCDIR = $(ROOT)/shared
-INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(FHINCDIR) \
-	   $(PAGESINCDIR) $(SHAREDINCDIR)
+INCPATHS = $(INCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
-
-PAGESINCLDS = \
-  $(ROOT)/pages/activator-generator/pgButtonActivatorGenerator.h \
-  $(ROOT)/pages/code-porter/pgCodePorter.h \
-  $(ROOT)/pages/pointer-searcher/pgPointerSearcher.h \
-  $(ROOT)/pages/code-compressor/pgCodeCompressor.h
 
 # wxWidgets Options
 WXCFLAGS = `wx-config --cxxflags`
@@ -47,7 +32,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = frmMain.o
+OBJ = FileHandler.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -68,9 +53,8 @@ debug: $(OPATHS)
 configure:
 	mkdir -p $(OBJDIR)
 
-$(OBJDIR)/frmMain.o: $(INCDIR)/frmMain.h $(BASEINCDIR)/MenuBar.h \
-                     $(PAGESINCLDS) $(SHAREDINCDIR)/config.h
-	$(CXX) $(CFLAGS) frmMain.cpp
+$(OBJDIR)/FileHandler.o: $(INCDIR)/FileHandler.h
+	$(CXX) $(CFLAGS) FileHandler.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)
