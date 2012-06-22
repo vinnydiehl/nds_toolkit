@@ -38,20 +38,32 @@ bool CodeParser::Verify(wxString code)
 
 /** Private Methods **/
 
-wxString CodeParser::mStripChar(wxString str, wxChar ch)
+wxString CodeParser::mStripChar(wxString str, wxString ch)
 {
     /**
-     * Remove all of a certain character out of a string.
+     * Remove all of a certain character/characters out of a string.
      *
      * @param str - The string to be processed.
-     * @param ch - The character to be removed. Defaults to ' '.
+     * @param ch - The character(s) to be removed. Defaults to " ".
     **/
 
     wxString output;
 
+    // Loop over the characters in str.
     for (size_t i = 0; i < str.Len(); ++i)
-        if (str[i] != ch)
+    {
+        bool isallowed = true;
+
+        // Check if any of the characters in ch match the current character.
+        // If any of them do, the character will be stripped.
+        for (size_t j = 0; j < ch.Len(); ++j)
+            if (str[i] == str[j])
+                isallowed = false;
+
+        // If it wasn't stripped, add it to the output.
+        if (isallowed)
             output += str[i];
+    }
 
     return output;
 }

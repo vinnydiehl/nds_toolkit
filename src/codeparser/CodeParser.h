@@ -34,7 +34,7 @@ public:
     static bool Verify(wxString code);
 
 private:
-    wxString mStripChar(wxString str, wxChar ch=_T(' '));
+    wxString mStripChar(wxString str, wxString ch=_T(" "));
 };
 
 #endif // CODEPARSER_H_INLCUDED
