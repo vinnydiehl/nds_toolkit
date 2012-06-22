@@ -34,7 +34,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = pgCodeCompressor.o
+OBJ = pgCodeCompressor.o EBuilder.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -56,9 +56,13 @@ configure:
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgCodeCompressor.o: $(INCDIR)/pgCodeCompressor.h \
+    			      $(INCDIR)/EBuilder.h \
      			      $(CLIPINCDIR)/Clipboard.h \
 		              $(SHAREDINCDIR)/globals.h
 	$(CXX) $(CFLAGS) pgCodeCompressor.cpp
+
+$(OBJDIR)/EBuilder.o: $(INCDIR)/EBuilder.h
+	$(CXX) $(CFLAGS) EBuilder.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

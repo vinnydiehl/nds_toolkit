@@ -268,6 +268,7 @@ void pgCodeCompressor::LoopGenerate(wxCommandEvent &WXUNUSED(event))
 
 void pgCodeCompressor::EBuild(wxCommandEvent &WXUNUSED(event))
 {
+    txtOutput->SetValue(buildECodeType(txtInput->GetValue()));
 }
 
 /** Loop Code Generator GUI Events **/

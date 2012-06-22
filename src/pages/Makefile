@@ -37,7 +37,7 @@ OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
 OBJ = $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
-      $(CODE_PORTER) $(CODE_COMPRESSOR)
+      $(CODE_PORTER) $(CODE_COMPRESSOR) EBuilder.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
@@ -64,6 +64,9 @@ $(OBJDIR)/pgPointerSearcher.o:
 	$(MAKE) -C pointer-searcher $(MAKETGT)
 
 $(OBJDIR)/pgCodeCompressor.o:
+	$(MAKE) -C code-compressor $(MAKETGT)
+
+$(OBJDIR)/EBuilder.o:
 	$(MAKE) -C code-compressor $(MAKETGT)
 
 clean: configure

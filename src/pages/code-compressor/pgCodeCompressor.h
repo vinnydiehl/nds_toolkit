@@ -32,6 +32,8 @@
 #include <wx/string.h>
 #include <wx/textctrl.h>
 
+#include "EBuilder.h"
+
 #include "Clipboard.h"
 #include "globals.h"
 
