@@ -40,6 +40,19 @@ bool CodeParser::Verify(wxString code)
 
 wxString CodeParser::mStripChar(wxString str, wxChar ch)
 {
-    return _T("");
+    /**
+     * Remove all of a certain character out of a string.
+     *
+     * @param str - The string to be processed.
+     * @param ch - The character to be removed. Defaults to ' '.
+    **/
+
+    wxString output;
+
+    for (size_t i = 0; i < str.Len(); ++i)
+        if (str[i] != ch)
+            output += str[i];
+
+    return output;
 }
 
