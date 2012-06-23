@@ -130,8 +130,6 @@ DEBUG INFO- CodeParser::Beautify()-\n\
             }
             else
             {
-                // The line is a comment.
-
                 if (!stage.IsEmpty())
                 {
                     // There is code on the stage that still needs to be
