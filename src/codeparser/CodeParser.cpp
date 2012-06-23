@@ -37,6 +37,48 @@ bool CodeParser::Verify(wxString code)
      * Return true if the input is valid as NDS code, otherwise return false.
     **/
 
+    /** Preprocessing **/
+
+    // Strip away stuff that we don't need; Comments, blanks, extra whitespace.
+    wxArrayString raw = wxcArrayString::wxSplit(code, _T('\n'));
+    wxArrayString lines;
+    for (size_t i = 0; i < raw.GetCount(); ++i)
+    {
+        // Trim the current line so whitespace doesn't throw us off
+        wxString line = raw[i].Trim().Trim(false);
+
+        if (!line.IsEmpty() && line[0] != _T(':'))
+            lines.Add(line);
+    }
+
+    // Strip the rest of the whitespace.
+    // Yes, I know, I join with newlines and then strip the newlines. I just
+    // want to ensure that the code is returned to its previous state before
+    // all of the whitespace is removed.
+    code = mStripChar(wxcArrayString::wxJoin(lines, _T('\n')), _T(" \t\n\r"));
+
+    /** Verification **/
+
+    // If we don't even have the right amount of digits, bail.
+    if (code.Len() % 16 != 0)
+        return false;
+
+    // Make sure all characters are valid hexadecimal.
+    wxString hex = _T("0123456789ABCDEFabcdef");
+    for (size_t i = 0; i < code.Len(); ++i)
+    {
+        // Guilty until proven innocent
+        bool ishex = false;
+
+        for (size_t j = 0; j < hex.Len(); ++j)
+            if (code[i] == hex[j])
+                ishex = true;
+
+        if (!ishex)
+            return false;
+    }
+
+    // We're good!
     return true;
 }
 

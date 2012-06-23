@@ -36,7 +36,7 @@ public:
     static bool Verify(wxString code);
 
 private:
-    wxString mStripChar(wxString str, wxString ch);
+    static wxString mStripChar(wxString str, wxString ch);
 };
 
 #endif // CODEPARSER_H_INLCUDED
