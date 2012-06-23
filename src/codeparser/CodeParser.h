@@ -17,19 +17,30 @@
 **/
 
 /**
- * @file EBuilder.h - Header file for pgCodeCompressor's E Builder.
+ * @file CodeParser.h - Header file for the CodeParser class.
 **/
 
-#ifndef EBUILDER_H_INCLUDED
-#define EBUILDER_H_INCLUDED
+#pragma once
 
-#include <wx/arrstr.h>
+#ifndef CODEPARSER_H_INCLUDED
+#define CODEPARSER_H_INLCUDED
+
 #include <wx/string.h>
 
 #include "wxcArrayString.h"
 
-wxString buildECodeType(wxString input);
-wxArrayString group(wxArrayString arr, size_t n=2);
+class CodeParser
+{
+public:
+    static wxString Beautify(wxString code,
+                             bool upperHex=true,
+                             bool stripComments=false,
+                             bool stripEmpty=true);
+    static bool Verify(wxString code);
 
-#endif // EBUILDER_H_INCLUDED
+private:
+    static wxString mStripChar(wxString str, wxString ch);
+};
+
+#endif // CODEPARSER_H_INLCUDED
 

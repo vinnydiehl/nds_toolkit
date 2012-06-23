@@ -24,7 +24,7 @@
 
 wxString buildECodeType(wxString input)
 {
-    wxArrayString lines = wxSplit(input, _T('\n'));
+    wxArrayString lines = wxcArrayString::wxSplit(input, _T('\n'));
 
     // Generate an array with the last halves of each line.
     wxArrayString code;
@@ -72,7 +72,7 @@ wxString buildECodeType(wxString input)
 
     wxArrayString pairs = group(code);
 
-    return primer + _T('\n') + wxJoin(pairs, _T('\n'));
+    return primer + _T('\n') + wxcArrayString::wxJoin(pairs, _T('\n'));
 }
 
 /** Container Manipulation **/
@@ -94,53 +94,6 @@ wxArrayString group(wxArrayString arr, size_t n)
             accumulator.Clear();
             tracker = 0;
         }
-    }
-
-    return output;
-}
-
-/** Compatibility Functions **/
-
-// wxJoin() and wxSplit() are not implemented in wxWidgets 2.8.11.
-// Let's do it ourself.
-
-wxString wxJoin(wxArrayString arr, wxChar sep)
-{
-    wxString output;
-
-    for (size_t i = 0; i < arr.GetCount(); ++i)
-    {
-        output += arr[i];
-        if (i < arr.GetCount() - 1)
-            output += sep;
-    }
-
-    return output;
-}
-wxArrayString wxSplit(wxString str, wxChar sep)
-{
-    wxArrayString output;
-    wxString accumulator = _T("");
-
-    for (size_t i = 0; i < str.Len(); ++i)
-    {
-        if (str[i] == sep)
-        {
-            // If we encounter the separator (or if we reach the end of the
-            // string), add the current state of the accumulator to the output
-            // array and reset the accumulator.
-            output.Add(accumulator);
-            accumulator = _T("");
-        }
-        else if (i == str.Len() - 1)
-        {
-            // Last character of the string and it isn't the separator, so add
-            // it to the accumulator and then add the accumulator to output.
-            accumulator += str[i];
-            output.Add(accumulator);
-        }
-        else // Non-separator character, add it to the accumulator.
-            accumulator += str[i];
     }
 
     return output;
