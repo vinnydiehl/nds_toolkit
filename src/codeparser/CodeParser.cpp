@@ -26,13 +26,17 @@
 
 /** Public Methods **/
 
-wxString CodeParser::Beautify(wxString code)
+wxString CodeParser::Beautify(wxString code, bool stripComments)
 {
     return _T("");
 }
 
 bool CodeParser::Verify(wxString code)
 {
+    /**
+     * Return true if the input is valid as NDS code, otherwise return false.
+    **/
+
     return true;
 }
 
@@ -44,7 +48,7 @@ wxString CodeParser::mStripChar(wxString str, wxString ch)
      * Remove all of a certain character/characters out of a string.
      *
      * @param str - The string to be processed.
-     * @param ch - The character(s) to be removed. Defaults to " ".
+     * @param ch - The character(s) to be removed.
     **/
 
     wxString output;

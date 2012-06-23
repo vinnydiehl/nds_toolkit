@@ -21,7 +21,8 @@ ROOT = ..
 
 # Source Directories
 INCDIR = .
-INCPATHS = $(INCDIR)
+COMPATINCDIR = $(ROOT)/compatibility
+INCPATHS = $(INCDIR) $(COMPATINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -53,7 +54,8 @@ debug: $(OPATHS)
 configure:
 	mkdir -p $(OBJDIR)
 
-$(OBJDIR)/CodeParser.o: $(INCDIR)/CodeParser.h
+$(OBJDIR)/CodeParser.o: $(INCDIR)/CodeParser.h \
+                        $(COMPATINCDIR)/wxcArrayString.h
 	$(CXX) $(CFLAGS) CodeParser.cpp
 
 clean: configure

@@ -27,14 +27,16 @@
 
 #include <wx/string.h>
 
+#include "wxcArrayString.h"
+
 class CodeParser
 {
 public:
-    static wxString Beautify(wxString code);
+    static wxString Beautify(wxString code, bool stripComments=false);
     static bool Verify(wxString code);
 
 private:
-    wxString mStripChar(wxString str, wxString ch=_T(" "));
+    wxString mStripChar(wxString str, wxString ch);
 };
 
 #endif // CODEPARSER_H_INLCUDED
