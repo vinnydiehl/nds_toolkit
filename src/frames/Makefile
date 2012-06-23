@@ -23,14 +23,15 @@ ROOT = ..
 INCDIR = .
 BASEINCDIR = $(ROOT)/base
 CLIPINCDIR = $(ROOT)/clipboard
+COMPATINCDIR = $(ROOT)/compatibility
 FHINCDIR = $(ROOT)/filehandler
 PAGESINCDIR = $(ROOT)/pages/activator-generator \
 	      $(ROOT)/pages/code-compressor \
 	      $(ROOT)/pages/code-porter \
 	      $(ROOT)/pages/pointer-searcher
 SHAREDINCDIR = $(ROOT)/shared
-INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(FHINCDIR) \
-	   $(PAGESINCDIR) $(SHAREDINCDIR)
+INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMPATINCDIR) \
+	   $(FHINCDIR) $(PAGESINCDIR) $(SHAREDINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 PAGESINCLDS = \

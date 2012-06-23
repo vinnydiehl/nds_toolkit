@@ -14,17 +14,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# @file Makefile - Builds the Code Compressor page.
+# @file Makefile - Builds the wxWidgets compatibility classes.
 
 # Orientation of this Makefile
-ROOT = ../..
+ROOT = ..
 
 # Source Directories
 INCDIR = .
-CLIPINCDIR = $(ROOT)/clipboard
-COMPATINCDIR = $(ROOT)/compatibility
-SHAREDINCDIR = $(ROOT)/shared
-INCPATHS = $(INCDIR) $(CLIPINCDIR) $(COMPATINCDIR) $(SHAREDINCDIR)
+INCPATHS = $(INCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -35,7 +32,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = pgCodeCompressor.o EBuilder.o
+OBJ = wxcArrayString.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -56,14 +53,8 @@ debug: $(OPATHS)
 configure:
 	mkdir -p $(OBJDIR)
 
-$(OBJDIR)/pgCodeCompressor.o: $(INCDIR)/pgCodeCompressor.h \
-    			      $(INCDIR)/EBuilder.h \
-     			      $(CLIPINCDIR)/Clipboard.h \
-		              $(SHAREDINCDIR)/globals.h
-	$(CXX) $(CFLAGS) pgCodeCompressor.cpp
-
-$(OBJDIR)/EBuilder.o: $(INCDIR)/EBuilder.h $(COMPATINCDIR)/wxcArrayString.h
-	$(CXX) $(CFLAGS) EBuilder.cpp
+$(OBJDIR)/wxcArrayString.o: $(INCDIR)/wxcArrayString.h
+	$(CXX) $(CFLAGS) wxcArrayString.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

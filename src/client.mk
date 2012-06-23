@@ -85,7 +85,8 @@ INSTALL = /usr/bin
 EXE = $(BINDIR)/$(NAME)
 OBJ = Program.o frmMain.o MenuBar.o \
       Clipboard.o FileHandler.o $(BUTTON_ACTIVATOR_GENERATOR) \
-      $(POINTER_SEARCHER) $(CODE_PORTER) $(CODE_COMPRESSOR) EBuilder.o
+      $(POINTER_SEARCHER) $(CODE_PORTER) $(CODE_COMPRESSOR) EBuilder.o \
+      wxcArrayString.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Make
@@ -148,6 +149,11 @@ $(OBJDIR)/pgPointerSearcher.o:
 
 $(OBJDIR)/Clipboard.o:
 	$(MAKE) -C clipboard $(MAKETGT)
+
+# compatibility
+
+$(OBJDIR)/wxcArrayString.o:
+	$(MAKE) -C compatibility $(MAKETGT)
 
 # filehandler
 

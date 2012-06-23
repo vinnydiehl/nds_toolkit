@@ -17,19 +17,23 @@
 **/
 
 /**
- * @file EBuilder.h - Header file for pgCodeCompressor's E Builder.
+ * @file wxcArrayString.h - Header file for the wxcArrayString class.
 **/
 
-#ifndef EBUILDER_H_INCLUDED
-#define EBUILDER_H_INCLUDED
+#pragma once
+
+#ifndef WXCARRAYSTRING_H_INCLUDED
+#define WXCARRAYSTRING_H_INLCUDED
 
 #include <wx/arrstr.h>
 #include <wx/string.h>
 
-#include "wxcArrayString.h"
+class wxcArrayString
+{
+public:
+    static wxString wxJoin(wxArrayString arr, wxChar sep);
+    static wxArrayString wxSplit(wxString stf, wxChar sep);
+};
 
-wxString buildECodeType(wxString input);
-wxArrayString group(wxArrayString arr, size_t n=2);
-
-#endif // EBUILDER_H_INCLUDED
+#endif // WXCARRAYSTRING_H_INLCUDED
 
