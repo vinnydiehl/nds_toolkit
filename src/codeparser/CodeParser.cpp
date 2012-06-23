@@ -39,11 +39,27 @@ wxString CodeParser::Beautify(wxString code, bool upperHex,
     **/
 
     // First verify the input. It will fuck us up heavily if we don't.
+
+#ifdef DEBUG
+    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- BEGINNING VERIFICATION"));
+#endif
+
     if (!Verify(code))
         return _T("Invalid");
 
+#ifdef DEBUG
+    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- VERIFICATION COMPLETE"));
+#endif
+
     // Do all line processing now.
     wxArrayString raw = wxcArrayString::wxSplit(code, _T('\n'));
+
+#ifdef DEBUG
+    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- Contents of raw:\n"));
+    for (size_t i = 0; i < raw.GetCount(); ++i)
+        wxPuts(raw[i]);
+#endif
+
     wxArrayString lines;
     for (size_t i = 0; i < raw.GetCount(); ++i)
     {
@@ -62,14 +78,39 @@ wxString CodeParser::Beautify(wxString code, bool upperHex,
             );
     }
 
+#ifdef DEBUG
+    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- Contents of lines:\n"));
+    for (size_t i = 0; i < lines.GetCount(); ++i)
+        wxPuts(lines[i]);
+#endif
+
     // Packing up the code while leaving comments untouched is very tricky.
     // I don't want to use a wrapper, so do some preliminary touchups.
+
+#ifdef DEBUG
+    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- BEGINNING PACKING"));
+#endif
+
     wxArrayString codepkg;
     if (stripComments)
+    {
+#ifdef DEBUG
+        wxPuts(_T("\
+DEBUG INFO- CodeParser::Beautify()-\n\
+\tComment stripping enabled, packing the code as a whole.\
+"));
+#endif
         codepkg.Add(mStripChar(wxcArrayString::wxJoin(lines, _T('\n')),
                                _T(" \t\n\r")));
+    }
     else
     {
+#ifdef DEBUG
+        wxPuts(_T("\
+DEBUG INFO- CodeParser::Beautify()-\n\
+\tComments are being packed with the code.\
+"));
+#endif
         wxArrayString stage;
         for (size_t i = 0; i < lines.GetCount(); ++i)
         {
@@ -87,20 +128,34 @@ wxString CodeParser::Beautify(wxString code, bool upperHex,
                     );
                 }
             }
-            else if (!stage.IsEmpty())
+            else
             {
-                // The line is a comment, but there is code on the stage
-                // that still needs to be packed.
-                // Pack the stage, add to codepkg, then clear the stage.
-                codepkg.Add(mStripChar(wxcArrayString::wxJoin(stage, _T('\n')),
-                                       _T(" \t\n\r")));
-                stage.Clear();
+                // The line is a comment.
+
+                if (!stage.IsEmpty())
+                {
+                    // There is code on the stage that still needs to be
+                    // packed so that we can pack in this comment.
+                    // Pack the stage, add to codepkg, then clear the stage.
+                    codepkg.Add(
+                        mStripChar(wxcArrayString::wxJoin(stage, _T('\n')),
+                                   _T(" \t\n\r"))
+                    );
+                    stage.Clear();
+                }
 
                 // Now add the comment to the package
                 codepkg.Add(lines[i]);
             }
         }
     }
+
+#ifdef DEBUG
+    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- PACKING COMPLETE"));
+    wxPuts(_T("DEBUG INFO- CodeParser::Beautify()- Contents of codepkg:\n"));
+    for (size_t i = 0; i < codepkg.GetCount(); ++i)
+        wxPuts(codepkg[i]);
+#endif
 
     // We will unpack the codepkg into its final form here.
     wxArrayString final;
@@ -111,7 +166,7 @@ wxString CodeParser::Beautify(wxString code, bool upperHex,
         wxString chunk = codepkg[i];
 
         // If the chunk is a comment, direct deposit...
-        if (chunk[i] == _T(':'))
+        if (chunk[0] == _T(':'))
             final.Add(chunk);
         else
             while (!chunk.IsEmpty())
