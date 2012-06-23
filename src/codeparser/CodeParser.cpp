@@ -140,6 +140,13 @@ bool CodeParser::Verify(wxString code)
 
     // Strip away stuff that we don't need; Comments, blanks, extra whitespace.
     wxArrayString raw = wxcArrayString::wxSplit(code, _T('\n'));
+
+#ifdef DEBUG
+    wxPuts(_T("\nDEBUG INFO- CodeParser::Verify()- Contents of raw:\n"));
+    for (size_t i = 0; i < raw.GetCount(); ++i)
+        wxPuts(raw[i]);
+#endif
+
     wxArrayString lines;
     for (size_t i = 0; i < raw.GetCount(); ++i)
     {
@@ -150,11 +157,24 @@ bool CodeParser::Verify(wxString code)
             lines.Add(line);
     }
 
+#ifdef DEBUG
+    wxPuts(_T("\nDEBUG INFO- CodeParser::Verify()- Contents of lines:\n"));
+    for (size_t i = 0; i < lines.GetCount(); ++i)
+        wxPuts(lines[i]);
+#endif
+
     // Strip the rest of the whitespace.
     // Yes, I know, I join with newlines and then strip the newlines. I just
     // want to ensure that the code is returned to its previous state before
     // all of the whitespace is removed.
     code = mStripChar(wxcArrayString::wxJoin(lines, _T('\n')), _T(" \t\n\r"));
+
+#ifdef DEBUG
+    wxPuts(_T("\
+\nDEBUG INFO- CodeParser::Verify()- Contents of code after stripping:\n\
+"));
+    wxPuts(code);
+#endif
 
     /** Verification **/
 
@@ -202,7 +222,7 @@ wxString CodeParser::mStripChar(wxString str, wxString ch)
         // Check if any of the characters in ch match the current character.
         // If any of them do, the character will be stripped.
         for (size_t j = 0; j < ch.Len(); ++j)
-            if (str[i] == str[j])
+            if (str[i] == ch[j])
                 isallowed = false;
 
         // If it wasn't stripped, add it to the output.
