@@ -32,7 +32,10 @@
 class CodeParser
 {
 public:
-    static wxString Beautify(wxString code, bool stripComments=false);
+    static wxString Beautify(wxString code,
+                             bool upperHex=true,
+                             bool stripComments=false,
+                             bool stripEmpty=true);
     static bool Verify(wxString code);
 
 private:
