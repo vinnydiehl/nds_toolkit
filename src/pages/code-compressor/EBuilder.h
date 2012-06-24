@@ -26,6 +26,7 @@
 #include <wx/arrstr.h>
 #include <wx/string.h>
 
+#include "CodeParser.h"
 #include "wxcArrayString.h"
 
 wxString buildECodeType(wxString input);

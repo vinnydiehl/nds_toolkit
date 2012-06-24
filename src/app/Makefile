@@ -30,9 +30,11 @@ PAGESINCDIR = $(ROOT)/pages/activator-generator \
 	      $(ROOT)/pages/code-compressor \
 	      $(ROOT)/pages/code-porter \
 	      $(ROOT)/pages/pointer-searcher
+PARSEINCDIR = $(ROOT)/codeparser
 SHAREDINCDIR = $(ROOT)/shared
 INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMPATINCDIR) \
-	   $(FHINCDIR) $(FRAMEINCDIR) $(PAGESINCDIR) $(SHAREDINCDIR)
+	   $(FHINCDIR) $(FRAMEINCDIR) $(PAGESINCDIR) $(PARSEINCDIR) \
+	   $(SHAREDINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options

@@ -24,34 +24,33 @@
 
 wxString buildECodeType(wxString input)
 {
-    wxArrayString lines = wxcArrayString::wxSplit(input, _T('\n'));
+    // Verify their input
+    if (!CodeParser::Verify(input))
+        throw 1;
+
+    wxArrayString lines = wxcArrayString::wxSplit(
+        // Filter the input through the beautifier, stripping comments
+        CodeParser::Beautify(input, true, true),
+        _T('\n')
+    );
 
     // Generate an array with the last halves of each line.
     wxArrayString code;
-//  if (lines.GetCount() > 1)
-//  {
-        // Multi-line format
-
-        for (size_t i = 0; i < lines.GetCount(); ++i)
+    for (size_t i = 0; i < lines.GetCount(); ++i)
+    {
+        // Now is a good time as any to trim the lines
+        wxString line = lines[i].Trim().Trim(false);
+        if (!line.IsEmpty())
         {
-            // Now is a good time as any to trim the lines
-            wxString line = lines[i].Trim().Trim(false);
-            if (!line.IsEmpty())
-            {
-                // Now grab everything after the space (it occurs at index 9)
-                wxString end;
-                for (size_t j = 9; j < line.Len(); ++j)
-                    end += line[j];
+            // Now grab everything after the space (it occurs at index 9)
+            wxString end;
+            for (size_t j = 9; j < line.Len(); ++j)
+                end += line[j];
 
-                // Add it to code
-                code.Add(end);
-            }
+            // Add it to code
+            code.Add(end);
         }
-//  }
-//  else
-//  {
-//      // :TODO: 2012-06-20 gbchaosmaster - Implement single line format
-//  }
+    }
 
     // Build the first line of the output based on the number of input lines.
     long hexLength;
