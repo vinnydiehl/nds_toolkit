@@ -28,6 +28,7 @@
 #include <wx/ffile.h>
 #include <wx/filedlg.h>
 #include <wx/string.h>
+#include <wx/textctrl.h>
 
 class FileHandler
 {
