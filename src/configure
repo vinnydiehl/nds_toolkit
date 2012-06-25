@@ -24,7 +24,7 @@ from re import search
 # Constants. Make sure these stay up to date with any file moves/renames.
 _CONFIG_FILE = '.ndsconfig'
 _MAKEFILE = 'Makefile'
-_CLIENTMAKE = 'client.mk'
+_LINKERMAKE = 'linker.mk'
 _CONFIG_HEADER = 'shared/config.h'
 _CONFIG_HEADER_DIR = 'shared'
 _CONFIG_HEADER_NAME = 'config.h'
@@ -84,20 +84,20 @@ Aborting configuration.\
     exit(404) # Hahaha...
 
 try:
-    # Verify client.mk. If the file doesn't exist or doesn't have a proper
+    # Verify linker.mk. If the file doesn't exist or doesn't have a proper
     # area for this to generate into, error.
-    with open(_CLIENTMAKE) as clientmake_file:
-        clientmake = clientmake_file.read().split('\n')
-        clientmake_strip = [line.strip() for line in clientmake]
+    with open(_LINKERMAKE) as linkermake_file:
+        linkermake = linkermake_file.read().split('\n')
+        linkermake_strip = [line.strip() for line in linkermake]
 
         # Kill it if it doesn't have config designators
         # :WARNING: 2012-06-11 gbchaosmaster - Not complete protection here!
         # If the end designator is before the begin, it will still make it
         # past this. But if somebody does that, fuck them.
-        if '### BEGIN CONFIG ###' not in clientmake_strip or \
-           '### END CONFIG ###' not in clientmake_strip:
+        if '### BEGIN CONFIG ###' not in linkermake_strip or \
+           '### END CONFIG ###' not in linkermake_strip:
             print '''\
-ERROR: client.mk is not set up for this configuration.
+ERROR: linker.mk is not set up for this configuration.
 Ensure that the designated area for the configutation has not been modified.
 
 It should contain an area near the top (just under the file description) with
@@ -114,12 +114,12 @@ Aborting configuration.\
             exit(1)
 
         # While we're here, if we succeeded, grab the indexes of the things.
-        clientmake_begin_index = clientmake_strip.index('### BEGIN CONFIG ###')
-        clientmake_end_index = clientmake_strip.index('### END CONFIG ###')
+        linkermake_begin_index = linkermake_strip.index('### BEGIN CONFIG ###')
+        linkermake_end_index = linkermake_strip.index('### END CONFIG ###')
 except IOError:
     # If they don't have a Makefile, that's a Bad Thing. Bail!
     print '''\
-ERROR: Either you don't have a client.mk, or something went wrong.
+ERROR: Either you don't have a linker.mk, or something went wrong.
 Please check to make sure the file is in the right spot.
 
 Aborting configuration.\
@@ -202,10 +202,10 @@ def configure(makefile_input=_MAKEFILE_DEFAULT,
                    [makefile_input] + \
                    makefile[makefile_end_index:]
 
-    # client.mk is no different; note that it uses the same input as above.
-    clientmake_new = clientmake[:clientmake_begin_index + 1] + \
+    # linker.mk is no different; note that it uses the same input as above.
+    linkermake_new = linkermake[:linkermake_begin_index + 1] + \
                      [makefile_input] + \
-                     clientmake[clientmake_end_index:]
+                     linkermake[linkermake_end_index:]
 
     # And now the config.h... For this one we want blank lines in between the
     # options and the header guards.
@@ -217,20 +217,20 @@ def configure(makefile_input=_MAKEFILE_DEFAULT,
 
     # Be responsible and use swap files, format .<original name>.configure.swp
     makefile_swap = '.%s.configure.swp' % _MAKEFILE
-    clientmake_swap = '.%s.configure.swp' % _CLIENTMAKE
+    linkermake_swap = '.%s.configure.swp' % _LINKERMAKE
     config_header_swap = \
         '%s/.%s.configure.swp' % (_CONFIG_HEADER_DIR, _CONFIG_HEADER_NAME)
 
     # Join the compiled lists into strings to write to the swap files.
     open(makefile_swap, 'w').write('\n'.join(makefile_new))
-    open(clientmake_swap, 'w').write('\n'.join(clientmake_new))
+    open(linkermake_swap, 'w').write('\n'.join(linkermake_new))
     open(config_header_swap, 'w').write('\n'.join(config_header_new))
 
     # Overwrite the originals with the swap files and we're done.
     rename(makefile_swap, _MAKEFILE)
     print 'Success: %s written.' % _MAKEFILE
-    rename(clientmake_swap, _CLIENTMAKE)
-    print 'Success: %s written.' % _CLIENTMAKE
+    rename(linkermake_swap, _LINKERMAKE)
+    print 'Success: %s written.' % _LINKERMAKE
     rename(config_header_swap, _CONFIG_HEADER)
     print 'Success: %s written.' % _CONFIG_HEADER
 

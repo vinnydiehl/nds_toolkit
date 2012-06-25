@@ -31,34 +31,31 @@ installed, check that there is output for the following commands:
 
 ### Full Build
 
-Run ```make -f client.mk``` to fully build the program, or
-```make -f client.mk rebuild``` to completely rebuild the program and all
-object files.
+Run ```make``` to fully build the program, or ```make rebuild``` to completely
+rebuild the program and all object files.
 
 Other options:
 
-```make -f client.mk debug``` fully builds the program with debugging symbols
-and options, and disables optimization.
+```make debug``` fully builds the program with debugging symbols and options,
+and disables optimization.
 
-```make -f client.mk rebuild-dbg``` rebuilds the program in the debug
-configuration.
+```make rebuild-dbg``` rebuilds the program in the debug configuration.
 
-```make -f client.mk clean``` deletes all object files while leaving the
-application intact
+```make clean``` deletes all object files while leaving the application intact.
 
-```make -f client.mk delete``` or ```make -f client.mk erase``` will completely
-delete all build artifacts, including the compiled application.
+```make delete``` or ```make erase``` will completely delete all build
+artifacts, including the compiled application.
 
-```make -f client.mk distclean``` will reset the build configuration to
-default, but retains your ```.ndsconfig``` if you have one.
+```make distclean``` will reset the build configuration to default, but retains
+your ```.ndsconfig``` if you have one.
 
 ### Incremental Builds
 
-Running ```make``` at the top of the source tree will build only the
-executable. There is a Makefile in each of the subdirectories as well; running
-```make``` in those subdirectories will build only the object files in that
-directory (and recurse into their own subdirectories, if applicable). All of
-the targets of ```client.mk``` (except for ```delete```, ```erase```, and
+Running ```make -f linker.mk``` at the top of the source tree will build only
+the executable. There is a Makefile in each of the subdirectories as well;
+running ```make``` in those subdirectories will build only the object files in
+that directory (and recurse into their own subdirectories, if applicable). All
+of the targets of the main Makefile (except for ```delete```, ```erase```, and
 ```distclean```) are available to these Makefiles as well.
 
 ### Build Configuration
