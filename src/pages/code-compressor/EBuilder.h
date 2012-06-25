@@ -17,7 +17,7 @@
 **/
 
 /**
- * @file EBuilder.h - Header file for pgCodeCompressor's E Builder.
+ * @file EBuilder.h - Header file for the E Builder class.
 **/
 
 #ifndef EBUILDER_H_INCLUDED
@@ -29,8 +29,14 @@
 #include "CodeParser.h"
 #include "wxcArrayString.h"
 
-wxString buildECodeType(wxString input);
-wxArrayString group(wxArrayString arr, size_t n=2);
+class EBuilder
+{
+public:
+    static wxString BuildECodeType(wxString input);
+
+private:
+    static wxArrayString mGroup(wxArrayString arr, size_t n=2);
+};
 
 #endif // EBUILDER_H_INCLUDED
 

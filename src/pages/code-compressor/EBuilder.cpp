@@ -17,12 +17,12 @@
 **/
 
 /**
- * @file EBuilder.cpp - Functions for pgCodeCompressor's E Builder.
+ * @file EBuilder.cpp - pgCodeCompressor's E Builder.
 **/
 
 #include "EBuilder.h"
 
-wxString buildECodeType(wxString input)
+wxString EBuilder::BuildECodeType(wxString input)
 {
     // Verify their input
     if (!CodeParser::Verify(input))
@@ -69,14 +69,14 @@ wxString buildECodeType(wxString input)
 
     // Build the output
 
-    wxArrayString pairs = group(code);
+    wxArrayString pairs = mGroup(code);
 
     return primer + _T('\n') + wxcArrayString::wxJoin(pairs, _T('\n'));
 }
 
 /** Container Manipulation **/
 
-wxArrayString group(wxArrayString arr, size_t n)
+wxArrayString EBuilder::mGroup(wxArrayString arr, size_t n)
 {
     wxString accumulator;
     wxArrayString output;

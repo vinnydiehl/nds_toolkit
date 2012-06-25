@@ -270,7 +270,7 @@ void pgCodeCompressor::EBuild(wxCommandEvent &WXUNUSED(event))
 {
     try
     {
-        txtOutput->SetValue(buildECodeType(txtInput->GetValue()));
+        txtOutput->SetValue(EBuilder::BuildECodeType(txtInput->GetValue()));
     }
     catch (int e)
     {
