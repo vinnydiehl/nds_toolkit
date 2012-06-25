@@ -26,8 +26,22 @@
 
 #include <wx/string.h>
 
+/** About NDS Hacking Kit **/
+
+// Program name:
+const wxString NAME = _T("NDS Hacking Kit");
 // Current program version:
 const wxString VERSION = _T("0.1");
+// Description:
+const wxString DESCRIPTION = _T("\
+A suite of tools for hacking Nintendo games.\n\
+A cross-platform port of the original NDS Hacking Kit by Demonic722.\
+");
+// Copyright:
+const wxString COPYRIGHT = _T("\
+Original application by Demonic722.\n\
+This port is copyright (c) 2012 Vinny Diehl.\
+");
 
 // The margin between the edge of each page and the contents of the page:
 #define MARGIN 5

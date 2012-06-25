@@ -22,10 +22,7 @@
 
 #include "frmMain.h"
 
-// Title of the application:
-const wxString TITLE = _T("NDS Hacking Kit");
-
-frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, TITLE)
+frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, NAME)
 {
     /** Main Window **/
 

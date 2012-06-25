@@ -29,22 +29,19 @@
 #include <wx/aui/auibook.h>
 
 #include "MenuBar.h"
+#include "globals.h"
 
-// Load config.h for the selective page generation
+// Selective page generation
 #include "config.h"
-
 #ifdef ADD_BUTTON_ACTIVATOR_GENERATOR
 #include "pgButtonActivatorGenerator.h"
 #endif
-
 #ifdef ADD_POINTER_SEARCHER
 #include "pgPointerSearcher.h"
 #endif
-
 #ifdef ADD_CODE_PORTER
 #include "pgCodePorter.h"
 #endif
-
 #ifdef ADD_CODE_COMPRESSOR
 #include "pgCodeCompressor.h"
 #endif

@@ -71,7 +71,8 @@ configure:
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)/frmMain.o: $(INCDIR)/frmMain.h $(BASEINCDIR)/MenuBar.h \
-                     $(PAGESINCLDS) $(SHAREDINCDIR)/config.h
+                     $(PAGESINCLDS) $(SHAREDINCDIR)/config.h \
+		     $(SHAREDINCDIR)/globals.h
 	$(CXX) $(CFLAGS) frmMain.cpp
 
 clean: configure
