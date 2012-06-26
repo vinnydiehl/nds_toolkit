@@ -205,19 +205,46 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
 void pgButtonActivatorGenerator::ChangeType(wxCommandEvent &WXUNUSED(event))
 {
     /**
-     * Activate the NDS checkboxes when the NDS radio buttons are selected,
-     * disable them otherwise.
+     * Activate the NDS checkboxes when the NDS radio button is selected,
+     * and the GBA checkboxes when the GBA radio is selected. Disable the
+     * other checkboxes.
     **/
 
     if (radNds->GetValue())
     {
+        // Enable NDS
         chkX->Enable();
         chkY->Enable();
         chkNdsFolded->Enable();
         chkDebugButton->Enable();
+
+        // Disable GBA
+        chkA->Disable();
+        chkUp->Disable();
+        chkL->Disable();
+        chkR->Disable();
+        chkStart->Disable();
+        chkB->Disable();
+        chkDown->Disable();
+        chkLeft->Disable();
+        chkRight->Disable();
+        chkSelect->Disable();
     }
     else
     {
+        // Enable GBA
+        chkA->Enable();
+        chkUp->Enable();
+        chkL->Enable();
+        chkR->Enable();
+        chkStart->Enable();
+        chkB->Enable();
+        chkDown->Enable();
+        chkLeft->Enable();
+        chkRight->Enable();
+        chkSelect->Enable();
+
+        // Disable NDS
         chkX->Disable();
         chkY->Disable();
         chkNdsFolded->Disable();
