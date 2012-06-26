@@ -254,6 +254,100 @@ bool CodeParser::Verify(wxString code)
     return true;
 }
 
+wxArrayString CodeParser::Tokenize(wxString code)
+{
+    wxArrayString output;
+
+    wxArrayString lines = wxcArrayString::wxSplit(code, _T('\n'));
+    for (size_t i = 0; i < lines.GetCount(); ++i)
+    {
+        wxArrayString accumulator;
+        bool iscomment = false;
+
+        // Is this line a comment?
+        if (lines[i][0] == _T(':'))
+        {
+            if (!iscomment) // The last line wasn't...
+            {
+                // Dump the current accumulation if there is any
+                if (!accumulator.IsEmpty())
+                {
+                    output.Add(wxcArrayString::wxJoin(accumulator, _T('\n')));
+                    accumulator.Clear();
+                }
+
+                // Start a comment accumulation
+                iscomment = true;
+                accumulator.Add(lines[i]);
+            }
+            else // Continue the comment accumulation
+                accumulator.Add(lines[i]);
+        }
+        else // The line isn't a comment
+        {
+            if (iscomment) // But the last line was...
+            {
+                // Dump the current accumulation if there is any
+                if (!accumulator.IsEmpty())
+                {
+                    output.Add(wxcArrayString::wxJoin(accumulator, _T('\n')));
+                    accumulator.Clear();
+                }
+
+                // Start a code accumulation
+                iscomment = false;
+                accumulator.Add(lines[i]);
+            }
+            else // Continue the current code accumulation
+                accumulator.Add(lines[i]);
+        }
+    }
+
+    return output;
+}
+
+wxArrayString CodeParser::LeftColumn(wxString code)
+{
+    wxArrayString output;
+
+    wxArrayString lines = wxcArrayString::wxSplit(code, _T('\n'));
+    for (size_t i = 0; i < lines.GetCount(); ++i)
+        output.Add(lines[i].Left(8));
+
+    return output;
+}
+wxArrayString CodeParser::RightColumn(wxString code)
+{
+    wxArrayString output;
+
+    wxArrayString lines = wxcArrayString::wxSplit(code, _T('\n'));
+    for (size_t i = 0; i < lines.GetCount(); ++i)
+        output.Add(lines[i].Right(8));
+
+    return output;
+}
+void CodeParser::SplitColumns(wxString code, wxArrayString *left,
+                              wxArrayString *right)
+{
+    *left = LeftColumn(code);
+    *right = RightColumn(code);
+}
+wxString CodeParser::JoinColumns(wxArrayString left, wxArrayString right)
+{
+    wxArrayString pairs;
+
+    // Just in case they gave us arrays of differing sizes, always use the
+    // smaller count to loop with...
+    size_t count = left.GetCount() > right.GetCount()
+                   ? right.GetCount()
+                   : left.GetCount();
+
+    for (size_t i = 0; i < count; ++i)
+        pairs.Add(left[i] + _T(' ') + right[i]);
+
+    return wxcArrayString::wxJoin(pairs, _T('\n'));
+}
+
 /** Private Methods **/
 
 wxString CodeParser::mStripChar(wxString str, wxString ch)

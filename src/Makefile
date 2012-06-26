@@ -81,7 +81,8 @@ INSTALL = /usr/bin
 # Output Files
 EXE = $(BINDIR)/$(NAME)
 OBJ = Program.o frmMain.o MenuBar.o \
-      Clipboard.o CodeParser.o EBuilder.o FileHandler.o wxcArrayString.o \
+      Clipboard.o CodeParser.o CodePorter.o EBuilder.o FileHandler.o \
+      wxcArrayString.o \
       $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
       $(CODE_PORTER) $(CODE_COMPRESSOR)
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
@@ -132,11 +133,12 @@ $(OBJDIR)/pgButtonActivatorGenerator.o:
 
 $(OBJDIR)/pgCodeCompressor.o:
 	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
-
 $(OBJDIR)/EBuilder.o:
 	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
 
 $(OBJDIR)/pgCodePorter.o:
+	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
+$(OBJDIR)/CodePorter.o:
 	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
 
 $(OBJDIR)/pgPointerSearcher.o:

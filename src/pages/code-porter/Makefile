@@ -22,8 +22,11 @@ ROOT = ../..
 # Source Directories
 INCDIR = .
 CLIPINCDIR = $(ROOT)/clipboard
+COMPATINCDIR = $(ROOT)/compatibility
+PARSEINCDIR = $(ROOT)/codeparser
 SHAREDINCDIR = $(ROOT)/shared
-INCPATHS = $(INCDIR) $(CLIPINCDIR) $(SHAREDINCDIR)
+INCPATHS = $(INCDIR) $(CLIPINCDIR) $(COMPATINCDIR) \
+	   $(PARSEINCDIR) $(SHAREDINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -34,7 +37,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = pgCodePorter.o
+OBJ = pgCodePorter.o CodePorter.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -56,9 +59,15 @@ configure:
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgCodePorter.o: $(INCDIR)/pgCodePorter.h \
+                          $(INCDIR)/CodePorter.h \
                           $(CLIPINCDIR)/Clipboard.h \
 			  $(SHAREDINCDIR)/globals.h
 	$(CXX) $(CFLAGS) pgCodePorter.cpp
+
+$(OBJDIR)/CodePorter.o: $(INCDIR)/CodePorter.h \
+		        $(COMPATINCDIR)/wxcArrayString.h \
+	                $(PARSEINCDIR)/CodeParser.h
+	$(CXX) $(CFLAGS) CodePorter.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

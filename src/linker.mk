@@ -54,7 +54,8 @@ OBJDIR = $(BUILDROOT)/obj
 # Output Files
 EXE = $(BINDIR)/$(NAME)
 OBJ = Program.o frmMain.o MenuBar.o \
-      Clipboard.o CodeParser.o EBuilder.o FileHandler.o wxcArrayString.o \
+      Clipboard.o CodeParser.o CodePorter.o EBuilder.o FileHandler.o \
+      wxcArrayString.o \
       $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
       $(CODE_PORTER) $(CODE_COMPRESSOR)
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))

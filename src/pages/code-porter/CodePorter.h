@@ -17,38 +17,26 @@
 **/
 
 /**
- * @file CodeParser.h - Header file for the CodeParser class.
+ * @file CodePorter.h - Header file for the CodePorter class.
 **/
 
-#pragma once
+#ifndef CODEPORTER_H_INCLUDED
+#define CODEPORTER_H_INCLUDED
 
-#ifndef CODEPARSER_H_INCLUDED
-#define CODEPARSER_H_INLCUDED
-
+#include <wx/arrstr.h>
 #include <wx/string.h>
 
+#include "CodeParser.h"
 #include "wxcArrayString.h"
 
-class CodeParser
+class CodePorter
 {
 public:
-    static wxString Beautify(wxString code,
-                             bool upperHex=true,
-                             bool stripComments=false,
-                             bool stripEmpty=true);
-    static bool Verify(wxString code);
-
-    static wxArrayString Tokenize(wxString code);
-
-    static wxArrayString LeftColumn(wxString code);
-    static wxArrayString RightColumn(wxString code);
-    static void SplitColumns(wxString code, wxArrayString *left,
-                             wxArrayString *right);
-    static wxString JoinColumns(wxArrayString left, wxArrayString right);
+    static wxString Port(wxString code, wxString offset, bool dec=false);
 
 private:
-    static wxString mStripChar(wxString str, wxString ch);
+    static wxString mPurePort(wxString code, wxString offset, bool dec=false);
 };
 
-#endif // CODEPARSER_H_INLCUDED
+#endif // CODEPORTER_H_INCLUDED
 
