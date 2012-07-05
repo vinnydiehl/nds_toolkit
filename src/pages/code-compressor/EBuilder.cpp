@@ -26,7 +26,7 @@ wxString EBuilder::BuildECodeType(wxString input)
 {
     // Verify their input
     if (!CodeParser::Verify(input))
-        throw 1;
+        throw wxString(_T("Invalid code input."));
 
     wxArrayString lines = wxcArrayString::wxSplit(
         // Filter the input through the beautifier, stripping comments

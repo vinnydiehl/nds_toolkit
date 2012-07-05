@@ -272,9 +272,9 @@ void pgCodeCompressor::EBuild(wxCommandEvent &WXUNUSED(event))
     {
         txtOutput->SetValue(EBuilder::BuildECodeType(txtInput->GetValue()));
     }
-    catch (int e)
+    catch (wxString msg)
     {
-        wxMessageBox(_T("Invalid code input."), _T("Error"));
+        wxMessageBox(msg, _T("Error"));
     }
 }
 
