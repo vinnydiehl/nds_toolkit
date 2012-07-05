@@ -268,9 +268,18 @@ void pgCodeCompressor::LoopGenerate(wxCommandEvent &WXUNUSED(event))
 
 void pgCodeCompressor::EBuild(wxCommandEvent &WXUNUSED(event))
 {
+    wxString inputval = txtInput->GetValue();
+
+    // Error testing
+    if (inputval.IsEmpty())
+    {
+        wxMessageBox(_T("There is no code input."), _T("Error"));
+        return;
+    }
+
     try
     {
-        txtOutput->SetValue(EBuilder::BuildECodeType(txtInput->GetValue()));
+        txtOutput->SetValue(EBuilder::BuildECodeType(inputval));
     }
     catch (wxString msg)
     {
