@@ -148,12 +148,12 @@ void pgCodePorter::Port(wxCommandEvent &WXUNUSED(event))
     wxString offsetval = txtOffset->GetValue();
 
     // Test for things that would make us want to bail.
-    if (inputval.IsEmpty())
+    if (inputval.Trim().Trim(false).IsEmpty())
     {
         wxMessageBox(_T("There is no code input."), _T("Error"));
         return;
     }
-    else if (offsetval.IsEmpty())
+    else if (offsetval.Trim().Trim(false).IsEmpty())
     {
         wxMessageBox(_T("No offset has been specified."), _T("Error"));
         return;

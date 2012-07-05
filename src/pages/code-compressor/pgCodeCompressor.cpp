@@ -271,7 +271,7 @@ void pgCodeCompressor::EBuild(wxCommandEvent &WXUNUSED(event))
     wxString inputval = txtInput->GetValue();
 
     // Error testing
-    if (inputval.IsEmpty())
+    if (inputval.Trim().Trim(false).IsEmpty())
     {
         wxMessageBox(_T("There is no code input."), _T("Error"));
         return;
