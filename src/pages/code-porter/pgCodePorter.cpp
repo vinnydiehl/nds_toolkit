@@ -144,6 +144,38 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
 
 void pgCodePorter::Port(wxCommandEvent &WXUNUSED(event))
 {
+    wxString inputval = txtInput->GetValue();
+    wxString offsetval = txtOffset->GetValue();
+
+    // Test for things that would make us want to bail.
+    if (inputval.IsEmpty())
+    {
+        wxMessageBox(_T("There is no code input."), _T("Error"));
+        return;
+    }
+    else if (offsetval.IsEmpty())
+    {
+        wxMessageBox(_T("No offset has been specified."), _T("Error"));
+        return;
+    }
+    else if (!CodeParser::IsHex(offsetval))
+    {
+        wxMessageBox(_T("The offset is not valid hexadecimal."), _T("Error"));
+        return;
+    }
+
+    try
+    {
+        txtOutput->SetValue(CodePorter::Port(
+            CodeParser::Beautify(inputval),
+            offsetval,
+            radSub->GetValue()
+        ));
+    }
+    catch (wxString msg)
+    {
+        wxMessageBox(msg, _T("Error"));
+    }
 }
 
 void pgCodePorter::Clear(wxCommandEvent &WXUNUSED(event))

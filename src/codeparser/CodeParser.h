@@ -36,7 +36,9 @@ public:
                              bool upperHex=true,
                              bool stripComments=false,
                              bool stripEmpty=true);
+
     static bool Verify(wxString code);
+    static bool IsHex(wxString str);
 
     static wxArrayString Tokenize(wxString code);
 

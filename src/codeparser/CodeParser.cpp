@@ -229,41 +229,43 @@ bool CodeParser::Verify(wxString code)
     wxPuts(code);
 #endif
 
-    /** Verification **/
+    // Now that it's parsed, we just need to see whether or not it has the
+    // right amount of digits (some multiple of 16), and if it is valid
+    // hexadecimal. We can return whatever result we get from that.
+    return code.Len() % 16 == 0 && IsHex(code);
+}
+bool CodeParser::IsHex(wxString str)
+{
+    /**
+     * Return true if str is a valid hexadecimal value, false otherwise.
+    **/
 
-    // If we don't even have the right amount of digits, bail.
-    if (code.Len() % 16 != 0)
-        return false;
-
-    // Make sure all characters are valid hexadecimal.
     wxString hex = _T("0123456789ABCDEFabcdef");
-    for (size_t i = 0; i < code.Len(); ++i)
+    for (size_t i = 0; i < str.Len(); ++i)
     {
         // Guilty until proven innocent
         bool ishex = false;
 
         for (size_t j = 0; j < hex.Len(); ++j)
-            if (code[i] == hex[j])
+            if (str[i] == hex[j])
                 ishex = true;
 
         if (!ishex)
             return false;
     }
-
-    // We're good!
-    return true;
 }
 
 wxArrayString CodeParser::Tokenize(wxString code)
 {
     wxArrayString output;
 
+    // Stuff that is kept track of inside of the loop:
+    wxArrayString accumulator;
+    bool iscomment = false;
+
     wxArrayString lines = wxcArrayString::wxSplit(code, _T('\n'));
     for (size_t i = 0; i < lines.GetCount(); ++i)
     {
-        wxArrayString accumulator;
-        bool iscomment = false;
-
         // Is this line a comment?
         if (lines[i][0] == _T(':'))
         {
@@ -301,6 +303,10 @@ wxArrayString CodeParser::Tokenize(wxString code)
             else // Continue the current code accumulation
                 accumulator.Add(lines[i]);
         }
+
+        // Dump the accumulator if this is the last line of the code
+        if (i >= lines.GetCount() - 1)
+            output.Add(wxcArrayString::wxJoin(accumulator, _T('\n')));
     }
 
     return output;

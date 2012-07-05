@@ -31,8 +31,11 @@ wxString CodePorter::Port(wxString code, wxString offset, bool dec)
      * @param code - The code to be ported.
      * @param offset - The value to be inc/decremented to/from the offset.
      * @param dec - false if incrementing, true if decrementing.
-     * Default: false
+     *              Default: false
     **/
+
+    if (!CodeParser::Verify(code))
+        throw wxString(_T("Invalid code input."));
 
     wxArrayString portedTokens;
 
@@ -77,16 +80,20 @@ wxString CodePorter::mPurePort(wxString code, wxString offset, bool dec)
 
         // Port the current offset and format it back into a wxString
         wxString ported = wxString::Format(
-            _T("%i"),
+            _T("%X"),
             // dec dictates what operator we use...
-            // :TODO: 2012-06-26 gbchaosmaster - Implement wrap around
-            // If it goes over FFFFFFFF or below 00000000 here, it gets
-            // buggy. Stop that ASAP...
             !dec ? hexCurrent + hexOffset : hexCurrent - hexOffset
         );
 
         // Now pad to 8 zeros and set it back to its column.
-        left[i] = ported.Pad(8 - ported.Len(), _T('0'), false);
+        // 2012-07-04 gbchaosmaster - Fixed segfault while padding
+        // :TODO: 2012-07-04 gbchaosmaster - Find a better way to pad
+        // For some reason when I tried to pad to 8 zeros here when there
+        // was already 8 characters caused a segfault. This fix solves the
+        // problem, look into a possible better way to do this.
+        left[i] = ported.Len() < 8
+                  ? ported.Pad(8 - ported.Len(), _T('0'), false)
+                  : ported;
     }
 
     return CodeParser::JoinColumns(left, right);
