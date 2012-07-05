@@ -26,6 +26,8 @@
 #include <wx/aboutdlg.h>
 #include <wx/frame.h>
 #include <wx/menu.h>
+#include <wx/msgdlg.h>
+#include <wx/string.h>
 
 #include "globals.h"
 
@@ -33,17 +35,26 @@ class MenuBar : public wxMenuBar
 {
 public:
 
-    MenuBar(wxFrame *_parent);
+    MenuBar(wxFrame *parent);
 
-    wxFrame *parent;
+    wxFrame *Parent;
 
-    wxMenu *file;
-    wxMenu *help;
+    wxMenu *File;
+    wxMenu *Tools;
+    wxMenu *Help;
 
     /** Events **/
 
     void Quit(wxCommandEvent &event);
+    void DownloadUsrcheat(wxCommandEvent &event);
     void About(wxCommandEvent &event);
+
+private:
+
+    /** Identifiers **/
+
+    static const long ID_USRCHEAT;
 };
 
 #endif // MENUBAR_H_INCLUDED
+

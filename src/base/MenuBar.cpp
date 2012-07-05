@@ -22,29 +22,40 @@
 
 #include "MenuBar.h"
 
-MenuBar::MenuBar(wxFrame *_parent) : wxMenuBar()
-{
-    parent = _parent;
+/** Initialize Identifiers **/
 
+const long MenuBar::ID_USRCHEAT = wxNewId();
+
+MenuBar::MenuBar(wxFrame *parent) : Parent(parent), wxMenuBar()
+{
     /** File **/
 
-    file = new wxMenu;
+    File = new wxMenu;
 
-    file->Append(wxID_EXIT, _T("&Quit\tCtrl+W"));
+    File->Append(wxID_EXIT, _T("&Quit\tCtrl+W"));
+
+    /** Tools **/
+
+    Tools = new wxMenu;
+
+    Tools->Append(wxID_ANY, _T("&Download usrcheat.dat\tCtrl+U"));
 
     /** Help **/
 
-    help = new wxMenu;
+    Help = new wxMenu;
 
-    help->Append(wxID_ABOUT, _T("&About\tF1"));
+    Help->Append(wxID_ABOUT, _T("&About\tF1"));
 
     // Assemble the menu bar
-    Append(file, _T("&File"));
-    Append(help, _T("&Help"));
+    Append(File, _T("&File"));
+    Append(Tools, _T("&Tools"));
+    Append(Help, _T("&Help"));
 
     // Connect the menu bar items to their events
     parent->Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED,
                     wxCommandEventHandler(MenuBar::Quit));
+    parent->Connect(ID_USRCHEAT, wxEVT_COMMAND_MENU_SELECTED,
+                    wxCommandEventHandler(MenuBar::DownloadUsrcheat));
     parent->Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED,
                     wxCommandEventHandler(MenuBar::About));
 }
@@ -54,6 +65,11 @@ MenuBar::MenuBar(wxFrame *_parent) : wxMenuBar()
 void MenuBar::Quit(wxCommandEvent &WXUNUSED(event))
 {
     Close();
+}
+
+void MenuBar::DownloadUsrcheat(wxCommandEvent &WXUNUSED(event))
+{
+    // :TODO: 2012-07-05 gbchaosmaster - Implement MenuBar::DownloadUsrcheat()
 }
 
 void MenuBar::About(wxCommandEvent &WXUNUSED(event))
@@ -66,3 +82,4 @@ void MenuBar::About(wxCommandEvent &WXUNUSED(event))
 
     wxAboutBox(info);
 }
+
