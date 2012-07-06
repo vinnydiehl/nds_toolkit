@@ -55,19 +55,19 @@ configure:
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgButtonActivatorGenerator.o:
-	$(MAKE) -C activator-generator $(MAKETGT)
+	$(MAKE) -C buttonactivatorgenerator $(MAKETGT)
 
 $(OBJDIR)/pgCodePorter.o:
-	$(MAKE) -C code-porter $(MAKETGT)
+	$(MAKE) -C codeporter $(MAKETGT)
 
 $(OBJDIR)/pgPointerSearcher.o:
-	$(MAKE) -C pointer-searcher $(MAKETGT)
+	$(MAKE) -C pointersearcher $(MAKETGT)
 
 $(OBJDIR)/pgCodeCompressor.o:
-	$(MAKE) -C code-compressor $(MAKETGT)
+	$(MAKE) -C codecompressor $(MAKETGT)
 
 $(OBJDIR)/EBuilder.o:
-	$(MAKE) -C code-compressor $(MAKETGT)
+	$(MAKE) -C codecompressor $(MAKETGT)
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

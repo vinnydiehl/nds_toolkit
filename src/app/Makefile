@@ -26,10 +26,10 @@ CLIPINCDIR = $(ROOT)/clipboard
 COMPATINCDIR = $(ROOT)/compatibility
 FHINCDIR = $(ROOT)/filehandler
 FRAMEINCDIR = $(ROOT)/frames
-PAGESINCDIR = $(ROOT)/pages/activator-generator \
-	      $(ROOT)/pages/code-compressor \
-	      $(ROOT)/pages/code-porter \
-	      $(ROOT)/pages/pointer-searcher
+PAGESINCDIR = $(ROOT)/pages/buttonactivatorgenerator \
+	      $(ROOT)/pages/codecompressor \
+	      $(ROOT)/pages/codeporter \
+	      $(ROOT)/pages/pointersearcher
 PARSEINCDIR = $(ROOT)/codeparser
 SHAREDINCDIR = $(ROOT)/shared
 INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMPATINCDIR) \

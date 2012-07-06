@@ -25,10 +25,10 @@ BASEINCDIR = $(ROOT)/base
 CLIPINCDIR = $(ROOT)/clipboard
 COMPATINCDIR = $(ROOT)/compatibility
 FHINCDIR = $(ROOT)/filehandler
-PAGESINCDIR = $(ROOT)/pages/activator-generator \
-	      $(ROOT)/pages/code-compressor \
-	      $(ROOT)/pages/code-porter \
-	      $(ROOT)/pages/pointer-searcher
+PAGESINCDIR = $(ROOT)/pages/buttonactivatorgenerator \
+	      $(ROOT)/pages/codecompressor \
+	      $(ROOT)/pages/codeporter \
+	      $(ROOT)/pages/pointersearcher
 PARSEINCDIR = $(ROOT)/codeparser
 SHAREDINCDIR = $(ROOT)/shared
 INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMPATINCDIR) \
@@ -36,10 +36,10 @@ INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMPATINCDIR) \
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 PAGESINCLDS = \
-  $(ROOT)/pages/activator-generator/pgButtonActivatorGenerator.h \
-  $(ROOT)/pages/code-porter/pgCodePorter.h \
-  $(ROOT)/pages/pointer-searcher/pgPointerSearcher.h \
-  $(ROOT)/pages/code-compressor/pgCodeCompressor.h
+  $(ROOT)/pages/buttonactivatorgenerator/pgButtonActivatorGenerator.h \
+  $(ROOT)/pages/codeporter/pgCodePorter.h \
+  $(ROOT)/pages/pointersearcher/pgPointerSearcher.h \
+  $(ROOT)/pages/codecompressor/pgCodeCompressor.h
 
 # wxWidgets Options
 WXCFLAGS = `wx-config --cxxflags`
