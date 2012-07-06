@@ -253,6 +253,8 @@ bool CodeParser::IsHex(wxString str)
         if (!ishex)
             return false;
     }
+
+    return true;
 }
 
 wxArrayString CodeParser::Tokenize(wxString code)
