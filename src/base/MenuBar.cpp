@@ -26,7 +26,7 @@
 
 const long MenuBar::ID_USRCHEAT = wxNewId();
 
-MenuBar::MenuBar(wxFrame *parent) : Parent(parent), wxMenuBar()
+MenuBar::MenuBar(wxFrame *parent) : wxMenuBar(), Parent(parent)
 {
     /** File **/
 
