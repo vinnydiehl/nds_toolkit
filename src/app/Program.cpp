@@ -22,7 +22,6 @@
 **/
 
 #include "Program.h"
-#include "frmMain.h"
 
 IMPLEMENT_APP(NDSHackingKit);
 

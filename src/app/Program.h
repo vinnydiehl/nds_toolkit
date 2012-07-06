@@ -25,6 +25,8 @@
 
 #include <wx/app.h>
 
+#include "frmMain.h"
+
 class NDSHackingKit : public wxApp
 {
 public:
