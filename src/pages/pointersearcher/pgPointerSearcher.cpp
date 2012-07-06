@@ -136,6 +136,9 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
                                        _T("Max Pointer Offset:"));
     txtMaxPtrOffset = new wxTextCtrl(pnlMain, wxID_ANY);
 
+    // Default text in txtMaxPtrOffset
+    txtMaxPtrOffset->SetValue(_T("00008000"));
+
     hboxMaxPtrOffset->Add(lblMaxPtrOffset, 0,
                           wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
     hboxMaxPtrOffset->Add(txtMaxPtrOffset, 1, wxEXPAND);
