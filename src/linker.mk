@@ -79,7 +79,7 @@ configure:
 	mkdir -p $(BINDIR)
 
 $(EXE): $(OPATHS)
-	$(CXX) $(LDFLAGS) $(OPATHS) -o $@
+	$(CXX) $(OPATHS) $(LDFLAGS) -o $@
 
 clean:
 	touch $(EXE) && rm $(EXE)
