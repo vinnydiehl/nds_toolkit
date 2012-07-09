@@ -33,8 +33,8 @@ SETUP = default
 ifeq ($(SETUP),default)
     BUTTON_ACTIVATOR_GENERATOR = pgButtonActivatorGenerator.o
     POINTER_SEARCHER = pgPointerSearcher.o
-    CODE_PORTER = pgCodePorter.o
-    CODE_COMPRESSOR = pgCodeCompressor.o
+    CODE_PORTER = CodePorter.o pgCodePorter.o
+    CODE_COMPRESSOR = EBuilder.o pgCodeCompressor.o
 endif
 
 # Root Source Directory
@@ -53,7 +53,7 @@ OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
 EXE = $(BINDIR)/$(NAME)
-OBJ = Clipboard.o CodeParser.o CodePorter.o EBuilder.o FileHandler.o \
+OBJ = Clipboard.o CodeParser.o FileHandler.o \
       MenuBar.o Program.o frmMain.o wxcArrayString.o \
       $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
       $(CODE_PORTER) $(CODE_COMPRESSOR)

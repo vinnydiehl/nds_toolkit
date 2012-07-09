@@ -53,17 +53,17 @@ SETUP = default
 ifeq ($(SETUP),default)
     BUTTON_ACTIVATOR_GENERATOR = pgButtonActivatorGenerator.o
     POINTER_SEARCHER = pgPointerSearcher.o
-    CODE_PORTER = pgCodePorter.o
-    CODE_COMPRESSOR = pgCodeCompressor.o
+    CODE_PORTER = CodePorter.o pgCodePorter.o
+    CODE_COMPRESSOR = EBuilder.o pgCodeCompressor.o
 endif
 
 # Tell pages/Makefile to enforce the configuration. That Makefile requires
 # this enforcement so that it can still be built incrementally.
 PAGESMAKEVARS = ENFORCE_CONFIG=1 \
-		BUTTON_ACTIVATOR_GENERATOR=$(BUTTON_ACTIVATOR_GENERATOR) \
-		POINTER_SEARCHER=$(POINTER_SEARCHER) \
-		CODE_PORTER=$(CODE_PORTER) \
-		CODE_COMPRESSOR=$(CODE_COMPRESSOR)
+		BUTTON_ACTIVATOR_GENERATOR="$(BUTTON_ACTIVATOR_GENERATOR)" \
+		POINTER_SEARCHER="$(POINTER_SEARCHER)" \
+		CODE_PORTER="$(CODE_PORTER)" \
+		CODE_COMPRESSOR="$(CODE_COMPRESSOR)"
 
 # Root Source Directory
 ROOT = .
@@ -80,7 +80,7 @@ INSTALL = /usr/bin
 
 # Output Files
 EXE = $(BINDIR)/$(NAME)
-OBJ = Clipboard.o CodeParser.o CodePorter.o EBuilder.o FileHandler.o \
+OBJ = Clipboard.o CodeParser.o FileHandler.o \
       MenuBar.o Program.o frmMain.o wxcArrayString.o \
       $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
       $(CODE_PORTER) $(CODE_COMPRESSOR)

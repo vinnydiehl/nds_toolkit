@@ -20,8 +20,8 @@
 ifndef $(ENFORCE_CONFIG)
     BUTTON_ACTIVATOR_GENERATOR = pgButtonActivatorGenerator.o
     POINTER_SEARCHER = pgPointerSearcher.o
-    CODE_PORTER = pgCodePorter.o
-    CODE_COMPRESSOR = pgCodeCompressor.o
+    CODE_PORTER = CodePorter.o pgCodePorter.o
+    CODE_COMPRESSOR = EBuilder.o pgCodeCompressor.o
 endif
 
 # Make Utility
@@ -37,7 +37,7 @@ OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
 OBJ = $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
-      $(CODE_PORTER) $(CODE_COMPRESSOR) EBuilder.o
+      $(CODE_PORTER) $(CODE_COMPRESSOR)
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
@@ -59,13 +59,14 @@ $(OBJDIR)/pgButtonActivatorGenerator.o:
 
 $(OBJDIR)/pgCodePorter.o:
 	$(MAKE) -C codeporter $(MAKETGT)
+$(OBJDIR)/CodePorter.o:
+	$(MAKE) -C codeporter $(MAKETGT)
 
 $(OBJDIR)/pgPointerSearcher.o:
 	$(MAKE) -C pointersearcher $(MAKETGT)
 
 $(OBJDIR)/pgCodeCompressor.o:
 	$(MAKE) -C codecompressor $(MAKETGT)
-
 $(OBJDIR)/EBuilder.o:
 	$(MAKE) -C codecompressor $(MAKETGT)
 
