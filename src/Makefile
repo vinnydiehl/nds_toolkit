@@ -185,3 +185,18 @@ install:
 	cp $(EXE) $(INSTALL)
 	ln -s $(INSTALL)/$(NAME) $(INSTALL)/$(ALTNAME)
 
+run:
+	$(EXE)
+
+build-run: all
+build-run: run
+
+debug-run: debug
+debug-run: run
+
+rebuild-run: rebuild
+rebuild-run: run
+
+rebuild-dbg-run: rebuild-dbg
+rebuild-dbg-run: run
+
