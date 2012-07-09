@@ -240,19 +240,11 @@ bool CodeParser::IsHex(wxString str)
      * Return true if str is a valid hexadecimal value, false otherwise.
     **/
 
-    wxString hex = _T("0123456789ABCDEFabcdef");
+    const wxString hex = _T("0123456789ABCDEFabcdef");
+
     for (size_t i = 0; i < str.Len(); ++i)
-    {
-        // Guilty until proven innocent
-        bool ishex = false;
-
-        for (size_t j = 0; j < hex.Len(); ++j)
-            if (str[i] == hex[j])
-                ishex = true;
-
-        if (!ishex)
+        if (!hex.Contains(str[i]))
             return false;
-    }
 
     return true;
 }
