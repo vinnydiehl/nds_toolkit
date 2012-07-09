@@ -12,7 +12,7 @@ development status and hack away.
 Running one of these will install all of the needed build tools for this
 application, depending on your distro:
 
-    sudo apt-get install build-essential libwxgtk2.8-dev
+    sudo apt-get install build-essential libwxgtk2.8
 
 [](/blank)
 
