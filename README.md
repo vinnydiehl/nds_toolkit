@@ -49,7 +49,7 @@ artifacts, including the compiled application.
 ```make distclean``` will reset the build configuration to default, but retains
 your ```.ndsconfig``` if you have one.
 
-```make run``` to run the already built executable. You can also use the
+```make run``` will run the already built executable. You can also use the
 commands ```make build-run```, ```make debug-run```, ```make rebuild-run```,
 and ```make rebuild-dbg-run```; they will work as you expect them to.
 
