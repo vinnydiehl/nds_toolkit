@@ -20,3 +20,33 @@
  * @file Downloader.h - The header file for the Downloader class.
 **/
 
+#include <wx/filedlg.h>
+#include <wx/filefn.h>
+#include <wx/progdlg.h>
+#include <wx/stream.h>
+#include <wx/string.h>
+#include <wx/url.h>
+#include <wx/wfstream.h>
+
+class Downloader
+{
+public:
+    // Public member variables
+    wxString Url, FileName;
+
+    // Public methods
+    Downloader(wxWindow *parent, wxString url,
+               wxString filename, wxString path=wxGetCwd());
+
+    void SetPath(wxString path);
+    void SetPathToCwd(void);
+
+    void SelectPath(void);
+
+    void Download(void);
+
+private:
+    wxWindow *mParent;
+    wxString mPath;
+};
+
