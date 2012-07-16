@@ -14,27 +14,26 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# @file Makefile - Builds the CodeParser class.
+# @file Makefile - Builds the wxWidgets 2.9 compatibility library.
 
 # Orientation of this Makefile
-ROOT = ..
+ROOT = ../../..
+LIBROOT = ..
 
 # Source Directories
-INCDIR = .
-COMPATINCDIR = $(ROOT)/compatibility
-INCPATHS = $(INCDIR) $(COMPATINCDIR)
+INCDIR = $(LIBROOT)
+INCPATHS = $(INCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
 WXCFLAGS = `wx-config --cxxflags`
 
 # Output Directories
-BUILDROOT = $(ROOT)/build
-OBJDIR = $(BUILDROOT)/obj
+BUILDDIR = $(LIBROOT)/build
 
 # Output Files
-OBJ = CodeParser.o
-OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
+OBJ = arrstr.o
+OPATHS = $(addprefix $(BUILDDIR)/,$(OBJ))
 
 # Compiler
 CXX = g++
@@ -52,11 +51,10 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	mkdir -p $(BUILDDIR)
 
-$(OBJDIR)/CodeParser.o: $(INCDIR)/CodeParser.h \
-                        $(COMPATINCDIR)/wx2.9/arrstr.h
-	$(CXX) $(CFLAGS) CodeParser.cpp
+$(BUILDDIR)/arrstr.o: $(INCDIR)/arrstr.h
+	$(CXX) $(CFLAGS) arrstr.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

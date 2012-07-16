@@ -54,10 +54,18 @@ OBJDIR = $(BUILDROOT)/obj
 # Output Files
 EXE = $(BINDIR)/$(NAME)
 OBJ = Clipboard.o CodeParser.o Downloader.o FileHandler.o \
-      MenuBar.o Program.o frmMain.o wxcArrayString.o \
+      MenuBar.o Program.o frmMain.o \
       $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
       $(CODE_PORTER) $(CODE_COMPRESSOR)
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
+
+# Compatability Library Paths
+COMPAT = compatibility
+WX29 = $(COMPAT)/wx2.9
+WX29BUILD = $(WX29)/build
+
+# Library Object Files
+LIBOPATHS = $(WX29BUILD)/arrstr.o
 
 # Compiler
 CXX = g++
@@ -78,7 +86,7 @@ configure:
 	mkdir -p $(BINDIR)
 
 $(EXE): $(OPATHS)
-	$(CXX) $(OPATHS) $(LDFLAGS) -o $@
+	$(CXX) $(OPATHS) $(LIBOPATHS) $(LDFLAGS) -o $@
 
 clean:
 	touch $(EXE) && rm $(EXE)

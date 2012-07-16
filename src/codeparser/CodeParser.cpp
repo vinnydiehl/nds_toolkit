@@ -52,7 +52,7 @@ wxString CodeParser::Beautify(wxString code, bool upperHex,
 #endif
 
     // Do all line processing now.
-    wxArrayString raw = wxcArrayString::wxSplit(code, _T('\n'));
+    wxArrayString raw = wxSplit(code, _T('\n'));
 
 #ifdef DEBUG
     wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- Contents of raw:\n"));
@@ -100,7 +100,7 @@ DEBUG INFO- CodeParser::Beautify()-\n\
 \tComment stripping enabled, packing the code as a whole.\
 "));
 #endif
-        codepkg.Add(mStripChar(wxcArrayString::wxJoin(lines, _T('\n')),
+        codepkg.Add(mStripChar(wxJoin(lines, _T('\n')),
                                _T(" \t\n\r")));
     }
     else
@@ -123,7 +123,7 @@ DEBUG INFO- CodeParser::Beautify()-\n\
                     // We've reached the last line, pack up the stage and add
                     // it to codepkg so we can finish.
                     codepkg.Add(
-                        mStripChar(wxcArrayString::wxJoin(stage, _T('\n')),
+                        mStripChar(wxJoin(stage, _T('\n')),
                                    _T(" \t\n\r"))
                     );
                 }
@@ -136,7 +136,7 @@ DEBUG INFO- CodeParser::Beautify()-\n\
                     // packed so that we can pack in this comment.
                     // Pack the stage, add to codepkg, then clear the stage.
                     codepkg.Add(
-                        mStripChar(wxcArrayString::wxJoin(stage, _T('\n')),
+                        mStripChar(wxJoin(stage, _T('\n')),
                                    _T(" \t\n\r"))
                     );
                     stage.Clear();
@@ -180,7 +180,7 @@ DEBUG INFO- CodeParser::Beautify()-\n\
             }
     }
 
-    return wxcArrayString::wxJoin(final, _T('\n'));
+    return wxJoin(final, _T('\n'));
 }
 
 bool CodeParser::Verify(wxString code)
@@ -192,7 +192,7 @@ bool CodeParser::Verify(wxString code)
     /** Preprocessing **/
 
     // Strip away stuff that we don't need; Comments, blanks, extra whitespace.
-    wxArrayString raw = wxcArrayString::wxSplit(code, _T('\n'));
+    wxArrayString raw = wxSplit(code, _T('\n'));
 
 #ifdef DEBUG
     wxPuts(_T("\nDEBUG INFO- CodeParser::Verify()- Contents of raw:\n"));
@@ -220,7 +220,7 @@ bool CodeParser::Verify(wxString code)
     // Yes, I know, I join with newlines and then strip the newlines. I just
     // want to ensure that the code is returned to its previous state before
     // all of the whitespace is removed.
-    code = mStripChar(wxcArrayString::wxJoin(lines, _T('\n')), _T(" \t\n\r"));
+    code = mStripChar(wxJoin(lines, _T('\n')), _T(" \t\n\r"));
 
 #ifdef DEBUG
     wxPuts(_T("\
@@ -257,7 +257,7 @@ wxArrayString CodeParser::Tokenize(wxString code)
     wxArrayString accumulator;
     bool iscomment = false;
 
-    wxArrayString lines = wxcArrayString::wxSplit(code, _T('\n'));
+    wxArrayString lines = wxSplit(code, _T('\n'));
     for (size_t i = 0; i < lines.GetCount(); ++i)
     {
         // Is this line a comment?
@@ -268,7 +268,7 @@ wxArrayString CodeParser::Tokenize(wxString code)
                 // Dump the current accumulation if there is any
                 if (!accumulator.IsEmpty())
                 {
-                    output.Add(wxcArrayString::wxJoin(accumulator, _T('\n')));
+                    output.Add(wxJoin(accumulator, _T('\n')));
                     accumulator.Clear();
                 }
 
@@ -286,7 +286,7 @@ wxArrayString CodeParser::Tokenize(wxString code)
                 // Dump the current accumulation if there is any
                 if (!accumulator.IsEmpty())
                 {
-                    output.Add(wxcArrayString::wxJoin(accumulator, _T('\n')));
+                    output.Add(wxJoin(accumulator, _T('\n')));
                     accumulator.Clear();
                 }
 
@@ -300,7 +300,7 @@ wxArrayString CodeParser::Tokenize(wxString code)
 
         // Dump the accumulator if this is the last line of the code
         if (i >= lines.GetCount() - 1)
-            output.Add(wxcArrayString::wxJoin(accumulator, _T('\n')));
+            output.Add(wxJoin(accumulator, _T('\n')));
     }
 
     return output;
@@ -310,7 +310,7 @@ wxArrayString CodeParser::LeftColumn(wxString code)
 {
     wxArrayString output;
 
-    wxArrayString lines = wxcArrayString::wxSplit(code, _T('\n'));
+    wxArrayString lines = wxSplit(code, _T('\n'));
     for (size_t i = 0; i < lines.GetCount(); ++i)
         output.Add(lines[i].Left(8));
 
@@ -320,7 +320,7 @@ wxArrayString CodeParser::RightColumn(wxString code)
 {
     wxArrayString output;
 
-    wxArrayString lines = wxcArrayString::wxSplit(code, _T('\n'));
+    wxArrayString lines = wxSplit(code, _T('\n'));
     for (size_t i = 0; i < lines.GetCount(); ++i)
         output.Add(lines[i].Right(8));
 
@@ -345,7 +345,7 @@ wxString CodeParser::JoinColumns(wxArrayString left, wxArrayString right)
     for (size_t i = 0; i < count; ++i)
         pairs.Add(left[i] + _T(' ') + right[i]);
 
-    return wxcArrayString::wxJoin(pairs, _T('\n'));
+    return wxJoin(pairs, _T('\n'));
 }
 
 /** Private Methods **/

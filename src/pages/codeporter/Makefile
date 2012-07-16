@@ -65,7 +65,7 @@ $(OBJDIR)/pgCodePorter.o: $(INCDIR)/pgCodePorter.h \
 	$(CXX) $(CFLAGS) pgCodePorter.cpp
 
 $(OBJDIR)/CodePorter.o: $(INCDIR)/CodePorter.h \
-		        $(COMPATINCDIR)/wxcArrayString.h \
+		        $(COMPATINCDIR)/wx2.9/arrstr.h \
 	                $(PARSEINCDIR)/CodeParser.h
 	$(CXX) $(CFLAGS) CodePorter.cpp
 

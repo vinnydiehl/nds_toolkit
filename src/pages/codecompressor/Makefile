@@ -65,7 +65,8 @@ $(OBJDIR)/pgCodeCompressor.o: $(INCDIR)/pgCodeCompressor.h \
 			      $(PARSEINCDIR)/CodeParser.h
 	$(CXX) $(CFLAGS) pgCodeCompressor.cpp
 
-$(OBJDIR)/EBuilder.o: $(INCDIR)/EBuilder.h $(COMPATINCDIR)/wxcArrayString.h
+$(OBJDIR)/EBuilder.o: $(INCDIR)/EBuilder.h \
+	              $(COMPATINCDIR)/wx2.9/arrstr.h
 	$(CXX) $(CFLAGS) EBuilder.cpp
 
 clean: configure

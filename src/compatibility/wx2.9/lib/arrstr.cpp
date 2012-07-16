@@ -17,12 +17,12 @@
 **/
 
 /**
- * @file wxcArrayString.cpp - Functions from the wxWidgets 2.9 wxArrayStrings.
+ * @file arrstr.cpp - Functions from the wxWidgets 2.9 wxArrayStrings.
 **/
 
-#include "wxcArrayString.h"
+#include "arrstr.h"
 
-wxString wxcArrayString::wxJoin(wxArrayString arr, wxChar sep)
+wxString wxJoin(wxArrayString arr, wxChar sep)
 {
     wxString output;
 
@@ -35,7 +35,7 @@ wxString wxcArrayString::wxJoin(wxArrayString arr, wxChar sep)
 
     return output;
 }
-wxArrayString wxcArrayString::wxSplit(wxString str, wxChar sep)
+wxArrayString wxSplit(wxString str, wxChar sep)
 {
     wxArrayString output;
     wxString accumulator = _T("");

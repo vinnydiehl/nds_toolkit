@@ -26,8 +26,9 @@
 #include <wx/arrstr.h>
 #include <wx/string.h>
 
+#include "wx2.9/arrstr.h"
+
 #include "CodeParser.h"
-#include "wxcArrayString.h"
 
 class CodePorter
 {

@@ -27,7 +27,7 @@
 
 #include <wx/string.h>
 
-#include "wxcArrayString.h"
+#include "wx2.9/arrstr.h"
 
 class CodeParser
 {

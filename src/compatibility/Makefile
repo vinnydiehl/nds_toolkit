@@ -14,47 +14,39 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# @file Makefile - Builds the wxWidgets compatibility classes.
+# @file Makefile - Builds all compatibility libraries.
+
+# Make Utility
+MAKE = make
+MAKETGT =
 
 # Orientation of this Makefile
 ROOT = ..
 
-# Source Directories
-INCDIR = .
-INCPATHS = $(INCDIR)
-INCFLAGS = $(addprefix -I,$(INCPATHS))
-
-# wxWidgets Options
-WXCFLAGS = `wx-config --cxxflags`
+# Libraries
+WX29 = wx2.9
+WX29LIB = $(WX29)/lib
 
 # Output Directories
-BUILDROOT = $(ROOT)/build
-OBJDIR = $(BUILDROOT)/obj
+WX29BUILD = $(WX29)/build
 
 # Output Files
-OBJ = wxcArrayString.o
-OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
-
-# Compiler
-CXX = g++
-DEBUG = -g -DDEBUG
-CFLAGS = -Wall -c -o $@ $(WXCFLAGS) $(INCFLAGS)
+OPATHS = $(WX29BUILD)/arrstr.o
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
 
 all: CFLAGS += -O2
-all: configure
 all: $(OPATHS)
 
 debug: CFLAGS += $(DEBUG)
-debug: configure
+debug: MAKETGT += debug
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	mkdir -p $(WX29BUILD)
 
-$(OBJDIR)/wxcArrayString.o: $(INCDIR)/wxcArrayString.h
-	$(CXX) $(CFLAGS) wxcArrayString.cpp
+$(WX29BUILD)/arrstr.o:
+	$(MAKE) -C $(WX29LIB) $(MAKETGT)
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

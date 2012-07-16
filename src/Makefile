@@ -81,10 +81,18 @@ INSTALL = /usr/bin
 # Output Files
 EXE = $(BINDIR)/$(NAME)
 OBJ = Clipboard.o CodeParser.o Downloader.o FileHandler.o \
-      MenuBar.o Program.o frmMain.o wxcArrayString.o \
+      MenuBar.o Program.o frmMain.o \
       $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
       $(CODE_PORTER) $(CODE_COMPRESSOR)
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
+
+# Compatability Library Paths
+COMPAT = compatibility
+WX29 = $(COMPAT)/wx2.9
+WX29BUILD = $(WX29)/build
+
+# Library Object Files
+LIBOPATHS = $(WX29BUILD)/arrstr.o
 
 # Make
 MAKE = make
@@ -103,7 +111,7 @@ debug: $(EXE)
 configure:
 	mkdir -p $(OBJDIR)
 
-$(EXE): $(OPATHS)
+$(EXE): $(OPATHS) $(LIBOPATHS)
 	$(MAKE) -f linker.mk $(MAKETGT)
 
 ### Object Builds
@@ -151,11 +159,6 @@ $(OBJDIR)/Clipboard.o:
 $(OBJDIR)/CodeParser.o:
 	$(MAKE) -C codeparser $(MAKETGT)
 
-# compatibility
-
-$(OBJDIR)/wxcArrayString.o:
-	$(MAKE) -C compatibility $(MAKETGT)
-
 # filehandler
 
 $(OBJDIR)/Downloader.o:
@@ -164,10 +167,14 @@ $(OBJDIR)/Downloader.o:
 $(OBJDIR)/FileHandler.o:
 	$(MAKE) -C filehandler $(MAKETGT)
 
-### End Object Builds
+### Library Builds
+
+$(WX29BUILD)/arrstr.o:
+	$(MAKE) -C $(COMPAT) $(MAKETGT)
 
 clean:
 	mkdir -p $(OBJDIR) && rm -r $(OBJDIR)
+	mkdir -p $(WX29BUILD) && rm -r $(WX29BUILD)
 
 distclean:
 	touch .ndsconfig && mv .ndsconfig .ndsconfig.tmp
@@ -183,6 +190,7 @@ rebuild-dbg: debug
 erase: delete
 delete:
 	mkdir -p $(BUILDROOT) && rm -r $(BUILDROOT)
+	mkdir -p $(WX29BUILD) && rm -r $(WX29BUILD)
 
 install:
 	cp $(EXE) $(INSTALL)

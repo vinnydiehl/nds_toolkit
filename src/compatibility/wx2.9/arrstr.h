@@ -17,23 +17,17 @@
 **/
 
 /**
- * @file wxcArrayString.h - Header file for the wxcArrayString class.
+ * @file arrstr.h - Header file for wxWidgets 2.9 wxArrayStrings' functions.
 **/
 
-#pragma once
-
-#ifndef WXCARRAYSTRING_H_INCLUDED
-#define WXCARRAYSTRING_H_INLCUDED
+#ifndef WX29_ARRSTR_H_INCLUDED
+#define WX29_ARRSTR_H_INCLUDED
 
 #include <wx/arrstr.h>
 #include <wx/string.h>
 
-class wxcArrayString
-{
-public:
-    static wxString wxJoin(wxArrayString arr, wxChar sep);
-    static wxArrayString wxSplit(wxString stf, wxChar sep);
-};
+wxString wxJoin(wxArrayString arr, wxChar sep);
+wxArrayString wxSplit(wxString str, wxChar sep);
 
-#endif // WXCARRAYSTRING_H_INLCUDED
+#endif // WX29_ARRSTR_H_INCLUDED
 
