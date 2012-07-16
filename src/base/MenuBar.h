@@ -29,6 +29,8 @@
 #include <wx/msgdlg.h>
 #include <wx/string.h>
 
+#include "Downloader.h"
+
 #include "globals.h"
 
 class MenuBar : public wxMenuBar

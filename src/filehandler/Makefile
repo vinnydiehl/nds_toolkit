@@ -32,7 +32,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = FileHandler.o
+OBJ = Downloader.o FileHandler.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -52,6 +52,9 @@ debug: $(OPATHS)
 
 configure:
 	mkdir -p $(OBJDIR)
+
+$(OBJDIR)/Downloader.o: $(INCDIR)/Downloader.h
+	$(CXX) $(CFLAGS) Downloader.cpp
 
 $(OBJDIR)/FileHandler.o: $(INCDIR)/FileHandler.h
 	$(CXX) $(CFLAGS) FileHandler.cpp

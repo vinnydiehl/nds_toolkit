@@ -80,7 +80,7 @@ INSTALL = /usr/bin
 
 # Output Files
 EXE = $(BINDIR)/$(NAME)
-OBJ = Clipboard.o CodeParser.o FileHandler.o \
+OBJ = Clipboard.o CodeParser.o Downloader.o FileHandler.o \
       MenuBar.o Program.o frmMain.o wxcArrayString.o \
       $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
       $(CODE_PORTER) $(CODE_COMPRESSOR)
@@ -157,6 +157,9 @@ $(OBJDIR)/wxcArrayString.o:
 	$(MAKE) -C compatibility $(MAKETGT)
 
 # filehandler
+
+$(OBJDIR)/Downloader.o:
+	$(MAKE) -C filehandler $(MAKETGT)
 
 $(OBJDIR)/FileHandler.o:
 	$(MAKE) -C filehandler $(MAKETGT)

@@ -41,9 +41,11 @@ public:
     void SetPath(wxString path);
     void SetPathToCwd(void);
 
-    void SelectPath(void);
+    bool SelectPath(void);
 
     void Download(void);
+
+    void SelectAndDownload(void);
 
 private:
     wxWindow *mParent;

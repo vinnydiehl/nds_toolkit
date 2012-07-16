@@ -38,7 +38,7 @@ MenuBar::MenuBar(wxFrame *parent) : wxMenuBar(), Parent(parent)
 
     Tools = new wxMenu;
 
-    Tools->Append(wxID_ANY, _T("&Download usrcheat.dat\tCtrl+U"));
+    Tools->Append(ID_USRCHEAT, _T("&Download usrcheat.dat\tCtrl+U"));
 
     /** Help **/
 
@@ -52,11 +52,11 @@ MenuBar::MenuBar(wxFrame *parent) : wxMenuBar(), Parent(parent)
     Append(Help, _T("&Help"));
 
     // Connect the menu bar items to their events
-    parent->Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED,
+    Parent->Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED,
                     wxCommandEventHandler(MenuBar::Quit));
-    parent->Connect(ID_USRCHEAT, wxEVT_COMMAND_MENU_SELECTED,
+    Parent->Connect(ID_USRCHEAT, wxEVT_COMMAND_MENU_SELECTED,
                     wxCommandEventHandler(MenuBar::DownloadUsrcheat));
-    parent->Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED,
+    Parent->Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED,
                     wxCommandEventHandler(MenuBar::About));
 }
 
@@ -69,7 +69,8 @@ void MenuBar::Quit(wxCommandEvent &WXUNUSED(event))
 
 void MenuBar::DownloadUsrcheat(wxCommandEvent &WXUNUSED(event))
 {
-    // :TODO: 2012-07-05 gbchaosmaster - Implement MenuBar::DownloadUsrcheat()
+    Downloader dl(Parent, USRCHEAT_URL, USRCHEAT_FILE_NAME);
+    dl.SelectAndDownload();
 }
 
 void MenuBar::About(wxCommandEvent &WXUNUSED(event))

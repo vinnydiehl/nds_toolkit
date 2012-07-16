@@ -43,8 +43,13 @@ Original application by Demonic722.\n\
 This port is copyright (c) 2012 Vinny Diehl.\
 ");
 
+// Usrcheat Download Info
+const wxString USRCHEAT_URL =
+    _T("http://syntechx.com/downloads/usrcheat.rar");
+const wxString USRCHEAT_FILE_NAME = _T("usrcheat.rar");
+
 // The margin between the edge of each page and the contents of the page:
-#define MARGIN 5
+const int MARGIN = 5;
 
 #endif // GLOBALS_H_INCLUDED
 

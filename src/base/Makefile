@@ -21,8 +21,9 @@ ROOT = ..
 
 # Source Directories
 INCDIR = .
+FHINCDIR = $(ROOT)/filehandler
 SHAREDINCDIR = $(ROOT)/shared
-INCPATHS = $(INCDIR) $(SHAREDINCDIR)
+INCPATHS = $(INCDIR) $(FHINCDIR) $(SHAREDINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -54,7 +55,8 @@ debug: $(OPATHS)
 configure:
 	mkdir -p $(OBJDIR)
 
-$(OBJDIR)/MenuBar.o: $(INCDIR)/MenuBar.h $(SHAREDINCDIR)/globals.h
+$(OBJDIR)/MenuBar.o: $(INCDIR)/MenuBar.h $(FHINCDIR)/Downloader.h \
+	             $(SHAREDINCDIR)/globals.h
 	$(CXX) $(CFLAGS) MenuBar.cpp
 
 clean: configure
