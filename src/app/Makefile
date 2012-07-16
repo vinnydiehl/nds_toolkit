@@ -23,6 +23,7 @@ ROOT = ..
 INCDIR = .
 BASEINCDIR = $(ROOT)/base
 CLIPINCDIR = $(ROOT)/clipboard
+COMMONINCDIR = $(ROOT)/common
 COMPATINCDIR = $(ROOT)/compatibility
 FHINCDIR = $(ROOT)/filehandler
 FRAMEINCDIR = $(ROOT)/frames
@@ -31,10 +32,9 @@ PAGESINCDIR = $(ROOT)/pages/buttonactivatorgenerator \
 	      $(ROOT)/pages/codeporter \
 	      $(ROOT)/pages/pointersearcher
 PARSEINCDIR = $(ROOT)/codeparser
-SHAREDINCDIR = $(ROOT)/shared
-INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMPATINCDIR) \
-	   $(FHINCDIR) $(FRAMEINCDIR) $(PAGESINCDIR) $(PARSEINCDIR) \
-	   $(SHAREDINCDIR)
+INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMMONINCDIR) \
+	   $(COMPATINCDIR) $(FHINCDIR) $(FRAMEINCDIR) $(PAGESINCDIR) \
+	   $(PARSEINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options

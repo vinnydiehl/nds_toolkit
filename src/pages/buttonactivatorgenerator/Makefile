@@ -22,8 +22,8 @@ ROOT = ../..
 # Source Directories
 INCDIR = .
 CLIPINCDIR = $(ROOT)/clipboard
-SHAREDINCDIR = $(ROOT)/shared
-INCPATHS = $(INCDIR) $(CLIPINCDIR) $(SHAREDINCDIR)
+COMMONINCDIR = $(ROOT)/common
+INCPATHS = $(INCDIR) $(COMMONINCDIR) $(CLIPINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -57,7 +57,7 @@ configure:
 
 $(OBJDIR)/pgButtonActivatorGenerator.o: \
     $(INCDIR)/pgButtonActivatorGenerator.h $(CLIPINCDIR)/Clipboard.h \
-    $(SHAREDINCDIR)/globals.h
+    $(COMMONINCDIR)/globals.h
 	$(CXX) $(CFLAGS) pgButtonActivatorGenerator.cpp
 
 clean: configure

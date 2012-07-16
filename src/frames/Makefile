@@ -23,6 +23,7 @@ ROOT = ..
 INCDIR = .
 BASEINCDIR = $(ROOT)/base
 CLIPINCDIR = $(ROOT)/clipboard
+COMMONINCDIR = $(ROOT)/common
 COMPATINCDIR = $(ROOT)/compatibility
 FHINCDIR = $(ROOT)/filehandler
 PAGESINCDIR = $(ROOT)/pages/buttonactivatorgenerator \
@@ -30,9 +31,8 @@ PAGESINCDIR = $(ROOT)/pages/buttonactivatorgenerator \
 	      $(ROOT)/pages/codeporter \
 	      $(ROOT)/pages/pointersearcher
 PARSEINCDIR = $(ROOT)/codeparser
-SHAREDINCDIR = $(ROOT)/shared
-INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMPATINCDIR) \
-	   $(FHINCDIR) $(PAGESINCDIR) $(PARSEINCDIR) $(SHAREDINCDIR)
+INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMMONINCDIR) \
+	   $(COMPATINCDIR) $(FHINCDIR) $(PAGESINCDIR) $(PARSEINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 PAGESINCLDS = \
@@ -71,8 +71,8 @@ configure:
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)/frmMain.o: $(INCDIR)/frmMain.h $(BASEINCDIR)/MenuBar.h \
-                     $(PAGESINCLDS) $(SHAREDINCDIR)/config.h \
-		     $(SHAREDINCDIR)/globals.h
+                     $(COMMONINCDIR)/config.h $(COMMONINCDIR)/globals.h \
+		     $(PAGESINCLDS)
 	$(CXX) $(CFLAGS) frmMain.cpp
 
 clean: configure

@@ -58,7 +58,7 @@ configure:
 # INSERT BUILD INSTRUCTIONS HERE.
 # Example:
 #$(OBJDIR)/ObjectFileName.o: $(INCDIR)/HeaderFileName.h \
-                             $(SHAREDINCDIR)/globals.h
+#                            $(COMMONINCDIR)/globals.h
 #	$(CXX) $(CFLAGS) SourceFileName.cpp
 
 clean: configure

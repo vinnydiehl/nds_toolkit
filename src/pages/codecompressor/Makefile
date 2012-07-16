@@ -22,11 +22,11 @@ ROOT = ../..
 # Source Directories
 INCDIR = .
 CLIPINCDIR = $(ROOT)/clipboard
+COMMONINCDIR = $(ROOT)/common
 COMPATINCDIR = $(ROOT)/compatibility
 PARSEINCDIR = $(ROOT)/codeparser
-SHAREDINCDIR = $(ROOT)/shared
-INCPATHS = $(INCDIR) $(CLIPINCDIR) $(COMPATINCDIR) \
-	   $(PARSEINCDIR) $(SHAREDINCDIR)
+INCPATHS = $(INCDIR) $(CLIPINCDIR) $(COMMONINCDIR) $(COMPATINCDIR) \
+	   $(PARSEINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -61,8 +61,8 @@ configure:
 $(OBJDIR)/pgCodeCompressor.o: $(INCDIR)/pgCodeCompressor.h \
     			      $(INCDIR)/EBuilder.h \
      			      $(CLIPINCDIR)/Clipboard.h \
-			      $(PARSEINCDIR)/CodeParser.h \
-		              $(SHAREDINCDIR)/globals.h
+			      $(COMMONINCDIR)/globals.h \
+			      $(PARSEINCDIR)/CodeParser.h
 	$(CXX) $(CFLAGS) pgCodeCompressor.cpp
 
 $(OBJDIR)/EBuilder.o: $(INCDIR)/EBuilder.h $(COMPATINCDIR)/wxcArrayString.h
