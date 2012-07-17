@@ -44,7 +44,7 @@ ROOT = .
 NAME = NDSHackingKit
 
 # wxWidgets Options
-WXLDFLAGS = `wx-config --libs`
+WXLDFLAGS = `wx-config --libs adv,aui,core,net`
 
 # Output Directories
 BUILDROOT = $(ROOT)/build
