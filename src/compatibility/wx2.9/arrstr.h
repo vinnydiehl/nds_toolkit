@@ -26,8 +26,12 @@
 #include <wx/arrstr.h>
 #include <wx/string.h>
 
+namespace wxc {
+
 wxString wxJoin(wxArrayString arr, wxChar sep);
 wxArrayString wxSplit(wxString str, wxChar sep);
+
+} // End namespace wxc
 
 #endif // WX29_ARRSTR_H_INCLUDED
 

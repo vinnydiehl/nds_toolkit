@@ -28,7 +28,7 @@ wxString EBuilder::BuildECodeType(wxString input)
     if (!CodeParser::Verify(input))
         throw wxString(_T("Invalid code input."));
 
-    wxArrayString lines = wxSplit(
+    wxArrayString lines = wxc::wxSplit(
         // Filter the input through the beautifier, stripping comments
         CodeParser::Beautify(input, true, true),
         _T('\n')
@@ -71,7 +71,7 @@ wxString EBuilder::BuildECodeType(wxString input)
 
     wxArrayString pairs = mGroup(code);
 
-    return primer + _T('\n') + wxJoin(pairs, _T('\n'));
+    return primer + _T('\n') + wxc::wxJoin(pairs, _T('\n'));
 }
 
 /** Container Manipulation **/

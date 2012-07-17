@@ -50,7 +50,7 @@ wxString CodePorter::Port(wxString code, wxString offset, bool dec)
             : mPurePort(tokens[i], offset, dec)
         );
 
-    return wxJoin(portedTokens, _T('\n'));
+    return wxc::wxJoin(portedTokens, _T('\n'));
 }
 
 wxString CodePorter::mPurePort(wxString code, wxString offset, bool dec)

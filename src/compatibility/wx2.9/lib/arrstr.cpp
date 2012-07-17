@@ -22,6 +22,8 @@
 
 #include "arrstr.h"
 
+namespace wxc {
+
 wxString wxJoin(wxArrayString arr, wxChar sep)
 {
     wxString output;
@@ -63,4 +65,6 @@ wxArrayString wxSplit(wxString str, wxChar sep)
 
     return output;
 }
+
+} // End namespace wxc
 
