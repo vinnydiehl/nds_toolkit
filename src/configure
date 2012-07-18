@@ -25,8 +25,8 @@ from re import search
 _CONFIG_FILE = '.ndsconfig'
 _MAKEFILE = 'Makefile'
 _LINKERMAKE = 'linker.mk'
-_CONFIG_HEADER = 'shared/config.h'
-_CONFIG_HEADER_DIR = 'shared'
+_CONFIG_HEADER = 'common/config.h'
+_CONFIG_HEADER_DIR = 'common'
 _CONFIG_HEADER_NAME = 'config.h'
 
 # Defaults:
@@ -127,7 +127,7 @@ Aborting configuration.\
     exit(404)
 
 try:
-    # Verify shared/config.h. If the file doesn't exist or doesn't have proper
+    # Verify common/config.h. If the file doesn't exist or doesn't have proper
     # header guards in place, that's a problem; error.
     with open(_CONFIG_HEADER) as config_header_file:
         config_header = config_header_file.read().split('\n')
@@ -137,7 +137,7 @@ try:
         if '#define CONFIG_H_INCLUDED' not in config_header_strip or \
            '#endif // CONFIG_H_INCLUDED' not in config_header_strip:
             print '''\
-ERROR: The file shared/config.h is not set up for this configuration.
+ERROR: The file common/config.h is not set up for this configuration.
 Ensure that the file contains proper header guard words.
 
 Near the top (just under the @file doc comment) should be the lines:
@@ -163,7 +163,7 @@ Aborting configuration.\
 except IOError:
     # Bail if they're missing the config header.
     print '''\
-ERROR: Either shared/config.h doesn't exist, or something went wrong.
+ERROR: Either common/config.h doesn't exist, or something went wrong.
        Please re-check and try again.\
 '''
     exit(404)
