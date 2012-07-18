@@ -34,7 +34,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = pgButtonActivatorGenerator.o
+OBJ = ButtonActivatorGenerator.o pgButtonActivatorGenerator.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -54,6 +54,9 @@ debug: $(OPATHS)
 
 configure:
 	mkdir -p $(OBJDIR)
+
+$(OBJDIR)/ButtonActivatorGenerator.o: $(INCDIR)/ButtonActivatorGenerator.h
+	$(CXX) $(CFLAGS) ButtonActivatorGenerator.cpp
 
 $(OBJDIR)/pgButtonActivatorGenerator.o: \
     $(INCDIR)/pgButtonActivatorGenerator.h $(CLIPINCDIR)/Clipboard.h \

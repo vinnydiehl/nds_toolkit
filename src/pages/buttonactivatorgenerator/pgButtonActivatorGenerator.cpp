@@ -28,9 +28,29 @@ wxString pgButtonActivatorGenerator::Title = _T("Button Activator Generator");
 
 /** Initialize Identifiers **/
 
+// GBA Buttons
+const long pgButtonActivatorGenerator::ID_A = wxNewId();
+const long pgButtonActivatorGenerator::ID_B = wxNewId();
+const long pgButtonActivatorGenerator::ID_SELECT = wxNewId();
+const long pgButtonActivatorGenerator::ID_START = wxNewId();
+const long pgButtonActivatorGenerator::ID_RIGHT = wxNewId();
+const long pgButtonActivatorGenerator::ID_LEFT = wxNewId();
+const long pgButtonActivatorGenerator::ID_UP = wxNewId();
+const long pgButtonActivatorGenerator::ID_DOWN = wxNewId();
+const long pgButtonActivatorGenerator::ID_R = wxNewId();
+const long pgButtonActivatorGenerator::ID_L = wxNewId();
+
+// NDS Buttons
+const long pgButtonActivatorGenerator::ID_X = wxNewId();
+const long pgButtonActivatorGenerator::ID_Y = wxNewId();
+const long pgButtonActivatorGenerator::ID_DEBUG = wxNewId();
+const long pgButtonActivatorGenerator::ID_FOLDED = wxNewId();
+
+// Other Controls
+const long pgButtonActivatorGenerator::ID_CLEAR = wxNewId();
+
 const long pgButtonActivatorGenerator::ID_COPY_AR = wxNewId();
 const long pgButtonActivatorGenerator::ID_COPY_TST = wxNewId();
-const long pgButtonActivatorGenerator::ID_CLEAR = wxNewId();
 
 pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
                           : wxPanel(parent, wxID_ANY)
@@ -58,16 +78,16 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     // In here we have gridGbaButtons with the checkboxes
     gridGbaButtons = new wxFlexGridSizer(2, 5, 5, 5);
 
-    chkA = new wxCheckBox(pnlMain, wxID_ANY, _T("&A"));
-    chkUp = new wxCheckBox(pnlMain, wxID_ANY, _T("&Up"));
-    chkL = new wxCheckBox(pnlMain, wxID_ANY, _T("&L"));
-    chkR = new wxCheckBox(pnlMain, wxID_ANY, _T("&R"));
-    chkStart = new wxCheckBox(pnlMain, wxID_ANY, _T("&Start"));
-    chkB = new wxCheckBox(pnlMain, wxID_ANY, _T("&B"));
-    chkDown = new wxCheckBox(pnlMain, wxID_ANY, _T("&Down"));
-    chkLeft = new wxCheckBox(pnlMain, wxID_ANY, _T("L&eft"));
-    chkRight = new wxCheckBox(pnlMain, wxID_ANY, _T("R&ight"));
-    chkSelect = new wxCheckBox(pnlMain, wxID_ANY, _T("Selec&t"));
+    chkA = new wxCheckBox(pnlMain, ID_A, _T("&A"));
+    chkUp = new wxCheckBox(pnlMain, ID_UP, _T("&Up"));
+    chkL = new wxCheckBox(pnlMain, ID_L, _T("&L"));
+    chkR = new wxCheckBox(pnlMain, ID_R, _T("&R"));
+    chkStart = new wxCheckBox(pnlMain, ID_START, _T("&Start"));
+    chkB = new wxCheckBox(pnlMain, ID_B, _T("&B"));
+    chkDown = new wxCheckBox(pnlMain, ID_DOWN, _T("&Down"));
+    chkLeft = new wxCheckBox(pnlMain, ID_LEFT, _T("L&eft"));
+    chkRight = new wxCheckBox(pnlMain, ID_RIGHT, _T("R&ight"));
+    chkSelect = new wxCheckBox(pnlMain, ID_START, _T("Selec&t"));
 
     gridGbaButtons->Add(chkA);
     gridGbaButtons->Add(chkUp);
@@ -93,15 +113,15 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     shboxNdsButtons = new wxStaticBoxSizer(wxHORIZONTAL, pnlMain,
                                            _T("NDS Buttons"));
 
-    chkX = new wxCheckBox(pnlMain, wxID_ANY, _T("&X"));
-    chkY = new wxCheckBox(pnlMain, wxID_ANY, _T("&Y"));
-    chkNdsFolded = new wxCheckBox(pnlMain, wxID_ANY, _T("NDS &Folded"));
-    chkDebugButton = new wxCheckBox(pnlMain, wxID_ANY, _T("Deb&ug Button"));
+    chkX = new wxCheckBox(pnlMain, ID_X, _T("&X"));
+    chkY = new wxCheckBox(pnlMain, ID_Y, _T("&Y"));
+    chkFolded = new wxCheckBox(pnlMain, ID_FOLDED, _T("NDS &Folded"));
+    chkDebug = new wxCheckBox(pnlMain, ID_DEBUG, _T("Deb&ug Button"));
 
     shboxNdsButtons->Add(chkX, 1, wxALIGN_CENTER_VERTICAL);
     shboxNdsButtons->Add(chkY, 1, wxALIGN_CENTER_VERTICAL);
-    shboxNdsButtons->Add(chkNdsFolded, 2, wxALIGN_CENTER_VERTICAL);
-    shboxNdsButtons->Add(chkDebugButton, 2, wxALIGN_CENTER_VERTICAL);
+    shboxNdsButtons->Add(chkFolded, 2, wxALIGN_CENTER_VERTICAL);
+    shboxNdsButtons->Add(chkDebug, 2, wxALIGN_CENTER_VERTICAL);
 
     vboxButtons->Add(svboxGbaButtons, 0, wxEXPAND | wxBOTTOM, 5);
     vboxButtons->Add(shboxNdsButtons, 0, wxEXPAND);
@@ -173,16 +193,148 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     SetSizer(vboxMargin);
     vboxMargin->SetSizeHints(this);
 
-    // Connect main window events
+    // Instantiate the controller
+    mController = new ButtonActivatorGenerator(txtArOutput, txtTstOutput);
+    // Have it set up the output boxes right away
+    mController->UpdateOutput();
+
+    /** Connect Main Window Events **/
+
+    // GBA Buttons
+    Connect(ID_A, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleA));
+    Connect(ID_B, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleB));
+    Connect(ID_SELECT, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleSelect));
+    Connect(ID_START, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleStart));
+    Connect(ID_RIGHT, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleRight));
+    Connect(ID_LEFT, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleLeft));
+    Connect(ID_UP, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleUp));
+    Connect(ID_DOWN, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleDown));
+    Connect(ID_R, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleR));
+    Connect(ID_L, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleL));
+
+    // NDS Buttons
+    Connect(ID_X, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleX));
+    Connect(ID_Y, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleY));
+    Connect(ID_DEBUG, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleDebug));
+    Connect(ID_FOLDED, wxEVT_COMMAND_CHECKBOX_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::ToggleFolded));
+
+    // Other Controls
+    Connect(ID_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::Clear));
+
     Connect(ID_COPY_AR, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgButtonActivatorGenerator::CopyAr));
     Connect(ID_COPY_TST, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgButtonActivatorGenerator::CopyTst));
-    Connect(ID_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED,
-            wxCommandEventHandler(pgButtonActivatorGenerator::Clear));
 }
 
 /** Events **/
+
+void pgButtonActivatorGenerator::ToggleA(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(A);
+}
+void pgButtonActivatorGenerator::ToggleB(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(B);
+}
+void pgButtonActivatorGenerator::ToggleSelect(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(Select);
+}
+void pgButtonActivatorGenerator::ToggleStart(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(Start);
+}
+void pgButtonActivatorGenerator::ToggleRight(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(Right);
+}
+void pgButtonActivatorGenerator::ToggleLeft(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(Left);
+}
+void pgButtonActivatorGenerator::ToggleUp(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(Up);
+}
+void pgButtonActivatorGenerator::ToggleDown(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(Down);
+}
+void pgButtonActivatorGenerator::ToggleR(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(R);
+}
+void pgButtonActivatorGenerator::ToggleL(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(L);
+}
+void pgButtonActivatorGenerator::ToggleX(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(X);
+}
+void pgButtonActivatorGenerator::ToggleY(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(Y);
+}
+void pgButtonActivatorGenerator::ToggleDebug(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(Debug);
+}
+void pgButtonActivatorGenerator::ToggleFolded(wxCommandEvent &WXUNUSED(event))
+{
+    mController->Toggle(Folded);
+}
+
+void pgButtonActivatorGenerator::Clear(wxCommandEvent &WXUNUSED(event))
+{
+    int dlgresult = wxMessageBox(
+        _T("Are you sure that you would like to clear everything?"),
+        _T("Clear Window?"), wxYES_NO
+    );
+
+    // Bail if they didn't say yes
+    if (dlgresult != wxYES)
+        return;
+
+    // Reset all of the checkboxes...
+
+    // GBA Buttons
+    chkA->SetValue(false);
+    chkB->SetValue(false);
+    chkSelect->SetValue(false);
+    chkStart->SetValue(false);
+    chkRight->SetValue(false);
+    chkLeft->SetValue(false);
+    chkUp->SetValue(false);
+    chkDown->SetValue(false);
+    chkR->SetValue(false);
+    chkL->SetValue(false);
+
+    // NDS Buttons
+    chkX->SetValue(false);
+    chkY->SetValue(false);
+    chkDebug->SetValue(false);
+    chkFolded->SetValue(false);
+
+    // Reset the controller and the outputs
+    mController->Clear();
+}
 
 // :TODO: 2012-07-17 gbchaosmaster - Abstract these further.
 // CopyAr() and CopyTst() are ridiculously similar. Implement similar
@@ -196,7 +348,7 @@ void pgButtonActivatorGenerator::CopyAr(wxCommandEvent &WXUNUSED(event))
         Clipboard::SetClipboard(str);
 
         if (Clipboard::GetClipboard() == str)
-            wxMessageBox(_T("Code output copied successfully."),
+            wxMessageBox(_T("AR output copied successfully."),
                          _T("Success"));
     }
 }
@@ -209,21 +361,8 @@ void pgButtonActivatorGenerator::CopyTst(wxCommandEvent &WXUNUSED(event))
         Clipboard::SetClipboard(str);
 
         if (Clipboard::GetClipboard() == str)
-            wxMessageBox(_T("Code output copied successfully."),
+            wxMessageBox(_T("TST output copied successfully."),
                          _T("Success"));
-    }
-}
-void pgButtonActivatorGenerator::Clear(wxCommandEvent &WXUNUSED(event))
-{
-    int dlgresult = wxMessageBox(
-        _T("Are you sure that you would like to clear the code output?"),
-        _T("Clear Output?"), wxYES_NO
-    );
-
-    if (dlgresult == wxYES)
-    {
-        txtArOutput->SetValue(_T(""));
-        txtTstOutput->SetValue(_T(""));
     }
 }
 

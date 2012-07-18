@@ -51,7 +51,8 @@ SETUP = default
 # excluded, it will be left blank. OBJS will read all of these, and
 # only the ones selected for inclusion will be compiled.
 ifeq ($(SETUP),default)
-    BUTTON_ACTIVATOR_GENERATOR = pgButtonActivatorGenerator.o
+    BUTTON_ACTIVATOR_GENERATOR = pgButtonActivatorGenerator.o \
+				 ButtonActivatorGenerator.o
     POINTER_SEARCHER = pgPointerSearcher.o
     CODE_PORTER = CodePorter.o pgCodePorter.o
     CODE_COMPRESSOR = EBuilder.o pgCodeCompressor.o
@@ -134,6 +135,8 @@ $(OBJDIR)/MenuBar.o:
 # pages
 
 $(OBJDIR)/pgButtonActivatorGenerator.o:
+	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
+$(OBJDIR)/ButtonActivatorGenerator.o:
 	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
 
 $(OBJDIR)/pgCodeCompressor.o:
