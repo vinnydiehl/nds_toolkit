@@ -231,8 +231,8 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    hboxMain->Add(svboxLoopCodeGenerator, 1, wxEXPAND | wxRIGHT, 5);
-    hboxMain->Add(shboxEBuilder, 2, wxEXPAND);
+    hboxMain->Add(svboxLoopCodeGenerator, 2, wxEXPAND | wxRIGHT, 5);
+    hboxMain->Add(shboxEBuilder, 3, wxEXPAND);
 
     pnlMain->SetSizer(hboxMain);
     hboxMain->SetSizeHints(pnlMain);
@@ -264,6 +264,40 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
 
 void pgCodeCompressor::LoopGenerate(wxCommandEvent &WXUNUSED(event))
 {
+    // Pull in all of the inputs and trim them
+    wxString baseCode = txtBaseCode->GetValue().Trim().Trim(false);
+    wxString totalLoopCount = txtTotalLoopCount->GetValue().Trim().Trim(false);
+    wxString offsetIncrement =
+        txtOffsetIncrement->GetValue().Trim().Trim(false);
+    wxString valueIncrement = txtValueIncrement->GetValue().Trim().Trim(false);
+
+    // Error testing
+    if (baseCode.IsEmpty())
+    {
+        wxMessageBox(_T("There is no Base Code input."), _T("Error"));
+        return;
+    }
+    if (totalLoopCount.IsEmpty())
+    {
+        wxMessageBox(_T("There is no Total Loop Count input."), _T("Error"));
+        return;
+    }
+    if (offsetIncrement.IsEmpty())
+    {
+        wxMessageBox(_T("There is no Offset Increment input."), _T("Error"));
+        return;
+    }
+
+    try
+    {
+        txtLoopOutput->SetValue(LoopCodeGenerator::Generate(
+            baseCode, totalLoopCount, offsetIncrement, valueIncrement
+        ));
+    }
+    catch (wxString msg)
+    {
+        wxMessageBox(msg, _T("Error"));
+    }
 }
 
 void pgCodeCompressor::EBuild(wxCommandEvent &WXUNUSED(event))

@@ -31,11 +31,11 @@ SETUP = default
 # excluded, it will be left blank. OBJS will read all of these, and
 # only the ones selected for inclusion will be compiled.
 ifeq ($(SETUP),default)
-    BUTTON_ACTIVATOR_GENERATOR = pgButtonActivatorGenerator.o \
-				 ButtonActivatorGenerator.o
+    BUTTON_ACTIVATOR_GENERATOR = ButtonActivatorGenerator.o \
+				 pgButtonActivatorGenerator.o
     POINTER_SEARCHER = pgPointerSearcher.o
     CODE_PORTER = CodePorter.o pgCodePorter.o
-    CODE_COMPRESSOR = EBuilder.o pgCodeCompressor.o
+    CODE_COMPRESSOR = EBuilder.o LoopCodeGenerator.o pgCodeCompressor.o
 endif
 
 # Root Source Directory

@@ -33,13 +33,14 @@
 #include <wx/textctrl.h>
 
 #include "EBuilder.h"
+#include "LoopCodeGenerator.h"
 
 #include "Clipboard.h"
 #include "globals.h"
 
 // Set this to 1 if you want to use the old layout.
 // In this layout, the text boxes in the Loop Code Generator aren't aligned
-// on the left side.
+// on the left side. The new layout corrects this with a wxFlexGridSizer.
 #define USE_OLD_LAYOUT 0
 
 class pgCodeCompressor : public wxPanel

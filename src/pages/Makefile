@@ -18,10 +18,11 @@
 
 # If we aren't enforcing the config settings, just build everything.
 ifndef $(ENFORCE_CONFIG)
-    BUTTON_ACTIVATOR_GENERATOR = pgButtonActivatorGenerator.o
+    BUTTON_ACTIVATOR_GENERATOR = ButtonActivatorGenerator.o \
+				 pgButtonActivatorGenerator.o
     POINTER_SEARCHER = pgPointerSearcher.o
     CODE_PORTER = CodePorter.o pgCodePorter.o
-    CODE_COMPRESSOR = EBuilder.o pgCodeCompressor.o
+    CODE_COMPRESSOR = EBuilder.o LoopCodeGenerator.o pgCodeCompressor.o
 endif
 
 # Make Utility
@@ -56,6 +57,8 @@ configure:
 
 $(OBJDIR)/pgButtonActivatorGenerator.o:
 	$(MAKE) -C buttonactivatorgenerator $(MAKETGT)
+$(OBJDIR)/ButtonActivatorGenerator.o:
+	$(MAKE) -C buttonactivatorgenerator $(MAKETGT)
 
 $(OBJDIR)/pgCodePorter.o:
 	$(MAKE) -C codeporter $(MAKETGT)
@@ -68,6 +71,8 @@ $(OBJDIR)/pgPointerSearcher.o:
 $(OBJDIR)/pgCodeCompressor.o:
 	$(MAKE) -C codecompressor $(MAKETGT)
 $(OBJDIR)/EBuilder.o:
+	$(MAKE) -C codecompressor $(MAKETGT)
+$(OBJDIR)/LoopCodeGenerator.o:
 	$(MAKE) -C codecompressor $(MAKETGT)
 
 clean: configure
