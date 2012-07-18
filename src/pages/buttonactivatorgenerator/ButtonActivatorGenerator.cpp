@@ -136,8 +136,11 @@ void ButtonActivatorGenerator::Toggle(Button btn, bool update)
             mTst ^= FOLDED_TST;
             break;
 
-        // If the input wasn't valid, do nothing.
+        // If the input wasn't valid, do nothing and print a debug message.
         default:
+            wxPuts(
+                _T("\n\nInvalid input to ButtonActivatorGenerator::Toggle().")
+            );
             break;
     }
 
