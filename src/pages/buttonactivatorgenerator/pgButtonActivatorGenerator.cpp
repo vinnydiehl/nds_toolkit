@@ -28,11 +28,8 @@ wxString pgButtonActivatorGenerator::Title = _T("Button Activator Generator");
 
 /** Initialize Identifiers **/
 
-const long pgButtonActivatorGenerator::ID_CHANGE_TYPE = wxNewId();
-
-const long pgButtonActivatorGenerator::ID_GENERATE = wxNewId();
-
-const long pgButtonActivatorGenerator::ID_COPY = wxNewId();
+const long pgButtonActivatorGenerator::ID_COPY_AR = wxNewId();
+const long pgButtonActivatorGenerator::ID_COPY_TST = wxNewId();
 const long pgButtonActivatorGenerator::ID_CLEAR = wxNewId();
 
 pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
@@ -47,25 +44,13 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    gridGroups = new wxFlexGridSizer(2, 2, 5, 5);
+    hboxUpper = new wxBoxSizer(wxHORIZONTAL);
 
-    ///// Begin svboxButtonType
+    ///// Begin vboxButtons - This contains two wxStaticBoxSizers.
 
-    svboxButtonType = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
-                                           _T("Button Type"));
+    vboxButtons = new wxBoxSizer(wxVERTICAL);
 
-    radGba = new wxRadioButton(pnlMain, ID_CHANGE_TYPE, _T("&GBA"),
-                               wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-    radNds = new wxRadioButton(pnlMain, ID_CHANGE_TYPE, _T("&NDS"));
-
-    // :TODO: 2012-06-16 gbchaosmaster - Check cross-platform layout looks
-    // I'm putting some padding to the right of these because it seems to look
-    // better, it's a little too close to the edge of the static box without
-    // it. Check out what this looks like on other platforms.
-    svboxButtonType->Add(radGba, 0, wxBOTTOM | wxRIGHT, 5);
-    svboxButtonType->Add(radNds, 0, wxRIGHT, 5);
-
-    ///// Begin svboxGbaButtons
+    ///// svboxGbaButtons
 
     svboxGbaButtons = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
                                            _T("GBA Buttons"));
@@ -103,21 +88,7 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
 
     svboxGbaButtons->Add(gridGbaButtons, 1, wxEXPAND);
 
-    ///// Begin svboxTarget
-
-    svboxTarget = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
-                                       _T("Target"));
-
-    radArCode = new wxRadioButton(pnlMain, wxID_ANY, _T("AR &Code"),
-                                  wxDefaultPosition, wxDefaultSize,
-                                  wxRB_GROUP);
-    radTstValue = new wxRadioButton(pnlMain, wxID_ANY, _T("TST &Value"));
-
-    // See svboxButtonType for comment on the 5px padding to the right
-    svboxTarget->Add(radArCode, 0, wxBOTTOM | wxRIGHT, 5);
-    svboxTarget->Add(radTstValue, 0, wxRIGHT, 5);
-
-    ///// Begin shboxNdsButtons
+    ///// shboxNdsButtons
 
     shboxNdsButtons = new wxStaticBoxSizer(wxHORIZONTAL, pnlMain,
                                            _T("NDS Buttons"));
@@ -132,55 +103,68 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     shboxNdsButtons->Add(chkNdsFolded, 2, wxALIGN_CENTER_VERTICAL);
     shboxNdsButtons->Add(chkDebugButton, 2, wxALIGN_CENTER_VERTICAL);
 
-    // These are all disabled to start
-    chkX->Disable();
-    chkY->Disable();
-    chkNdsFolded->Disable();
-    chkDebugButton->Disable();
+    vboxButtons->Add(svboxGbaButtons, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxButtons->Add(shboxNdsButtons, 0, wxEXPAND);
 
-    // Row 1
-    gridGroups->Add(svboxButtonType, 0, wxEXPAND);
-    gridGroups->Add(svboxGbaButtons, 1, wxEXPAND);
+    ///// End vboxButtons
 
-    // Row 2
-    gridGroups->Add(svboxTarget, 0, wxEXPAND);
-    gridGroups->Add(shboxNdsButtons, 1, wxEXPAND);
+    /**
+     * 2012-07-17 gbchaosmaster - btnClear height hack
+     *
+     * btnClear is an interesting one. If I just place it into the hbox, it
+     * sits there just fine, but it overhangs a little bit on the top because
+     * of the height of the label.
+     *
+     * My remedy was to put the button into a vertical box sizer and then pad
+     * it on top with half the height of a random label.
+    **/
 
-    gridGroups->AddGrowableCol(1, 1);
+    vboxClearButton = new wxBoxSizer(wxVERTICAL);
+
+    btnClear = new wxButton(pnlMain, ID_CLEAR, _T("&Clear"));
+
+    wxStaticText *lblHeightTest = new wxStaticText(
+        pnlMain, wxID_ANY, _T("")
+    );
+    vboxClearButton->Add(
+        btnClear, 1, wxEXPAND | wxTOP,
+        (int)(lblHeightTest->GetClientSize().GetHeight() / 2)
+    );
+    delete lblHeightTest;
+
+    hboxUpper->Add(vboxButtons, 1, wxEXPAND | wxRIGHT, 5);
+    hboxUpper->Add(vboxClearButton, 0, wxEXPAND);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    // We have some top-level controls here
+    // The rest of the controls are top-level.
 
-    btnGenerate = new wxButton(pnlMain, ID_GENERATE,
-                               _T("Generate Acti&vator"));
-
+    // Separator between the sections:
     slnSeparator = new wxStaticLine(pnlMain);
 
+    // The output section
+
     lblCodeOutput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Output"));
-    txtCodeOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
-                                   wxDefaultPosition, wxDefaultSize,
-                                   wxTE_MULTILINE | wxHSCROLL);
+
+    txtArOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                                 wxDefaultPosition, wxDefaultSize,
+                                 wxTE_MULTILINE | wxHSCROLL);
+    btnCopyAr = new wxButton(pnlMain, ID_COPY_AR, _T("Co&py AR Code"));
+
+    txtTstOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                                  wxDefaultPosition, wxDefaultSize,
+                                  wxTE_MULTILINE);
+    btnCopyTst = new wxButton(pnlMain, ID_COPY_TST, _T("Copy TST &Value"));
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    hboxCodeOutputControls = new wxBoxSizer(wxHORIZONTAL);
-
-    // Shit, I ran out of shortcut characters to use for these
-    btnCopy = new wxButton(pnlMain, ID_COPY, _T("Copy"));
-    btnClear = new wxButton(pnlMain, ID_CLEAR, _T("Clear"));
-
-    hboxCodeOutputControls->Add(btnCopy, 1, wxEXPAND | wxRIGHT, 5);
-    hboxCodeOutputControls->Add(btnClear, 1, wxEXPAND);
-
-////////////////////////////////////////////////////////////////////////////////
-
-    vboxMain->Add(gridGroups, 0, wxEXPAND | wxBOTTOM, 5);
-    vboxMain->Add(btnGenerate, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxMain->Add(hboxUpper, 0, wxEXPAND | wxBOTTOM, 5);
     vboxMain->Add(slnSeparator, 0, wxEXPAND | wxBOTTOM, 5);
     vboxMain->Add(lblCodeOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
-    vboxMain->Add(txtCodeOutput, 1, wxEXPAND | wxBOTTOM, 5);
-    vboxMain->Add(hboxCodeOutputControls, 0, wxEXPAND);
+    vboxMain->Add(txtArOutput, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxMain->Add(btnCopyAr, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxMain->Add(txtTstOutput, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxMain->Add(btnCopyTst, 0, wxEXPAND);
 
     pnlMain->SetSizer(vboxMain);
     vboxMain->SetSizeHints(pnlMain);
@@ -190,75 +174,35 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     vboxMargin->SetSizeHints(this);
 
     // Connect main window events
-    Connect(ID_CHANGE_TYPE, wxEVT_COMMAND_RADIOBUTTON_SELECTED,
-            wxCommandEventHandler(pgButtonActivatorGenerator::ChangeType));
-    Connect(ID_GENERATE, wxEVT_COMMAND_BUTTON_CLICKED,
-            wxCommandEventHandler(pgButtonActivatorGenerator::Generate));
-    Connect(ID_COPY, wxEVT_COMMAND_BUTTON_CLICKED,
-            wxCommandEventHandler(pgButtonActivatorGenerator::Copy));
+    Connect(ID_COPY_AR, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::CopyAr));
+    Connect(ID_COPY_TST, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::CopyTst));
     Connect(ID_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgButtonActivatorGenerator::Clear));
 }
 
 /** Events **/
 
-void pgButtonActivatorGenerator::ChangeType(wxCommandEvent &WXUNUSED(event))
+// :TODO: 2012-07-17 gbchaosmaster - Abstract these further.
+// CopyAr() and CopyTst() are ridiculously similar. Implement similar
+// functionality into the Clipboard class.
+void pgButtonActivatorGenerator::CopyAr(wxCommandEvent &WXUNUSED(event))
 {
-    /**
-     * Activate the NDS checkboxes when the NDS radio button is selected,
-     * and the GBA checkboxes when the GBA radio is selected. Disable the
-     * other checkboxes.
-    **/
+    wxString str = txtArOutput->GetValue();
 
-    if (radNds->GetValue())
+    if (!str.IsEmpty())
     {
-        // Enable NDS
-        chkX->Enable();
-        chkY->Enable();
-        chkNdsFolded->Enable();
-        chkDebugButton->Enable();
+        Clipboard::SetClipboard(str);
 
-        // Disable GBA
-        chkA->Disable();
-        chkUp->Disable();
-        chkL->Disable();
-        chkR->Disable();
-        chkStart->Disable();
-        chkB->Disable();
-        chkDown->Disable();
-        chkLeft->Disable();
-        chkRight->Disable();
-        chkSelect->Disable();
-    }
-    else
-    {
-        // Enable GBA
-        chkA->Enable();
-        chkUp->Enable();
-        chkL->Enable();
-        chkR->Enable();
-        chkStart->Enable();
-        chkB->Enable();
-        chkDown->Enable();
-        chkLeft->Enable();
-        chkRight->Enable();
-        chkSelect->Enable();
-
-        // Disable NDS
-        chkX->Disable();
-        chkY->Disable();
-        chkNdsFolded->Disable();
-        chkDebugButton->Disable();
+        if (Clipboard::GetClipboard() == str)
+            wxMessageBox(_T("Code output copied successfully."),
+                         _T("Success"));
     }
 }
-
-void pgButtonActivatorGenerator::Generate(wxCommandEvent &WXUNUSED(event))
+void pgButtonActivatorGenerator::CopyTst(wxCommandEvent &WXUNUSED(event))
 {
-}
-
-void pgButtonActivatorGenerator::Copy(wxCommandEvent &WXUNUSED(event))
-{
-    wxString str = txtCodeOutput->GetValue();
+    wxString str = txtTstOutput->GetValue();
 
     if (!str.IsEmpty())
     {
@@ -277,6 +221,9 @@ void pgButtonActivatorGenerator::Clear(wxCommandEvent &WXUNUSED(event))
     );
 
     if (dlgresult == wxYES)
-        txtCodeOutput->SetValue(_T(""));
+    {
+        txtArOutput->SetValue(_T(""));
+        txtTstOutput->SetValue(_T(""));
+    }
 }
 

@@ -51,44 +51,37 @@ public:
     wxBoxSizer *vboxMargin, *vboxMain;
     wxPanel *pnlMain;
 
-    wxFlexGridSizer *gridGroups;
-      wxStaticBoxSizer *svboxButtonType;
-        wxRadioButton *radGba, *radNds;
-      wxStaticBoxSizer *svboxGbaButtons;
-        wxFlexGridSizer *gridGbaButtons;
-          wxCheckBox *chkA, *chkUp, *chkL, *chkR, *chkStart,
-                     *chkB, *chkDown, *chkLeft, *chkRight, *chkSelect;
-      wxStaticBoxSizer *svboxTarget;
-        wxRadioButton *radArCode, *radTstValue;
-      wxStaticBoxSizer *shboxNdsButtons;
-        wxCheckBox *chkX, *chkY, *chkNdsFolded, *chkDebugButton;
-
-    wxButton *btnGenerate;
+    wxBoxSizer *hboxUpper;
+      wxBoxSizer *vboxButtons;
+        wxStaticBoxSizer *svboxGbaButtons;
+          wxFlexGridSizer *gridGbaButtons;
+            wxCheckBox *chkA, *chkUp, *chkL, *chkR, *chkStart,
+                       *chkB, *chkDown, *chkLeft, *chkRight, *chkSelect;
+        wxStaticBoxSizer *shboxNdsButtons;
+          wxCheckBox *chkX, *chkY, *chkNdsFolded, *chkDebugButton;
+      wxBoxSizer *vboxClearButton;
+        wxButton *btnClear;
 
     wxStaticLine *slnSeparator;
 
     wxStaticText *lblCodeOutput;
-    wxTextCtrl *txtCodeOutput;
 
-    wxBoxSizer *hboxCodeOutputControls;
-      wxButton *btnCopy, *btnClear;
+    wxTextCtrl *txtArOutput;
+    wxButton *btnCopyAr;
+    wxTextCtrl *txtTstOutput;
+    wxButton *btnCopyTst;
 
     /** Events **/
 
-    void ChangeType(wxCommandEvent &event);
-
-    void Generate(wxCommandEvent &event);
-
-    void Copy(wxCommandEvent &event);
+    void CopyAr(wxCommandEvent &event);
+    void CopyTst(wxCommandEvent &event);
     void Clear(wxCommandEvent &event);
 
 private:
 
     /** Identifiers **/
 
-    static const long ID_CHANGE_TYPE;
-    static const long ID_GENERATE;
-    static const long ID_COPY, ID_CLEAR;
+    static const long ID_COPY_AR, ID_COPY_TST, ID_CLEAR;
 };
 
 #endif // PGBUTTONACTIVATORGENERATOR_H_INCLUDED
