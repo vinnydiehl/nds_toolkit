@@ -37,11 +37,11 @@ wxString LoopCodeGenerator::Generate(wxString baseCode,
     // For the numbers, convert them in the mean time.
     if (!totalLoopCountStr.ToULong(&totalLoopCount))
         throw wxString(_T("Total Loop Count must contain a number."));
-    if (!offsetIncrementStr.ToULong(&offsetIncrement))
-        throw wxString(_T("Offset Increment must contain a number."));
+    if (!offsetIncrementStr.ToULong(&offsetIncrement, 16))
+        throw wxString(_T("Offset Increment must contain a hex number."));
     if (!valueIncrementStr.IsEmpty())
-        if (!valueIncrementStr.ToULong(&valueIncrement))
-            throw wxString(_T("Value Increment must contain a number."));
+        if (!valueIncrementStr.ToULong(&valueIncrement, 16))
+            throw wxString(_T("Value Increment must contain a hex number."));
 
     if (offsetIncrement == 1 || offsetIncrement == 2 || offsetIncrement == 4)
     {
