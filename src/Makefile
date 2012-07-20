@@ -1,4 +1,4 @@
-# NDS Hacking Kit - A suite of tools for hacking Nintendo video games.
+# NDS Toolkit - A suite of tools for hacking Nintendo video games.
 # Copyright (C) 2012 Vinny Diehl
 #
 # This program is free software: you can redistribute it and/or modify
@@ -72,8 +72,8 @@ PAGESMAKEVARS = ENFORCE_CONFIG=1 \
 ROOT = .
 
 # Output Name
-NAME = NDSHackingKit
-ALTNAME = ndshackingkit
+NAME = NDSToolkit
+ALTNAME = ndstoolkit
 
 # Output Directories
 BUILDROOT = $(ROOT)/build

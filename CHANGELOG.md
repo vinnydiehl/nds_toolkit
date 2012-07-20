@@ -1,6 +1,6 @@
-# NDS Hacking Kit Change Log
+# NDS Toolkit Change Log
 
-All changes to the NDS Hacking Kit will be logged in this change log with each
+All changes to the NDS Toolkit will be logged in this change log with each
 release.
 
 ## 0.1

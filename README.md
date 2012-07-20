@@ -1,6 +1,6 @@
-# NDS Hacking Kit
+# NDS Toolkit
 
-Welcome to the development branch of the NDS Hacking Kit!
+Welcome to the development branch of the NDS Toolkit!
 
 The code is in the ```src``` directory. Check the commit history for the latest
 development status and hack away.
@@ -22,7 +22,7 @@ application, depending on your distro:
 If you're using Pacman/Portage/whatever, you know enough to be able to find GCC
 and wxWidgets on your own.
 
-The NDS Hacking Kit is written in C++ using wxWidgets 2.8.12. If your compiler
+The NDS Toolkit is written in C++ using wxWidgets 2.8.12. If your compiler
 is having trouble finding the wxWidgets library and you know that you have it
 installed, check that there is output for the following commands:
 

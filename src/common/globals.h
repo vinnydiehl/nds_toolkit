@@ -1,5 +1,5 @@
 /**
- * NDS Hacking Kit - A suite of tools for hacking Nintendo video games.
+ * NDS Toolkit - A suite of tools for hacking Nintendo video games.
  * Copyright (C) 2012 Vinny Diehl
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,16 +26,16 @@
 
 #include <wx/string.h>
 
-/** About NDS Hacking Kit **/
+/** About NDS Toolkit **/
 
 // Program name:
-const wxString NAME = _T("NDS Hacking Kit");
+const wxString NAME = _T("NDS Toolkit");
 // Current program version:
 const wxString VERSION = _T("0.1");
 // Description:
 const wxString DESCRIPTION = _T("\
 A suite of tools for hacking Nintendo games.\n\
-A cross-platform port of the original NDS Hacking Kit by Demonic722.\
+A cross-platform port of the original NDS Toolkit by Demonic722.\
 ");
 // Copyright:
 const wxString COPYRIGHT = _T("\
