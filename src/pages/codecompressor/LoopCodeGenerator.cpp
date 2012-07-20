@@ -54,12 +54,15 @@ _T("If Offset Increment is 1/2/4, Base Code must start with '0'.")
         return wxString::Format(
             _T("\
 D5000000 %s\n\
+C0000000 %s\n\
 D%i000000 %s\n\
 %s\
 D2000000 00000000\
 "),
             // Right half of the Base Code
             CodeParser::RightColumn(baseCode)[0].c_str(),
+            // Total Loop Count, minus 1, converted to hex
+            mZPad(wxString::Format(_T("%X"), totalLoopCount - 1), 8).c_str(),
             // Map the offset increment to this value with a big ternary
             offsetIncrement == 1 ? 8
                 : offsetIncrement == 2 ? 7
@@ -91,8 +94,11 @@ C0000000 %s\n\
 DC000000 %s\n\
 D2000000 00000000\
 "),
+            // Total Loop Count, minus 1, converted to hex
             mZPad(wxString::Format(_T("%X"), totalLoopCount - 1), 8).c_str(),
+            // Entire Base Code
             baseCode.c_str(),
+            // Offset Increment converted to hex
             mZPad(wxString::Format(_T("%X"), offsetIncrement), 8).c_str()
         );
     }
