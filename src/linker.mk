@@ -35,7 +35,9 @@ ifeq ($(SETUP),default)
 				 pgButtonActivatorGenerator.o
     POINTER_SEARCHER = pgPointerSearcher.o
     CODE_PORTER = CodePorter.o pgCodePorter.o
-    CODE_COMPRESSOR = EBuilder.o LoopCodeGenerator.o pgCodeCompressor.o
+    CODE_COMPRESSOR = LoopCodeGenerator.o \
+		      PatchCodeBuilder.o \
+		      pgCodeCompressor.o
 endif
 
 # Root Source Directory

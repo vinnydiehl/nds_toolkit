@@ -32,10 +32,10 @@ const long pgCodeCompressor::ID_LOOP_CLEAR_ALL = wxNewId();
 
 const long pgCodeCompressor::ID_LOOP_COPY = wxNewId();
 
-const long pgCodeCompressor::ID_E_BUILD = wxNewId();
-const long pgCodeCompressor::ID_E_COPY = wxNewId();
-const long pgCodeCompressor::ID_E_PASTE = wxNewId();
-const long pgCodeCompressor::ID_E_CLEAR = wxNewId();
+const long pgCodeCompressor::ID_PATCH_BUILD = wxNewId();
+const long pgCodeCompressor::ID_PATCH_COPY = wxNewId();
+const long pgCodeCompressor::ID_PATCH_PASTE = wxNewId();
+const long pgCodeCompressor::ID_PATCH_CLEAR = wxNewId();
 
 pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
                 : wxPanel(parent, wxID_ANY)
@@ -182,8 +182,8 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    shboxEBuilder = new wxStaticBoxSizer(wxHORIZONTAL, pnlMain,
-                                         _T("E Builder"));
+    shboxPatchCodeBuilder = new wxStaticBoxSizer(wxHORIZONTAL, pnlMain,
+                                                 _T("Patch Code Builder"));
 
     ///// Begin vboxInput
 
@@ -196,8 +196,8 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
 
     // hbox to align the buttons in here
     hboxInputButtons = new wxBoxSizer(wxHORIZONTAL);
-    btnPaste = new wxButton(pnlMain, ID_E_PASTE, _T("&Paste"));
-    btnBuild = new wxButton(pnlMain, ID_E_BUILD, _T("&Build"));
+    btnPaste = new wxButton(pnlMain, ID_PATCH_PASTE, _T("&Paste"));
+    btnBuild = new wxButton(pnlMain, ID_PATCH_BUILD, _T("&Build"));
     hboxInputButtons->Add(btnPaste, 1, wxEXPAND | wxRIGHT, 5);
     hboxInputButtons->Add(btnBuild, 1, wxEXPAND);
 
@@ -216,23 +216,23 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
 
     // hbox to align the buttons in here
     hboxOutputButtons = new wxBoxSizer(wxHORIZONTAL);
-    btnECopy = new wxButton(pnlMain, ID_E_COPY, _T("C&opy"));
-    btnEClear = new wxButton(pnlMain, ID_E_CLEAR, _T("C&lear"));
-    hboxOutputButtons->Add(btnECopy, 1, wxEXPAND | wxRIGHT, 5);
-    hboxOutputButtons->Add(btnEClear, 1, wxEXPAND);
+    btnPatchCopy = new wxButton(pnlMain, ID_PATCH_COPY, _T("C&opy"));
+    btnPatchClear = new wxButton(pnlMain, ID_PATCH_CLEAR, _T("C&lear"));
+    hboxOutputButtons->Add(btnPatchCopy, 1, wxEXPAND | wxRIGHT, 5);
+    hboxOutputButtons->Add(btnPatchClear, 1, wxEXPAND);
 
     vboxOutput->Add(lblOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxOutput->Add(txtOutput, 1, wxEXPAND | wxBOTTOM, 5);
     vboxOutput->Add(hboxOutputButtons, 0, wxEXPAND);
 
-    // Finish up shboxEbuilder
-    shboxEBuilder->Add(vboxInput, 1, wxEXPAND | wxRIGHT, 5);
-    shboxEBuilder->Add(vboxOutput, 1, wxEXPAND);
+    // Finish up shboxPatchCodeBuilder
+    shboxPatchCodeBuilder->Add(vboxInput, 1, wxEXPAND | wxRIGHT, 5);
+    shboxPatchCodeBuilder->Add(vboxOutput, 1, wxEXPAND);
 
 ////////////////////////////////////////////////////////////////////////////////
 
     hboxMain->Add(svboxLoopCodeGenerator, 2, wxEXPAND | wxRIGHT, 5);
-    hboxMain->Add(shboxEBuilder, 3, wxEXPAND);
+    hboxMain->Add(shboxPatchCodeBuilder, 3, wxEXPAND);
 
     pnlMain->SetSizer(hboxMain);
     hboxMain->SetSizeHints(pnlMain);
@@ -250,14 +250,14 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     Connect(ID_LOOP_COPY, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgCodeCompressor::LoopCopy));
 
-    Connect(ID_E_PASTE, wxEVT_COMMAND_BUTTON_CLICKED,
-            wxCommandEventHandler(pgCodeCompressor::EPaste));
-    Connect(ID_E_BUILD, wxEVT_COMMAND_BUTTON_CLICKED,
-            wxCommandEventHandler(pgCodeCompressor::EBuild));
-    Connect(ID_E_COPY, wxEVT_COMMAND_BUTTON_CLICKED,
-            wxCommandEventHandler(pgCodeCompressor::ECopy));
-    Connect(ID_E_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED,
-            wxCommandEventHandler(pgCodeCompressor::EClear));
+    Connect(ID_PATCH_PASTE, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodeCompressor::PatchPaste));
+    Connect(ID_PATCH_BUILD, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodeCompressor::PatchBuild));
+    Connect(ID_PATCH_COPY, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodeCompressor::PatchCopy));
+    Connect(ID_PATCH_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodeCompressor::PatchClear));
 }
 
 /** Main Algorithms **/
@@ -300,7 +300,7 @@ void pgCodeCompressor::LoopGenerate(wxCommandEvent &WXUNUSED(event))
     }
 }
 
-void pgCodeCompressor::EBuild(wxCommandEvent &WXUNUSED(event))
+void pgCodeCompressor::PatchBuild(wxCommandEvent &WXUNUSED(event))
 {
     wxString inputval = txtInput->GetValue();
 
@@ -313,7 +313,7 @@ void pgCodeCompressor::EBuild(wxCommandEvent &WXUNUSED(event))
 
     try
     {
-        txtOutput->SetValue(EBuilder::BuildECodeType(inputval));
+        txtOutput->SetValue(PatchCodeBuilder::BuildPatchCode(inputval));
     }
     catch (wxString msg)
     {
@@ -360,7 +360,7 @@ void pgCodeCompressor::LoopCopy(wxCommandEvent &WXUNUSED(event))
 
 /** E Builder GUI Events **/
 
-void pgCodeCompressor::EPaste(wxCommandEvent &WXUNUSED(event))
+void pgCodeCompressor::PatchPaste(wxCommandEvent &WXUNUSED(event))
 {
     // Prompt them if the input box isn't empty.
     int dlgresult = !txtInput->GetValue().IsEmpty()
@@ -376,7 +376,7 @@ This will overwrite any current data in the input box.\
     if (dlgresult == wxYES)
         txtInput->SetValue(Clipboard::GetClipboard());
 }
-void pgCodeCompressor::ECopy(wxCommandEvent &WXUNUSED(event))
+void pgCodeCompressor::PatchCopy(wxCommandEvent &WXUNUSED(event))
 {
     wxString str = txtOutput->GetValue();
 
@@ -389,7 +389,7 @@ void pgCodeCompressor::ECopy(wxCommandEvent &WXUNUSED(event))
                          _T("Success"));
     }
 }
-void pgCodeCompressor::EClear(wxCommandEvent &WXUNUSED(event))
+void pgCodeCompressor::PatchClear(wxCommandEvent &WXUNUSED(event))
 {    int dlgresult = wxMessageBox(
         _T("\
 Are you sure that you would like to clear the input and output boxes?\

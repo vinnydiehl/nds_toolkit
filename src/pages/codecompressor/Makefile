@@ -37,7 +37,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = pgCodeCompressor.o EBuilder.o LoopCodeGenerator.o
+OBJ = pgCodeCompressor.o LoopCodeGenerator.o PatchCodeBuilder.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -59,19 +59,19 @@ configure:
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgCodeCompressor.o: $(INCDIR)/pgCodeCompressor.h \
-    			      $(INCDIR)/EBuilder.h \
 			      $(INCDIR)/LoopCodeGenerator.h \
+    			      $(INCDIR)/PatchCodeBuilder.h \
      			      $(CLIPINCDIR)/Clipboard.h \
 			      $(COMMONINCDIR)/globals.h \
 			      $(PARSEINCDIR)/CodeParser.h
 	$(CXX) $(CFLAGS) pgCodeCompressor.cpp
 
-$(OBJDIR)/EBuilder.o: $(INCDIR)/EBuilder.h \
-	              $(COMPATINCDIR)/wx2.9/arrstr.h
-	$(CXX) $(CFLAGS) EBuilder.cpp
-
 $(OBJDIR)/LoopCodeGenerator.o: $(INCDIR)/LoopCodeGenerator.h
 	$(CXX) $(CFLAGS) LoopCodeGenerator.cpp
+
+$(OBJDIR)/PatchCodeBuilder.o: $(INCDIR)/PatchCodeBuilder.h \
+	              $(COMPATINCDIR)/wx2.9/arrstr.h
+	$(CXX) $(CFLAGS) PatchCodeBuilder.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

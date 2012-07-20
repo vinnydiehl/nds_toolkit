@@ -32,8 +32,8 @@
 #include <wx/string.h>
 #include <wx/textctrl.h>
 
-#include "EBuilder.h"
 #include "LoopCodeGenerator.h"
+#include "PatchCodeBuilder.h"
 
 #include "Clipboard.h"
 #include "globals.h"
@@ -83,7 +83,7 @@ public:
       wxTextCtrl *txtLoopOutput;
       wxButton *btnLoopCopy;
 
-    wxStaticBoxSizer *shboxEBuilder;
+    wxStaticBoxSizer *shboxPatchCodeBuilder;
       wxBoxSizer *vboxInput;
         wxStaticText *lblInput;
         wxTextCtrl *txtInput;
@@ -93,7 +93,7 @@ public:
         wxStaticText *lblOutput;
         wxTextCtrl *txtOutput;
         wxBoxSizer *hboxOutputButtons;
-          wxButton *btnECopy, *btnEClear;
+          wxButton *btnPatchCopy, *btnPatchClear;
 
     // Add layout boxes and such like so:
     // wxBoxSizer *hboxName;
@@ -107,10 +107,10 @@ public:
     void LoopCopy(wxCommandEvent &event);
 
     // E Builder
-    void EBuild(wxCommandEvent &event);
-    void ECopy(wxCommandEvent &event);
-    void EPaste(wxCommandEvent &event);
-    void EClear(wxCommandEvent &event);
+    void PatchBuild(wxCommandEvent &event);
+    void PatchCopy(wxCommandEvent &event);
+    void PatchPaste(wxCommandEvent &event);
+    void PatchClear(wxCommandEvent &event);
 
 private:
 
@@ -118,7 +118,8 @@ private:
 
     static const long ID_LOOP_GENERATE, ID_LOOP_CLEAR_ALL;
     static const long ID_LOOP_COPY;
-    static const long ID_E_BUILD, ID_E_COPY, ID_E_PASTE, ID_E_CLEAR;
+    static const long ID_PATCH_BUILD, ID_PATCH_COPY,
+                      ID_PATCH_PASTE, ID_PATCH_CLEAR;
 };
 
 #endif // PGCODECOMPRESSOR_H_INCLUDED

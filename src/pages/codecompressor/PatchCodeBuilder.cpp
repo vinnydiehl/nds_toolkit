@@ -17,12 +17,12 @@
 **/
 
 /**
- * @file EBuilder.cpp - pgCodeCompressor's E Builder.
+ * @file PatchCodeBuilder.cpp - pgCodeCompressor's Patch Code Builder.
 **/
 
-#include "EBuilder.h"
+#include "PatchCodeBuilder.h"
 
-wxString EBuilder::BuildECodeType(wxString input)
+wxString PatchCodeBuilder::BuildPatchCode(wxString input)
 {
     // Verify their input
     if (!CodeParser::Verify(input))
@@ -76,7 +76,7 @@ wxString EBuilder::BuildECodeType(wxString input)
 
 /** Container Manipulation **/
 
-wxArrayString EBuilder::mGroup(wxArrayString arr, size_t n)
+wxArrayString PatchCodeBuilder::mGroup(wxArrayString arr, size_t n)
 {
     wxString accumulator;
     wxArrayString output;

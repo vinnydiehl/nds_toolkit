@@ -17,11 +17,11 @@
 **/
 
 /**
- * @file EBuilder.h - Header file for the E Builder class.
+ * @file PatchCodeBuilder.h - Header file for the Patch Code Builder class.
 **/
 
-#ifndef EBUILDER_H_INCLUDED
-#define EBUILDER_H_INCLUDED
+#ifndef PATCHCODEBUILDER_H_INCLUDED
+#define PATCHCODEBUILDER_H_INCLUDED
 
 #include <wx/arrstr.h>
 #include <wx/string.h>
@@ -30,14 +30,14 @@
 
 #include "CodeParser.h"
 
-class EBuilder
+class PatchCodeBuilder
 {
 public:
-    static wxString BuildECodeType(wxString input);
+    static wxString BuildPatchCode(wxString input);
 
 private:
     static wxArrayString mGroup(wxArrayString arr, size_t n=2);
 };
 
-#endif // EBUILDER_H_INCLUDED
+#endif // PATCHCODEBUILDER_H_INCLUDED
 
