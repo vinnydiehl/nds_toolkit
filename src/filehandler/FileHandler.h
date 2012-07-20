@@ -25,18 +25,19 @@
 #ifndef FILEHANDLER_H_INCLUDED
 #define FILEHANDLER_H_INCLUDED
 
-#include <wx/ffile.h>
 #include <wx/filedlg.h>
+#include <wx/stream.h>
 #include <wx/string.h>
 #include <wx/textctrl.h>
+#include <wx/wfstream.h>
 
 class FileHandler
 {
 public:
-    static wxString ReadFile(wxWindow *parent, wxString *tgt=NULL,
-                             wxTextCtrl *display=NULL,
-                             wxString wildcard=_T("All Files (*.*)|*.*"),
-                             wxString title=_T("Select a File"));
+    static wxInputStream* GetStream(wxWindow *parent,
+                                    wxTextCtrl *display=NULL,
+                                    wxString wildcard=_T("All Files|*.*"),
+                                    wxString title=_T("Select a File"));
 };
 
 #endif // FILEHANDLER_H_INCLUDED

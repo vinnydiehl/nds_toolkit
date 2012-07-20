@@ -25,12 +25,11 @@
 
 #include <wx/button.h>
 #include <wx/checkbox.h>
-#include <wx/ffile.h>
-#include <wx/filedlg.h>
 #include <wx/panel.h>
 #include <wx/radiobut.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
+#include <wx/stream.h>
 #include <wx/string.h>
 #include <wx/textctrl.h>
 
@@ -86,7 +85,7 @@ public:
     /** Member Variables **/
 
     wxString Wildcard;
-    wxString File1Contents, File2Contents;
+    wxInputStream *File1Input, *File2Input;
 
 private:
 

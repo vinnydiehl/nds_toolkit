@@ -22,34 +22,22 @@
 
 #include "FileHandler.h"
 
-wxString FileHandler::ReadFile(wxWindow *parent, wxString *tgt,
-                               wxTextCtrl *display, wxString wildcard,
-                               wxString title)
+wxInputStream* FileHandler::GetStream(wxWindow *parent, wxTextCtrl *display,
+                                      wxString wildcard, wxString title)
 {
     wxFileDialog dlgOpenFile(parent, title, wxGetHomeDir(), wxEmptyString,
                              wildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
     // Show the dialog. Once it closes, if they pressed cancel, stop.
-    if (dlgOpenFile.ShowModal() == wxID_CANCEL) return _T("");
+    if (dlgOpenFile.ShowModal() == wxID_CANCEL) return NULL;
 
     wxString path = dlgOpenFile.GetPath();
-
-    if (tgt != NULL)
-    {
-        // If they have a target variable to send the contents of the file to,
-        // do so now. Otherwise it'll just return the path.
-        wxPuts(_T("\nReading file: ") + path);
-        wxFFile file(path);
-        file.ReadAll(tgt);
-        file.Close();
-        wxPuts(_T("Success!"));
-    }
 
     // If they want to output the file path into a TextCtrl, do so.
     if (display != NULL)
         display->SetValue(path);
 
-    // Return the path of the file in case it's needed.
-    return path;
+    // Return the input stream for the file.
+    return new wxFFileInputStream(path);
 }
 

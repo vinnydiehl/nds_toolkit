@@ -227,12 +227,10 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
 
 void pgPointerSearcher::SelectFile1(wxCommandEvent &WXUNUSED(event))
 {
-    wxString path = FileHandler::ReadFile(this, &File1Contents,
-                                          txtFile1, Wildcard);
+    File1Input = FileHandler::GetStream(this, txtFile1, Wildcard);
 }
 void pgPointerSearcher::SelectFile2(wxCommandEvent &WXUNUSED(event))
 {
-    wxString path = FileHandler::ReadFile(this, &File2Contents,
-                                          txtFile2, Wildcard);
+    File2Input = FileHandler::GetStream(this, txtFile2, Wildcard);
 }
 
