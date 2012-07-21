@@ -267,7 +267,7 @@ BUTTON_ACTIVATOR_GENERATOR = ButtonActivatorGenerator.o \\
 for option in config:
     if search(r'add[_-]options?\s+--add-pointer-searcher', option):
         makefile_options.append(
-            'POINTER_SEARCHER = pgPointerSearcher.o'
+            'POINTER_SEARCHER = PointerSearcher.o pgPointerSearcher.o'
         )
         config_header_options.append(
             '#define ADD_POINTER_SEARCHER'

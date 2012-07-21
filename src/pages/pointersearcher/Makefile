@@ -22,8 +22,11 @@ ROOT = ../..
 # Source Directories
 INCDIR = .
 COMMONINCDIR = $(ROOT)/common
+COMPATINCDIR = $(ROOT)/compatibility
 FHINCDIR = $(ROOT)/filehandler
-INCPATHS = $(INCDIR) $(COMMONINCDIR) $(FHINCDIR)
+PARSEINCDIR = $(ROOT)/codeparser
+INCPATHS = $(INCDIR) $(COMMONINCDIR) $(COMPATINCDIR) $(FHINCDIR) \
+           $(PARSEINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -34,7 +37,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = pgPointerSearcher.o
+OBJ = pgPointerSearcher.o PointerSearcher.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -57,8 +60,12 @@ configure:
 
 $(OBJDIR)/pgPointerSearcher.o: $(INCDIR)/pgPointerSearcher.h \
                                $(COMMONINCDIR)/globals.h \
-                               $(FHINCDIR)/FileHandler.h
+                               $(FHINCDIR)/FileHandler.h \
+	                       $(PARSEINCDIR)/CodeParser.h
 	$(CXX) $(CFLAGS) pgPointerSearcher.cpp
+
+$(OBJDIR)/PointerSearcher.o: $(INCDIR)/PointerSearcher.h
+	$(CXX) $(CFLAGS) PointerSearcher.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

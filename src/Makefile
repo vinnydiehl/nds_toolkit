@@ -53,7 +53,7 @@ SETUP = default
 ifeq ($(SETUP),default)
     BUTTON_ACTIVATOR_GENERATOR = ButtonActivatorGenerator.o \
 				 pgButtonActivatorGenerator.o
-    POINTER_SEARCHER = pgPointerSearcher.o
+    POINTER_SEARCHER = PointerSearcher.o pgPointerSearcher.o
     CODE_PORTER = CodePorter.o pgCodePorter.o
     CODE_COMPRESSOR = LoopCodeGenerator.o \
 		      PatchCodeBuilder.o \
@@ -154,6 +154,8 @@ $(OBJDIR)/CodePorter.o:
 	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
 
 $(OBJDIR)/pgPointerSearcher.o:
+	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
+$(OBJDIR)/PointerSearcher.o:
 	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
 
 # clipboard

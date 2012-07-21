@@ -20,7 +20,7 @@
 ifndef $(ENFORCE_CONFIG)
     BUTTON_ACTIVATOR_GENERATOR = ButtonActivatorGenerator.o \
 				 pgButtonActivatorGenerator.o
-    POINTER_SEARCHER = pgPointerSearcher.o
+    POINTER_SEARCHER = PointerSearcher.o pgPointerSearcher.o
     CODE_PORTER = CodePorter.o pgCodePorter.o
     CODE_COMPRESSOR = EBuilder.o LoopCodeGenerator.o pgCodeCompressor.o
 endif
@@ -66,6 +66,8 @@ $(OBJDIR)/CodePorter.o:
 	$(MAKE) -C codeporter $(MAKETGT)
 
 $(OBJDIR)/pgPointerSearcher.o:
+	$(MAKE) -C pointersearcher $(MAKETGT)
+$(OBJDIR)/PointerSearcher.o:
 	$(MAKE) -C pointersearcher $(MAKETGT)
 
 $(OBJDIR)/pgCodeCompressor.o:

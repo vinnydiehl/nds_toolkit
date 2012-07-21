@@ -221,6 +221,67 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
 
 void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
 {
+    wxString address1 = txtAddress1->GetValue().Trim().Trim(false);
+    wxString address2 = txtAddress2->GetValue().Trim().Trim(false);
+    wxString hexValue = txtHexValue->GetValue().Trim().Trim(false);
+    wxString maxPtrOffset = txtMaxPtrOffset->GetValue().Trim().Trim(false);
+
+    // UI-level error testing
+
+    // Test lack of files
+    if (!File1Input)
+    {
+        wxMessageBox(_T("Please select a file for File 1."), _T("Error"));
+        return;
+    }
+    if (!File2Input)
+    {
+        wxMessageBox(_T("Please select a file for File 2."), _T("Error"));
+        return;
+    }
+
+    // Test lack of text box inputs
+    if (address1.IsEmpty())
+    {
+        wxMessageBox(_T("There is no Address 1 input."), _T("Error"));
+        return;
+    }
+    if (address2.IsEmpty())
+    {
+        wxMessageBox(_T("There is no Address 2 input."), _T("Error"));
+        return;
+    }
+    if (hexValue.IsEmpty())
+    {
+        wxMessageBox(_T("There is no Hex Value input."), _T("Error"));
+        return;
+    }
+    if (maxPtrOffset.IsEmpty())
+    {
+        wxMessageBox(_T("There is no Max Pointer Offset input."), _T("Error"));
+        return;
+    }
+
+    wxString searchResults, ptrCode;
+
+    try
+    {
+        PointerSearcher::Search(&searchResults, &ptrCode,
+                                File1Input, File2Input,
+                                txtAddress1->GetValue(),
+                                txtAddress2->GetValue(),
+                                txtHexValue->GetValue(),
+                                radOnlyPos->GetValue() ? Positive : Negative,
+                                txtMaxPtrOffset->GetValue());
+    }
+    catch (wxString msg)
+    {
+        wxMessageBox(msg, _T("Error"));
+        return;
+    }
+
+    txtSearchResults->SetValue(searchResults);
+    txtPtrCode->SetValue(ptrCode);
 }
 
 /** File Input **/
@@ -228,9 +289,19 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
 void pgPointerSearcher::SelectFile1(wxCommandEvent &WXUNUSED(event))
 {
     File1Input = FileHandler::GetStream(this, txtFile1, Wildcard);
+    mParseFileName(txtFile1->GetValue(), txtAddress1);
 }
 void pgPointerSearcher::SelectFile2(wxCommandEvent &WXUNUSED(event))
 {
     File2Input = FileHandler::GetStream(this, txtFile2, Wildcard);
+    mParseFileName(txtFile2->GetValue(), txtAddress2);
+}
+void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
+{
+    // If the filename has an 8 digit hex number at the end of it, just
+    // before the .bin, put that in the corresponding Address text box.
+    wxString last8 = filename.Mid(filename.Len() - 12, 8);
+    if (CodeParser::IsHex(last8))
+        address->SetValue(last8);
 }
 

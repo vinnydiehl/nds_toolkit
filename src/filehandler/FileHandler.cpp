@@ -22,8 +22,10 @@
 
 #include "FileHandler.h"
 
-wxInputStream* FileHandler::GetStream(wxWindow *parent, wxTextCtrl *display,
-                                      wxString wildcard, wxString title)
+wxFFileInputStream* FileHandler::GetStream(wxWindow *parent,
+                                           wxTextCtrl *display,
+                                           wxString wildcard,
+                                           wxString title)
 {
     wxFileDialog dlgOpenFile(parent, title, wxGetHomeDir(), wxEmptyString,
                              wildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST);

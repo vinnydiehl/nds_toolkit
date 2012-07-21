@@ -25,6 +25,7 @@
 
 #include <wx/button.h>
 #include <wx/checkbox.h>
+#include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <wx/radiobut.h>
 #include <wx/sizer.h>
@@ -33,6 +34,9 @@
 #include <wx/string.h>
 #include <wx/textctrl.h>
 
+#include "PointerSearcher.h"
+
+#include "CodeParser.h"
 #include "FileHandler.h"
 #include "globals.h"
 
@@ -85,7 +89,7 @@ public:
     /** Member Variables **/
 
     wxString Wildcard;
-    wxInputStream *File1Input, *File2Input;
+    wxFFileInputStream *File1Input, *File2Input;
 
 private:
 
@@ -93,6 +97,10 @@ private:
 
     static const long ID_BROWSE_FILE_1, ID_BROWSE_FILE_2;
     static const long ID_FIND_POINTERS;
+
+    /** Private Methods **/
+
+    void mParseFileName(wxString filename, wxTextCtrl *address);
 };
 
 #endif // PGPOINTERSEARCHER_H_INCLUDED

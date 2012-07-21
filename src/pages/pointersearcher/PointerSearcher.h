@@ -17,30 +17,34 @@
 **/
 
 /**
- * @file FileHandler.h - The header file for the FileHandler class.
+ * @file PointerSearcher.h - Header file for the PointerSearcher class.
 **/
 
-#pragma once
+#ifndef POINTERSEARCHER_H_INCLUDED
+#define POINTERSEARCHER_H_INCLUDED
 
-#ifndef FILEHANDLER_H_INCLUDED
-#define FILEHANDLER_H_INCLUDED
-
-#include <wx/filedlg.h>
+#include <wx/arrstr.h>
+#include <wx/datstrm.h>
 #include <wx/stream.h>
 #include <wx/string.h>
-#include <wx/textctrl.h>
 #include <wx/wfstream.h>
 
-class FileHandler
+#include "wx2.9/arrstr.h"
+
+enum TargetType
 {
-public:
-    static wxFFileInputStream* GetStream(
-        wxWindow *parent,
-        wxTextCtrl *display=NULL,
-        wxString wildcard=_T("All Files (*.*)|*.*"),
-        wxString title=_T("Select a File")
-    );
+    Negative,
+    Positive
 };
 
-#endif // FILEHANDLER_H_INCLUDED
+class PointerSearcher
+{
+public:
+    static void Search(wxString *outputSearchResults, wxString *outputPtrCode,
+                       wxFFileInputStream *file1, wxFFileInputStream *file2,
+                       wxString addr1, wxString addr2, wxString hexValueStr,
+                       TargetType posneg, wxString maxPtrOffsetStr);
+};
+
+#endif // POINTERSEARCHER_H_INCLUDED
 
