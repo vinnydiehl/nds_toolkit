@@ -1,9 +1,25 @@
 # NDS Toolkit
 
-Welcome to the development branch of the NDS Toolkit!
+This version of the NDS Toolkit is a port of Demonic722's C#.NET tool. The
+original is located at:
 
-The code is in the ```src``` directory. Check the commit history for the latest
-development status and hack away.
+ * [Release thread on GameHacking](http://gamehacking.org/vb/threads/6610-NDS-Hacking-Kit)
+ * [GitHub repository](https://github.com/Demonic722/NDS-Toolkit)
+
+I love this tool, but unfortunately, .NET is a nasty dependency that isn't
+supported on... well, any operating system that isn't Windows. I made this
+cross-platform port primarily for Linux/Mac users that wanted to use the tool,
+and C++ hackers that wanted to improve the tool.
+
+If you want to help develop on this code, feel free! If any contributions are
+made to this tool that give it features that Demonic722's version does not
+have, I will work to implement that feature in his version as well.
+
+The code is in the ```src``` directory. If you are a user of this program,
+follow the build instructions below to get it installed on your computer. If
+you would like to develop, well, here's the code! I only ask that you style
+your code to look consistent with the other code in this project, and do not
+ask for your code to be pulled into the central, trunk, or release branches.
 
 ## Build Instructions
 
@@ -22,9 +38,10 @@ application, depending on your distro:
 If you're using Pacman/Portage/whatever, you know enough to be able to find GCC
 and wxWidgets on your own.
 
-The NDS Toolkit is written in C++ using wxWidgets 2.8.12. If your compiler
-is having trouble finding the wxWidgets library and you know that you have it
-installed, check that there is output for the following commands:
+The NDS Toolkit is written in C++ using wxWidgets 2.8.12 (and is known to
+build successfully on 2.9.3). If your compiler is having trouble finding the
+wxWidgets library and you know that you have it installed, check that there is
+output for the following commands:
 
     wx-config --cxxflags
     wx-config --libs
