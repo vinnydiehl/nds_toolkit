@@ -26,8 +26,7 @@
 
 /** Public Methods **/
 
-wxString CodeParser::Beautify(wxString code, bool upperHex,
-                              bool stripComments, bool stripEmpty)
+wxString CodeParser::Beautify(wxString code, int flags)
 {
     /**
      * Fix the formatting of NDS code.
@@ -40,25 +39,11 @@ wxString CodeParser::Beautify(wxString code, bool upperHex,
 
     // First verify the input. It will fuck us up heavily if we don't.
 
-#ifdef DEBUG
-    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- BEGINNING VERIFICATION"));
-#endif
-
     if (!Verify(code))
         return _T("Invalid");
 
-#ifdef DEBUG
-    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- VERIFICATION COMPLETE"));
-#endif
-
     // Do all line processing now.
     wxArrayString raw = wxc::wxSplit(code, _T('\n'));
-
-#ifdef DEBUG
-    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- Contents of raw:\n"));
-    for (size_t i = 0; i < raw.GetCount(); ++i)
-        wxPuts(raw[i]);
-#endif
 
     wxArrayString lines;
     for (size_t i = 0; i < raw.GetCount(); ++i)
@@ -66,51 +51,30 @@ wxString CodeParser::Beautify(wxString code, bool upperHex,
         // Trim the line while we're here
         wxString line = raw[i].Trim().Trim(false);
 
-        if ((!stripEmpty || !line.IsEmpty()) &&
-            (!stripComments || line[0] != _T(':')))
+        if ((!(flags & STRIP_BLANKLINES) || !line.IsEmpty()) &&
+            (!(flags & STRIP_COMMENTS) || line[0] != _T(':')))
             lines.Add(
                 // Might as well also do the hex capitalization here.
                 // Capitalize the string if it isn't a comment and upperHex
                 // is enabled.
-                upperHex && line[0] != _T(':')
+                flags & UPPER_HEX && line[0] != _T(':')
                 ? line.Upper()
                 : line
             );
     }
 
-#ifdef DEBUG
-    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- Contents of lines:\n"));
-    for (size_t i = 0; i < lines.GetCount(); ++i)
-        wxPuts(lines[i]);
-#endif
-
     // Packing up the code while leaving comments untouched is very tricky.
     // I don't want to use a wrapper, so do some preliminary touchups.
 
-#ifdef DEBUG
-    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- BEGINNING PACKING"));
-#endif
+    wxString wsStrip = flags & STRIP_BLANKLINES
+                       ? _T(" \t\n\r")
+                       : _T(" \t");
 
     wxArrayString codepkg;
-    if (stripComments)
-    {
-#ifdef DEBUG
-        wxPuts(_T("\
-DEBUG INFO- CodeParser::Beautify()-\n\
-\tComment stripping enabled, packing the code as a whole.\
-"));
-#endif
-        codepkg.Add(mStripChar(wxc::wxJoin(lines, _T('\n')),
-                               _T(" \t\n\r")));
-    }
+    if (flags & STRIP_BLANKLINES)
+        codepkg.Add(mStripChar(wxc::wxJoin(lines, _T('\n')), wsStrip));
     else
     {
-#ifdef DEBUG
-        wxPuts(_T("\
-DEBUG INFO- CodeParser::Beautify()-\n\
-\tComments are being packed with the code.\
-"));
-#endif
         wxArrayString stage;
         for (size_t i = 0; i < lines.GetCount(); ++i)
         {
@@ -119,14 +83,11 @@ DEBUG INFO- CodeParser::Beautify()-\n\
                 stage.Add(lines[i]);
 
                 if (i >= lines.GetCount() - 1)
-                {
                     // We've reached the last line, pack up the stage and add
                     // it to codepkg so we can finish.
                     codepkg.Add(
-                        mStripChar(wxc::wxJoin(stage, _T('\n')),
-                                   _T(" \t\n\r"))
+                        mStripChar(wxc::wxJoin(stage, _T('\n')), wsStrip)
                     );
-                }
             }
             else
             {
@@ -136,8 +97,7 @@ DEBUG INFO- CodeParser::Beautify()-\n\
                     // packed so that we can pack in this comment.
                     // Pack the stage, add to codepkg, then clear the stage.
                     codepkg.Add(
-                        mStripChar(wxc::wxJoin(stage, _T('\n')),
-                                   _T(" \t\n\r"))
+                        mStripChar(wxc::wxJoin(stage, _T('\n')), wsStrip)
                     );
                     stage.Clear();
                 }
@@ -148,23 +108,32 @@ DEBUG INFO- CodeParser::Beautify()-\n\
         }
     }
 
-#ifdef DEBUG
-    wxPuts(_T("\nDEBUG INFO- CodeParser::Beautify()- PACKING COMPLETE"));
-    wxPuts(_T("DEBUG INFO- CodeParser::Beautify()- Contents of codepkg:\n"));
-    for (size_t i = 0; i < codepkg.GetCount(); ++i)
-        wxPuts(codepkg[i]);
-#endif
-
     // We will unpack the codepkg into its final form here.
     wxArrayString final;
 
-    // Loop over the code package so we can unpack.
+    // :KLUDGE: 2012-07-22 gbchaosmaster - Patched up a segfault.
+    // To stop unstripped newlines from crashing the program, I had to
+    // dismantle the code package philosophy and instead place in this hack
+    // to split everything into individual lines... and I still lose the
+    // newlines that I don't want stripped! Planning a rewrite of this
+    // entire beautifier ASAP to get the STRIP_BLANKLINES option functional.
+    // Right now it only works as expected when enabled.
+    wxArrayString pkglines;
     for (size_t i = 0; i < codepkg.GetCount(); ++i)
     {
-        wxString chunk = codepkg[i];
+        wxArrayString chunklines = wxc::wxSplit(codepkg[i], _T('\n'));
+
+        for (size_t j = 0; j < chunklines.GetCount(); ++j)
+            pkglines.Add(chunklines[j]);
+    }
+
+    // Loop over the code package so we can unpack.
+    for (size_t i = 0; i < pkglines.GetCount(); ++i)
+    {
+        wxString chunk = pkglines[i];
 
         // If the chunk is a comment, direct deposit...
-        if (chunk[0] == _T(':'))
+        if (chunk.IsEmpty() || chunk[0] == _T(':'))
             final.Add(chunk);
         else
             while (!chunk.IsEmpty())
@@ -194,12 +163,6 @@ bool CodeParser::Verify(wxString code)
     // Strip away stuff that we don't need; Comments, blanks, extra whitespace.
     wxArrayString raw = wxc::wxSplit(code, _T('\n'));
 
-#ifdef DEBUG
-    wxPuts(_T("\nDEBUG INFO- CodeParser::Verify()- Contents of raw:\n"));
-    for (size_t i = 0; i < raw.GetCount(); ++i)
-        wxPuts(raw[i]);
-#endif
-
     wxArrayString lines;
     for (size_t i = 0; i < raw.GetCount(); ++i)
     {
@@ -210,24 +173,11 @@ bool CodeParser::Verify(wxString code)
             lines.Add(line);
     }
 
-#ifdef DEBUG
-    wxPuts(_T("\nDEBUG INFO- CodeParser::Verify()- Contents of lines:\n"));
-    for (size_t i = 0; i < lines.GetCount(); ++i)
-        wxPuts(lines[i]);
-#endif
-
     // Strip the rest of the whitespace.
     // Yes, I know, I join with newlines and then strip the newlines. I just
     // want to ensure that the code is returned to its previous state before
     // all of the whitespace is removed.
     code = mStripChar(wxc::wxJoin(lines, _T('\n')), _T(" \t\n\r"));
-
-#ifdef DEBUG
-    wxPuts(_T("\
-\nDEBUG INFO- CodeParser::Verify()- Contents of code after stripping:\n\
-"));
-    wxPuts(code);
-#endif
 
     // Now that it's parsed, we just need to see whether or not it has the
     // right amount of digits (some multiple of 16), and if it is valid
@@ -260,8 +210,8 @@ wxArrayString CodeParser::Tokenize(wxString code)
     wxArrayString lines = wxc::wxSplit(code, _T('\n'));
     for (size_t i = 0; i < lines.GetCount(); ++i)
     {
-        // Is this line a comment?
-        if (lines[i][0] == _T(':'))
+        // Is this line a comment or a blank line?
+        if (lines[i][0] == _T(':') || lines[i].Len() == 0)
         {
             if (!iscomment) // The last line wasn't...
             {

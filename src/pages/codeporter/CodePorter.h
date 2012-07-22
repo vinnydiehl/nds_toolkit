@@ -24,19 +24,26 @@
 #define CODEPORTER_H_INCLUDED
 
 #include <wx/arrstr.h>
+#include <wx/regex.h>
 #include <wx/string.h>
 
 #include "wx2.9/arrstr.h"
 
 #include "CodeParser.h"
 
+enum PorterMode
+{
+    Sub,
+    Add
+};
+
 class CodePorter
 {
 public:
-    static wxString Port(wxString code, wxString offset, bool dec=false);
+    static wxString Port(wxString code, wxString offset, PorterMode mode);
 
 private:
-    static wxString mPurePort(wxString code, wxString offset, bool dec=false);
+    static wxString mPurePort(wxString code, wxString offset, PorterMode mode);
 };
 
 #endif // CODEPORTER_H_INCLUDED

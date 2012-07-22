@@ -167,9 +167,9 @@ void pgCodePorter::Port(wxCommandEvent &WXUNUSED(event))
     try
     {
         txtOutput->SetValue(CodePorter::Port(
-            CodeParser::Beautify(inputval),
+            CodeParser::Beautify(inputval, UPPER_HEX),
             offsetval,
-            radSub->GetValue()
+            radAdd->GetValue() ? Add : Sub
         ));
     }
     catch (wxString msg)

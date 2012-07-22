@@ -29,13 +29,19 @@
 
 #include "wx2.9/arrstr.h"
 
+// Flags for Beautify()
+enum
+{
+    UPPER_HEX = 0x2,
+    STRIP_BLANKLINES = 0x4,
+    STRIP_COMMENTS = 0x8,
+    BEAUTIFY_DEFAULT = UPPER_HEX | STRIP_BLANKLINES
+};
+
 class CodeParser
 {
 public:
-    static wxString Beautify(wxString code,
-                             bool upperHex=true,
-                             bool stripComments=false,
-                             bool stripEmpty=true);
+    static wxString Beautify(wxString code, int flags=BEAUTIFY_DEFAULT);
 
     static bool Verify(wxString code);
     static bool IsHex(wxString str);
