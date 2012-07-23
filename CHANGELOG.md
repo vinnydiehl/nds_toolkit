@@ -21,3 +21,9 @@ The second beta has arrived, now with a working Code Porter!
 
  * The Code Porter tab strips blank lines from the input when it shouldn't.
 
+## 0.1b3
+
+This is an emergency patch, to fix a bug that broke the Patch Code Builder. The
+first line of its output was bogus; this has been fixed and the builder now
+functions as it should.
+
