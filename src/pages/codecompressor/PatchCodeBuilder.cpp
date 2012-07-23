@@ -52,16 +52,13 @@ wxString PatchCodeBuilder::BuildPatchCode(wxString input)
         }
     }
 
-    // Build the first line of the output based on the number of input lines.
-    long hexLength;
-    // The first line needs data on the code that it's porting.
-    // This includes the amount of lines, multiplied by 4, converted to hex:
-    wxString::Format(_T("%i"), code.GetCount() * 4).ToLong(&hexLength, 16);
-    // Convert that to a string:
-    wxString hexLengthStr = wxString::Format(_T("%i"), hexLength);
-    wxString primer = // Pad that with 0's to 8 characters long and set it up:
-        _T("E2000000 ") + hexLengthStr.Pad(8 - hexLengthStr.Len(),
-                                           _T('0'), false);
+    // Build the first line of the output based on the number of input lines
+    // and the starting address of the code.
+    wxString primer = wxString::Format(
+        _T("E%s %.8X"),
+        lines[0].Mid(1, 7).c_str(),
+        code.GetCount() * 4
+    );
 
     // If the number of lines is odd, append a "00000000", we'll use it later
     if (code.GetCount() % 2 != 0)
