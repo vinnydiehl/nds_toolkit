@@ -32,121 +32,79 @@ wxString CodeParser::Beautify(wxString code, int flags)
      * Fix the formatting of NDS code.
      *
      * @param code - Code to be beautified.
-     * @param upperHex - Capitalize any lowercase hex digits.
-     * @param stripComments - Remove all comments from the code.
-     * @param stripEmpty - Remove all empty lines from the code.
+     * @param flags - Code parser options.
     **/
 
-    // First verify the input. It will fuck us up heavily if we don't.
-
+    // First verify the input, or risk death.
     if (!Verify(code))
         return _T("Invalid");
 
-    // Do all line processing now.
+    // Split the input into lines...
     wxArrayString raw = wxc::wxSplit(code, _T('\n'));
 
-    wxArrayString lines;
+    // Build the code onto here.
+    wxArrayString processed;
+
     for (size_t i = 0; i < raw.GetCount(); ++i)
     {
-        // Trim the line while we're here
+        // Trim everything.
         wxString line = raw[i].Trim().Trim(false);
 
-        if ((!(flags & STRIP_BLANKLINES) || !line.IsEmpty()) &&
-            (!(flags & STRIP_COMMENTS) || line[0] != _T(':')))
-            lines.Add(
-                // Might as well also do the hex capitalization here.
-                // Capitalize the string if it isn't a comment and upperHex
-                // is enabled.
-                flags & UPPER_HEX && line[0] != _T(':')
-                ? line.Upper()
-                : line
-            );
-    }
+        // Skip comments/blank lines if they aren't allowed.
+        if ((flags & STRIP_COMMENTS && line[0] == _T(':')) ||
+            (flags & STRIP_BLANK_LINES && line.IsEmpty()))
+            continue;
 
-    // Packing up the code while leaving comments untouched is very tricky.
-    // I don't want to use a wrapper, so do some preliminary touchups.
-
-    wxString wsStrip = flags & STRIP_BLANKLINES
-                       ? _T(" \t\n\r")
-                       : _T(" \t");
-
-    wxArrayString codepkg;
-    if (flags & STRIP_BLANKLINES)
-        codepkg.Add(mStripChar(wxc::wxJoin(lines, _T('\n')), wsStrip));
-    else
-    {
-        wxArrayString stage;
-        for (size_t i = 0; i < lines.GetCount(); ++i)
+        // Add comments and blank lines directly...
+        if (line[0] == _T(':') || line.IsEmpty())
+            processed.Add(line);
+        // Otherwise it's a line of code...
+        else
         {
-            if (lines[i][0] != _T(':'))
-            {
-                stage.Add(lines[i]);
+            // Enforce the UPPER_HEX option.
+            if (flags & UPPER_HEX)
+                line.MakeUpper();
 
-                if (i >= lines.GetCount() - 1)
-                    // We've reached the last line, pack up the stage and add
-                    // it to codepkg so we can finish.
-                    codepkg.Add(
-                        mStripChar(wxc::wxJoin(stage, _T('\n')), wsStrip)
-                    );
-            }
-            else
-            {
-                if (!stage.IsEmpty())
-                {
-                    // There is code on the stage that still needs to be
-                    // packed so that we can pack in this comment.
-                    // Pack the stage, add to codepkg, then clear the stage.
-                    codepkg.Add(
-                        mStripChar(wxc::wxJoin(stage, _T('\n')), wsStrip)
-                    );
-                    stage.Clear();
-                }
+            // Remove the whitespace.
+            wxString builder;
+            for (size_t j = 0; j < line.Len(); ++j)
+                if (!(wxString(_T(" \t"))).Contains(line[j]))
+                    builder += line[j];
 
-                // Now add the comment to the package
-                codepkg.Add(lines[i]);
-            }
+            // Condense all hunks of code into one line.
+            // If processed is empty, or the last line in processed is
+            // either a blank or a comment, we need to start a new code line.
+            if (processed.IsEmpty() ||
+                processed.Last().IsEmpty() ||
+                processed.Last()[0] == _T(':'))
+                processed.Add(builder);
+            // Otherwise, append onto the current going code line.
+            else processed[processed.GetCount() - 1] += builder;
         }
     }
 
-    // We will unpack the codepkg into its final form here.
+    // Build the final result onto here.
     wxArrayString final;
 
-    // :KLUDGE: 2012-07-22 gbchaosmaster - Patched up a segfault.
-    // To stop unstripped newlines from crashing the program, I had to
-    // dismantle the code package philosophy and instead place in this hack
-    // to split everything into individual lines... and I still lose the
-    // newlines that I don't want stripped! Planning a rewrite of this
-    // entire beautifier ASAP to get the STRIP_BLANKLINES option functional.
-    // Right now it only works as expected when enabled.
-    wxArrayString pkglines;
-    for (size_t i = 0; i < codepkg.GetCount(); ++i)
+    for (size_t i = 0; i < processed.GetCount(); ++i)
     {
-        wxArrayString chunklines = wxc::wxSplit(codepkg[i], _T('\n'));
+        wxString line = processed[i];
 
-        for (size_t j = 0; j < chunklines.GetCount(); ++j)
-            pkglines.Add(chunklines[j]);
-    }
-
-    // Loop over the code package so we can unpack.
-    for (size_t i = 0; i < pkglines.GetCount(); ++i)
-    {
-        wxString chunk = pkglines[i];
-
-        // If the chunk is a comment, direct deposit...
-        if (chunk.IsEmpty() || chunk[0] == _T(':'))
-            final.Add(chunk);
+        if (line[0] == _T(':') || line.IsEmpty())
+            final.Add(line);
         else
-            while (!chunk.IsEmpty())
+        {
+            // If we don't have the right number of characters, uh-oh...
+            // bail out and call it invalid.
+            if (line.Len() % 16 != 0)
+                return _T("Invalid");
+
+            while (!line.IsEmpty())
             {
-                // Grap the first 16 characters of the string...
-                wxString group = chunk.Left(16);
-                // Add a space in the middle...
-                group.insert(8, _T(" "));
-                // Remove those 16 characters from the chunk...
-                chunk.Remove(0, 16);
-                // And now add that group to the code.
-                final.Add(group);
+                final.Add(line.Left(16).insert(8, _T(" ")));
+                line.Remove(0, 16);
             }
+        }
     }
 
     return wxc::wxJoin(final, _T('\n'));
@@ -190,70 +148,7 @@ bool CodeParser::IsHex(wxString str)
      * Return true if str is a valid hexadecimal value, false otherwise.
     **/
 
-    const wxString hex = _T("0123456789ABCDEFabcdef");
-
-    for (size_t i = 0; i < str.Len(); ++i)
-        if (!hex.Contains(str[i]))
-            return false;
-
-    return true;
-}
-
-wxArrayString CodeParser::Tokenize(wxString code)
-{
-    wxArrayString output;
-
-    // Stuff that is kept track of inside of the loop:
-    wxArrayString accumulator;
-    bool iscomment = false;
-
-    wxArrayString lines = wxc::wxSplit(code, _T('\n'));
-    for (size_t i = 0; i < lines.GetCount(); ++i)
-    {
-        // Is this line a comment or a blank line?
-        if (lines[i][0] == _T(':') || lines[i].Len() == 0)
-        {
-            if (!iscomment) // The last line wasn't...
-            {
-                // Dump the current accumulation if there is any
-                if (!accumulator.IsEmpty())
-                {
-                    output.Add(wxc::wxJoin(accumulator, _T('\n')));
-                    accumulator.Clear();
-                }
-
-                // Start a comment accumulation
-                iscomment = true;
-                accumulator.Add(lines[i]);
-            }
-            else // Continue the comment accumulation
-                accumulator.Add(lines[i]);
-        }
-        else // The line isn't a comment
-        {
-            if (iscomment) // But the last line was...
-            {
-                // Dump the current accumulation if there is any
-                if (!accumulator.IsEmpty())
-                {
-                    output.Add(wxc::wxJoin(accumulator, _T('\n')));
-                    accumulator.Clear();
-                }
-
-                // Start a code accumulation
-                iscomment = false;
-                accumulator.Add(lines[i]);
-            }
-            else // Continue the current code accumulation
-                accumulator.Add(lines[i]);
-        }
-
-        // Dump the accumulator if this is the last line of the code
-        if (i >= lines.GetCount() - 1)
-            output.Add(wxc::wxJoin(accumulator, _T('\n')));
-    }
-
-    return output;
+    return HEX.Matches(str) ? true : false;
 }
 
 wxArrayString CodeParser::LeftColumn(wxString code)

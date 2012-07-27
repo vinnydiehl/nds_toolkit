@@ -36,26 +36,27 @@ wxString CodePorter::Port(wxString code, wxString offset, PorterMode mode)
     if (!CodeParser::Verify(code))
         throw wxString(_T("Invalid code input."));
 
-    wxArrayString portedTokens;
+    wxArrayString ported;
 
-    wxArrayString tokens = CodeParser::Tokenize(code);
-    for (size_t i = 0; i < tokens.GetCount(); ++i)
-        portedTokens.Add(
+    wxArrayString lines = wxc::wxSplit(code, _T('\n'));
+
+    for (size_t i = 0; i < lines.GetCount(); ++i)
+        ported.Add(
             // Is the token a comment?
-            tokens[i][0] == _T(':')
+            lines[i][0] == _T(':') || lines[i].IsEmpty()
             // If so, deposit it directly.
-            ? tokens[i]
-            // If it's code, process then deposit.
-            : mPurePort(tokens[i], offset, mode)
+            ? lines[i]
+            // If it's lines, process then deposit.
+            : mPurePort(lines[i], offset, mode)
         );
 
-    return wxc::wxJoin(portedTokens, _T('\n'));
+    return wxc::wxJoin(ported, _T('\n'));
 }
 
 wxString CodePorter::mPurePort(wxString code, wxString offset, PorterMode mode)
 {
     /**
-     * The algorithm for the code porter.
+     * The algorithm for the code porter; ports one line of code.
      *
      * @param code - The code to be ported.
      * @param offset - The value to be inc/decremented to/from the offset.

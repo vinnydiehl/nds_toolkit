@@ -25,17 +25,20 @@
 #ifndef CODEPARSER_H_INCLUDED
 #define CODEPARSER_H_INLCUDED
 
+#include <wx/regex.h>
 #include <wx/string.h>
 
 #include "wx2.9/arrstr.h"
+
+const wxRegEx HEX(_T("\\A[0-9a-fA-F]+\\Z"), wxRE_ADVANCED);
 
 // Flags for Beautify()
 enum
 {
     UPPER_HEX = 0x2,
-    STRIP_BLANKLINES = 0x4,
+    STRIP_BLANK_LINES = 0x4,
     STRIP_COMMENTS = 0x8,
-    BEAUTIFY_DEFAULT = UPPER_HEX | STRIP_BLANKLINES
+    BEAUTIFY_DEFAULT = UPPER_HEX | STRIP_BLANK_LINES
 };
 
 class CodeParser
@@ -45,8 +48,6 @@ public:
 
     static bool Verify(wxString code);
     static bool IsHex(wxString str);
-
-    static wxArrayString Tokenize(wxString code);
 
     static wxArrayString LeftColumn(wxString code);
     static wxArrayString RightColumn(wxString code);

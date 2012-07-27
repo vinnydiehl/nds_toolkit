@@ -30,7 +30,10 @@ wxString PatchCodeBuilder::BuildPatchCode(wxString input)
 
     wxArrayString lines = wxc::wxSplit(
         // Filter the input through the beautifier, stripping comments
-        CodeParser::Beautify(input, UPPER_HEX | STRIP_COMMENTS),
+        CodeParser::Beautify(input,
+                             UPPER_HEX |
+                             STRIP_COMMENTS |
+                             STRIP_BLANK_LINES),
         _T('\n')
     );
 
