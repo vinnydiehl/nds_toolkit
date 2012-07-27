@@ -27,3 +27,15 @@ This is an emergency patch, to fix a bug that broke the Patch Code Builder. The
 first line of its output was bogus; this has been fixed and the builder now
 functions as it should.
 
+## 0.1
+
+First stable release.
+
+### Bug Fixes from Beta
+
+ * Fixed buggy behavior of Code Parser, the program is now fully working.
+
+### Goals for Next Release
+
+ * Revamp the Button Activator Generator.
+
