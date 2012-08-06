@@ -28,7 +28,6 @@
 #include <wx/checkbox.h>
 #include <wx/msgdlg.h>
 #include <wx/panel.h>
-#include <wx/radiobut.h>
 #include <wx/sizer.h>
 #include <wx/statline.h>
 #include <wx/stattext.h>
@@ -50,34 +49,32 @@ public:
 
     /** Main Content **/
 
-    wxBoxSizer *vboxMargin, *vboxMain;
+    wxBoxSizer *vboxMargin, *hboxMain;
     wxPanel *pnlMain;
 
-    wxBoxSizer *hboxUpper;
-      wxBoxSizer *vboxButtons;
-        wxStaticBoxSizer *svboxGbaButtons;
-          wxFlexGridSizer *gridGbaButtons;
-            wxCheckBox *chkA, *chkUp, *chkL, *chkR, *chkStart,
-                       *chkB, *chkDown, *chkLeft, *chkRight, *chkSelect;
-        wxStaticBoxSizer *shboxNdsButtons;
-          wxCheckBox *chkX, *chkY, *chkFolded, *chkDebug;
-      wxBoxSizer *vboxClearButton;
-        wxButton *btnClear;
-
-    wxStaticLine *slnSeparator;
-
-    wxStaticText *lblCodeOutput;
-
-    wxTextCtrl *txtArOutput;
-    wxButton *btnCopyAr;
-    wxTextCtrl *txtTstOutput;
-    wxButton *btnCopyTst;
+    wxBoxSizer *vboxCodeInput;
+      wxStaticText *lblCodeInput;
+      wxTextCtrl *txtCodeInput;
+    wxBoxSizer *vboxControls;
+      wxStaticBoxSizer *svboxButtons;
+        wxFlexGridSizer *gridButtons;
+          wxCheckBox *chkA, *chkB, *chkX, *chkY, *chkL, *chkR,
+                     *chkLeft, *chkRight, *chkUp, *chkDown,
+                     *chkStart, *chkSelect, *chkFolded, *chkDebug;
+      wxButton *btnClear, *btnCopy, *btnPaste;
+      wxStaticLine *slnControls;
+      wxFlexGridSizer *gridTstValues;
+        wxStaticText *lblGbaTst, *lblNdsTst;
+        wxTextCtrl *txtGbaTst, *txtNdsTst;
+    wxBoxSizer *vboxCodeOutput;
+      wxStaticText *lblCodeOutput;
+      wxTextCtrl *txtCodeOutput;
 
     /** Events **/
 
-    void CopyAr(wxCommandEvent &event);
-    void CopyTst(wxCommandEvent &event);
     void Clear(wxCommandEvent &event);
+    void Copy(wxCommandEvent &event);
+    void Paste(wxCommandEvent &event);
 
     // Unfortunately each checkbox needs an event.
 
@@ -110,8 +107,8 @@ private:
                       ID_R, ID_L,
                       ID_X, ID_Y,
                       ID_DEBUG, ID_FOLDED;
-    static const long ID_CLEAR;
-    static const long ID_COPY_AR, ID_COPY_TST;
+    static const long ID_CLEAR, ID_COPY, ID_PASTE;
+    static const long ID_CODE_INPUT;
 
     /** Controller **/
 
