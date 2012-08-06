@@ -46,11 +46,13 @@ const long pgButtonActivatorGenerator::ID_Y = wxNewId();
 const long pgButtonActivatorGenerator::ID_DEBUG = wxNewId();
 const long pgButtonActivatorGenerator::ID_FOLDED = wxNewId();
 
-// Other Controls
+// Interface Buttons
 const long pgButtonActivatorGenerator::ID_CLEAR = wxNewId();
+const long pgButtonActivatorGenerator::ID_COPY = wxNewId();
+const long pgButtonActivatorGenerator::ID_PASTE = wxNewId();
 
-const long pgButtonActivatorGenerator::ID_COPY_AR = wxNewId();
-const long pgButtonActivatorGenerator::ID_COPY_TST = wxNewId();
+// Code Input Textbox
+const long pgButtonActivatorGenerator::ID_CODE_INPUT = wxNewId();
 
 pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
                           : wxPanel(parent, wxID_ANY)
@@ -60,141 +62,136 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     vboxMargin = new wxBoxSizer(wxVERTICAL);
 
     pnlMain = new wxPanel(this, wxID_ANY);
-    vboxMain = new wxBoxSizer(wxVERTICAL);
+    hboxMain = new wxBoxSizer(wxHORIZONTAL);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    hboxUpper = new wxBoxSizer(wxHORIZONTAL);
+    vboxCodeInput = new wxBoxSizer(wxVERTICAL);
 
-    ///// Begin vboxButtons - This contains two wxStaticBoxSizers.
+    lblCodeInput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Input"));
+    txtCodeInput = new wxTextCtrl(pnlMain, ID_CODE_INPUT, wxEmptyString,
+                                  wxDefaultPosition, wxDefaultSize,
+                                  wxTE_MULTILINE | wxHSCROLL);
 
-    vboxButtons = new wxBoxSizer(wxVERTICAL);
+    vboxCodeInput->Add(lblCodeInput, 0,
+                       wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
+    vboxCodeInput->Add(txtCodeInput, 1, wxEXPAND);
 
-    ///// svboxGbaButtons
+////////////////////////////////////////////////////////////////////////////////
 
-    svboxGbaButtons = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
-                                           _T("GBA Buttons"));
+    vboxControls = new wxBoxSizer(wxVERTICAL);
 
-    // In here we have gridGbaButtons with the checkboxes
-    gridGbaButtons = new wxFlexGridSizer(2, 5, 5, 5);
+    ///// Begin svboxButtons
+
+    svboxButtons = new wxStaticBoxSizer(wxVERTICAL, pnlMain, _T("Buttons"));
+
+    // In here we have gridButtons with the checkboxes
+    gridButtons = new wxFlexGridSizer(7, 2, 5, 15);
 
     chkA = new wxCheckBox(pnlMain, ID_A, _T("&A"));
-    chkUp = new wxCheckBox(pnlMain, ID_UP, _T("&Up"));
-    chkL = new wxCheckBox(pnlMain, ID_L, _T("&L"));
-    chkR = new wxCheckBox(pnlMain, ID_R, _T("&R"));
-    chkStart = new wxCheckBox(pnlMain, ID_START, _T("&Start"));
     chkB = new wxCheckBox(pnlMain, ID_B, _T("&B"));
-    chkDown = new wxCheckBox(pnlMain, ID_DOWN, _T("&Down"));
-    chkLeft = new wxCheckBox(pnlMain, ID_LEFT, _T("L&eft"));
-    chkRight = new wxCheckBox(pnlMain, ID_RIGHT, _T("R&ight"));
-    chkSelect = new wxCheckBox(pnlMain, ID_START, _T("Selec&t"));
-
-    gridGbaButtons->Add(chkA);
-    gridGbaButtons->Add(chkUp);
-    gridGbaButtons->Add(chkL);
-    gridGbaButtons->Add(chkR);
-    gridGbaButtons->Add(chkStart);
-    gridGbaButtons->Add(chkB);
-    gridGbaButtons->Add(chkDown);
-    gridGbaButtons->Add(chkLeft);
-    gridGbaButtons->Add(chkRight);
-    gridGbaButtons->Add(chkSelect);
-
-    gridGbaButtons->AddGrowableCol(0, 2);
-    gridGbaButtons->AddGrowableCol(1, 3);
-    gridGbaButtons->AddGrowableCol(2, 3);
-    gridGbaButtons->AddGrowableCol(3, 3);
-    gridGbaButtons->AddGrowableCol(4, 3);
-
-    svboxGbaButtons->Add(gridGbaButtons, 1, wxEXPAND);
-
-    ///// shboxNdsButtons
-
-    shboxNdsButtons = new wxStaticBoxSizer(wxHORIZONTAL, pnlMain,
-                                           _T("NDS Buttons"));
-
     chkX = new wxCheckBox(pnlMain, ID_X, _T("&X"));
     chkY = new wxCheckBox(pnlMain, ID_Y, _T("&Y"));
-    chkFolded = new wxCheckBox(pnlMain, ID_FOLDED, _T("NDS &Folded"));
-    chkDebug = new wxCheckBox(pnlMain, ID_DEBUG, _T("Deb&ug Button"));
+    chkL = new wxCheckBox(pnlMain, ID_L, _T("&L"));
+    chkR = new wxCheckBox(pnlMain, ID_R, _T("&R"));
+    chkLeft = new wxCheckBox(pnlMain, ID_LEFT, _T("L&eft"));
+    chkRight = new wxCheckBox(pnlMain, ID_RIGHT, _T("R&ight"));
+    chkUp = new wxCheckBox(pnlMain, ID_UP, _T("&Up"));
+    chkDown = new wxCheckBox(pnlMain, ID_DOWN, _T("&Down"));
+    chkStart = new wxCheckBox(pnlMain, ID_START, _T("&Start"));
+    chkSelect = new wxCheckBox(pnlMain, ID_START, _T("Selec&t"));
+    chkFolded = new wxCheckBox(pnlMain, ID_FOLDED, _T("&Folded"));
+    chkDebug = new wxCheckBox(pnlMain, ID_DEBUG, _T("Deb&ug"));
 
-    shboxNdsButtons->Add(chkX, 1, wxALIGN_CENTER_VERTICAL);
-    shboxNdsButtons->Add(chkY, 1, wxALIGN_CENTER_VERTICAL);
-    shboxNdsButtons->Add(chkFolded, 2, wxALIGN_CENTER_VERTICAL);
-    shboxNdsButtons->Add(chkDebug, 2, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkA, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkB, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkX, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkY, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkL, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkR, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkLeft, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkRight, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkUp, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkDown, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkStart, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkSelect, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkFolded, 0, wxALIGN_CENTER_VERTICAL);
+    gridButtons->Add(chkDebug, 0, wxALIGN_CENTER_VERTICAL);
 
-    vboxButtons->Add(svboxGbaButtons, 0, wxEXPAND | wxBOTTOM, 5);
-    vboxButtons->Add(shboxNdsButtons, 0, wxEXPAND);
+    gridButtons->AddGrowableCol(0, 1);
+    gridButtons->AddGrowableCol(1, 1);
 
-    ///// End vboxButtons
+    gridButtons->AddGrowableRow(0, 1);
+    gridButtons->AddGrowableRow(1, 1);
+    gridButtons->AddGrowableRow(2, 1);
+    gridButtons->AddGrowableRow(3, 1);
+    gridButtons->AddGrowableRow(4, 1);
+    gridButtons->AddGrowableRow(5, 1);
+    gridButtons->AddGrowableRow(6, 1);
 
-    /**
-     * 2012-07-17 gbchaosmaster - btnClear height hack
-     *
-     * btnClear is an interesting one. If I just place it into the hbox, it
-     * sits there just fine, but it overhangs a little bit on the top because
-     * of the height of the label.
-     *
-     * My remedy was to put the button into a vertical box sizer and then pad
-     * it on top with half the height of a random label.
-    **/
+    svboxButtons->Add(gridButtons, 1, wxEXPAND);
 
-    vboxClearButton = new wxBoxSizer(wxVERTICAL);
+    ///// End svboxButtons
 
-    btnClear = new wxButton(pnlMain, ID_CLEAR, _T("&Clear"));
+    // Interface Buttons
+    btnClear = new wxButton(pnlMain, ID_CLEAR, _T("Clear"));
+    btnCopy = new wxButton(pnlMain, ID_COPY, _T("Copy"));
+    btnPaste = new wxButton(pnlMain, ID_PASTE, _T("Paste"));
 
-    wxStaticText *lblHeightTest = new wxStaticText(
-        pnlMain, wxID_ANY, _T("")
-    );
-    vboxClearButton->Add(
-        btnClear, 1, wxEXPAND | wxTOP,
-        (int)(lblHeightTest->GetClientSize().GetHeight() / 2)
-    );
-    delete lblHeightTest;
+    // We got another wxFlexGridSizer for the TST values.
 
-    hboxUpper->Add(vboxButtons, 1, wxEXPAND | wxRIGHT, 5);
-    hboxUpper->Add(vboxClearButton, 0, wxEXPAND);
+    slnControls = new wxStaticLine(pnlMain);
+
+    gridTstValues = new wxFlexGridSizer(2, 2, 5, 5);
+
+    lblGbaTst = new wxStaticText(pnlMain, wxID_ANY, _T("GBA TST Value:"));
+    txtGbaTst = new wxTextCtrl(pnlMain, wxID_ANY);
+    lblNdsTst = new wxStaticText(pnlMain, wxID_ANY, _T("NDS TST Value:"));
+    txtNdsTst = new wxTextCtrl(pnlMain, wxID_ANY);
+
+    gridTstValues->Add(lblGbaTst, 0, wxALIGN_CENTER_VERTICAL);
+    gridTstValues->Add(txtGbaTst, 1, wxEXPAND);
+    gridTstValues->Add(lblNdsTst, 0, wxALIGN_CENTER_VERTICAL);
+    gridTstValues->Add(txtNdsTst, 1, wxEXPAND);
+
+    gridTstValues->AddGrowableCol(1, 1);
+
+    vboxControls->Add(svboxButtons, 5, wxEXPAND | wxBOTTOM, 5);
+    vboxControls->Add(btnClear, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxControls->Add(btnCopy, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxControls->Add(btnPaste, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxControls->Add(slnControls, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxControls->Add(gridTstValues, 0, wxEXPAND);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    // The rest of the controls are top-level.
-
-    // Separator between the sections:
-    slnSeparator = new wxStaticLine(pnlMain);
-
-    // The output section
+    vboxCodeOutput = new wxBoxSizer(wxVERTICAL);
 
     lblCodeOutput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Output"));
+    txtCodeOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                                   wxDefaultPosition, wxDefaultSize,
+                                   wxTE_MULTILINE | wxHSCROLL);
 
-    txtArOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
-                                 wxDefaultPosition, wxDefaultSize,
-                                 wxTE_MULTILINE | wxHSCROLL);
-    btnCopyAr = new wxButton(pnlMain, ID_COPY_AR, _T("Co&py AR Code"));
-
-    txtTstOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
-                                  wxDefaultPosition, wxDefaultSize,
-                                  wxTE_MULTILINE);
-    btnCopyTst = new wxButton(pnlMain, ID_COPY_TST, _T("Copy TST &Value"));
+    vboxCodeOutput->Add(lblCodeOutput, 0,
+                       wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
+    vboxCodeOutput->Add(txtCodeOutput, 1, wxEXPAND);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    vboxMain->Add(hboxUpper, 0, wxEXPAND | wxBOTTOM, 5);
-    vboxMain->Add(slnSeparator, 0, wxEXPAND | wxBOTTOM, 5);
-    vboxMain->Add(lblCodeOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
-    vboxMain->Add(txtArOutput, 1, wxEXPAND | wxBOTTOM, 5);
-    vboxMain->Add(btnCopyAr, 0, wxEXPAND | wxBOTTOM, 5);
-    vboxMain->Add(txtTstOutput, 1, wxEXPAND | wxBOTTOM, 5);
-    vboxMain->Add(btnCopyTst, 0, wxEXPAND);
+    hboxMain->Add(vboxCodeInput, 4, wxEXPAND | wxRIGHT, 5);
+    hboxMain->Add(vboxControls, 3, wxEXPAND | wxRIGHT, 5);
+    hboxMain->Add(vboxCodeOutput, 4, wxEXPAND);
 
-    pnlMain->SetSizer(vboxMain);
-    vboxMain->SetSizeHints(pnlMain);
+    pnlMain->SetSizer(hboxMain);
+    hboxMain->SetSizeHints(pnlMain);
 
     vboxMargin->Add(pnlMain, 1, wxEXPAND | wxALL, MARGIN);
     SetSizer(vboxMargin);
     vboxMargin->SetSizeHints(this);
 
     // Instantiate the controller
-    mController = new ButtonActivatorGenerator(txtArOutput, txtTstOutput);
+    mController = new ButtonActivatorGenerator(txtCodeInput, txtCodeOutput,
+                                               txtGbaTst, txtNdsTst);
     // Have it set up the output boxes right away
     mController->UpdateOutput();
 
@@ -233,13 +230,16 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
             wxCommandEventHandler(pgButtonActivatorGenerator::ToggleFolded));
 
     // Other Controls
+    Connect(ID_COPY, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::Copy));
     Connect(ID_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgButtonActivatorGenerator::Clear));
+    Connect(ID_PASTE, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::Paste));
 
-    Connect(ID_COPY_AR, wxEVT_COMMAND_BUTTON_CLICKED,
-            wxCommandEventHandler(pgButtonActivatorGenerator::CopyAr));
-    Connect(ID_COPY_TST, wxEVT_COMMAND_BUTTON_CLICKED,
-            wxCommandEventHandler(pgButtonActivatorGenerator::CopyTst));
+    // Code Input Text Changed
+    Connect(ID_CODE_INPUT, wxEVT_COMMAND_TEXT_UPDATED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::CheckInput));
 }
 
 /** Events **/
@@ -335,34 +335,38 @@ void pgButtonActivatorGenerator::Clear(wxCommandEvent &WXUNUSED(event))
     // Reset the controller and the outputs
     mController->Clear();
 }
-
-// :TODO: 2012-07-17 gbchaosmaster - Abstract these further.
-// CopyAr() and CopyTst() are ridiculously similar. Implement similar
-// functionality into the Clipboard class.
-void pgButtonActivatorGenerator::CopyAr(wxCommandEvent &WXUNUSED(event))
+void pgButtonActivatorGenerator::Copy(wxCommandEvent &WXUNUSED(event))
 {
-    wxString str = txtArOutput->GetValue();
+    wxString str = txtCodeOutput->GetValue();
 
     if (!str.IsEmpty())
     {
         Clipboard::SetClipboard(str);
 
         if (Clipboard::GetClipboard() == str)
-            wxMessageBox(_T("AR output copied successfully."),
+            wxMessageBox(_T("Code output copied successfully."),
                          _T("Success"));
     }
 }
-void pgButtonActivatorGenerator::CopyTst(wxCommandEvent &WXUNUSED(event))
+void pgButtonActivatorGenerator::Paste(wxCommandEvent &WXUNUSED(event))
 {
-    wxString str = txtTstOutput->GetValue();
+    // Prompt them if the input box isn't empty.
+    int dlgresult = !txtCodeInput->GetValue().IsEmpty()
+                    ? wxMessageBox(
+                        _T("\
+Are you sure that you would like to paste in a new input?\n\
+This will overwrite any current data in the code input box.\
+"),
+                        _T("Overwrite Code Input?"), wxYES_NO
+                    )
+                    : wxYES;
 
-    if (!str.IsEmpty())
-    {
-        Clipboard::SetClipboard(str);
+    if (dlgresult == wxYES)
+        txtCodeInput->SetValue(Clipboard::GetClipboard());
+}
 
-        if (Clipboard::GetClipboard() == str)
-            wxMessageBox(_T("TST output copied successfully."),
-                         _T("Success"));
-    }
+void pgButtonActivatorGenerator::CheckInput(wxCommandEvent &WXUNUSED(event))
+{
+    mController->UpdateOutput();
 }
 
