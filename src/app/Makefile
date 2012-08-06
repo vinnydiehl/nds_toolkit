@@ -55,7 +55,7 @@ CFLAGS = -Wall -c -o $@ $(WXCFLAGS) $(INCFLAGS)
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
 
-all: CFLAGS += -O2
+all: CFLAGS += -O3
 all: configure
 all: $(OPATHS)
 

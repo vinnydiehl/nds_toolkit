@@ -35,7 +35,7 @@ OPATHS = $(WX29BUILD)/arrstr.o
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
 
-all: CFLAGS += -O2
+all: CFLAGS += -O3
 all: $(OPATHS)
 
 debug: CFLAGS += $(DEBUG)

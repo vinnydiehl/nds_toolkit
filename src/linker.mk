@@ -77,7 +77,7 @@ LDFLAGS = -Wall $(WXLDFLAGS)
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
 
-all: LDFLAGS += -O2
+all: LDFLAGS += -O3
 all: configure
 all: $(EXE)
 
