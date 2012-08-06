@@ -27,6 +27,8 @@
 #include <wx/string.h>
 #include <wx/textctrl.h>
 
+#include "CodeParser.h"
+
 enum Button
 {
     // GBA
@@ -86,18 +88,24 @@ enum
 class ButtonActivatorGenerator
 {
 public:
-    ButtonActivatorGenerator(wxTextCtrl *arOutput, wxTextCtrl *tstOutput);
+    ButtonActivatorGenerator(wxTextCtrl *codeInput,
+                             wxTextCtrl *codeOutput,
+                             wxTextCtrl *gbaTstOutput,
+                             wxTextCtrl *ndsTstOutput);
 
     void UpdateOutput(void);
 
+    bool IsGba(void);
     bool IsNds(void);
+    bool IsEmpty(void);
 
     void Toggle(Button btn, bool update=true);
     void Clear(bool update=true);
 
 private:
-    wxTextCtrl *mArOutput, *mTstOutput;
-    int mAr, mTst;
+    wxTextCtrl *mCodeInput, *mCodeOutput, *mGbaTstOutput, *mNdsTstOutput;
+    int mGbaAr, mGbaTst;
+    int mNdsAr, mNdsTst;
 };
 
 #endif // BUTTONACTIVATORGENERATOR_H_INCLUDED

@@ -37,6 +37,7 @@
 #include "ButtonActivatorGenerator.h"
 
 #include "Clipboard.h"
+#include "CodeParser.h"
 #include "globals.h"
 
 class pgButtonActivatorGenerator : public wxPanel
@@ -75,6 +76,8 @@ public:
     void Clear(wxCommandEvent &event);
     void Copy(wxCommandEvent &event);
     void Paste(wxCommandEvent &event);
+
+    void CheckInput(wxCommandEvent &event);
 
     // Unfortunately each checkbox needs an event.
 

@@ -23,7 +23,10 @@ ROOT = ../..
 INCDIR = .
 CLIPINCDIR = $(ROOT)/clipboard
 COMMONINCDIR = $(ROOT)/common
-INCPATHS = $(INCDIR) $(COMMONINCDIR) $(CLIPINCDIR)
+COMPATINCDIR = $(ROOT)/compatibility
+PARSEINCDIR = $(ROOT)/codeparser
+INCPATHS = $(INCDIR) $(COMMONINCDIR) $(COMPATINCDIR) $(CLIPINCDIR) \
+           $(PARSEINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -55,12 +58,13 @@ debug: $(OPATHS)
 configure:
 	mkdir -p $(OBJDIR)
 
-$(OBJDIR)/ButtonActivatorGenerator.o: $(INCDIR)/ButtonActivatorGenerator.h
+$(OBJDIR)/ButtonActivatorGenerator.o: \
+    $(INCDIR)/ButtonActivatorGenerator.h $(PARSEINCDIR)/CodeParser.h
 	$(CXX) $(CFLAGS) ButtonActivatorGenerator.cpp
 
 $(OBJDIR)/pgButtonActivatorGenerator.o: \
     $(INCDIR)/pgButtonActivatorGenerator.h $(CLIPINCDIR)/Clipboard.h \
-    $(COMMONINCDIR)/globals.h
+    $(COMMONINCDIR)/globals.h $(PARSEINCDIR)/CodeParser.h
 	$(CXX) $(CFLAGS) pgButtonActivatorGenerator.cpp
 
 clean: configure

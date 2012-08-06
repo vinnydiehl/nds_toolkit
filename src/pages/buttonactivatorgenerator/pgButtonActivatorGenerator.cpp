@@ -190,7 +190,8 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     vboxMargin->SetSizeHints(this);
 
     // Instantiate the controller
-    mController = new ButtonActivatorGenerator(txtCodeInput, txtCodeOutput);
+    mController = new ButtonActivatorGenerator(txtCodeInput, txtCodeOutput,
+                                               txtGbaTst, txtNdsTst);
     // Have it set up the output boxes right away
     mController->UpdateOutput();
 
@@ -235,6 +236,10 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
             wxCommandEventHandler(pgButtonActivatorGenerator::Clear));
     Connect(ID_PASTE, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgButtonActivatorGenerator::Paste));
+
+    // Code Input Text Changed
+    Connect(ID_CODE_INPUT, wxEVT_COMMAND_TEXT_UPDATED,
+            wxCommandEventHandler(pgButtonActivatorGenerator::CheckInput));
 }
 
 /** Events **/
@@ -345,5 +350,23 @@ void pgButtonActivatorGenerator::Copy(wxCommandEvent &WXUNUSED(event))
 }
 void pgButtonActivatorGenerator::Paste(wxCommandEvent &WXUNUSED(event))
 {
+    // Prompt them if the input box isn't empty.
+    int dlgresult = !txtCodeInput->GetValue().IsEmpty()
+                    ? wxMessageBox(
+                        _T("\
+Are you sure that you would like to paste in a new input?\n\
+This will overwrite any current data in the code input box.\
+"),
+                        _T("Overwrite Code Input?"), wxYES_NO
+                    )
+                    : wxYES;
+
+    if (dlgresult == wxYES)
+        txtCodeInput->SetValue(Clipboard::GetClipboard());
+}
+
+void pgButtonActivatorGenerator::CheckInput(wxCommandEvent &WXUNUSED(event))
+{
+    mController->UpdateOutput();
 }
 
