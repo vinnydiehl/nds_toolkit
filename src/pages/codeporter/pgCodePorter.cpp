@@ -152,12 +152,12 @@ void pgCodePorter::Port(wxCommandEvent &WXUNUSED(event))
         wxMessageBox(_T("There is no code input."), _T("Error"));
         return;
     }
-    else if (offsetval.IsEmpty())
+    if (offsetval.IsEmpty())
     {
         wxMessageBox(_T("No offset has been specified."), _T("Error"));
         return;
     }
-    else if (!CodeParser::IsHex(offsetval))
+    if (!CodeParser::IsHex(offsetval))
     {
         wxMessageBox(_T("The offset is not valid hexadecimal."), _T("Error"));
         return;
