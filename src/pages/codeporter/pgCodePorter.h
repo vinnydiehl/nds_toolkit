@@ -53,7 +53,6 @@ public:
     wxBoxSizer *vboxInput;
       wxStaticText *lblInput;
       wxTextCtrl *txtInput;
-
     wxBoxSizer *vboxControls;
       wxStaticBoxSizer *svboxOperation;
         wxBoxSizer *hboxOperationRadios;
@@ -63,7 +62,6 @@ public:
       wxButton *btnPort;
       wxStaticBoxSizer *svboxTools;
         wxButton *btnClear, *btnCopy, *btnPaste;
-
     wxBoxSizer *vboxOutput;
       wxStaticText *lblOutput;
       wxTextCtrl *txtOutput;

@@ -100,10 +100,9 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
 
 
     // Finish up vboxControls
-    vboxControls->Add(svboxOperation, 0, wxEXPAND | wxLEFT |
-                      wxRIGHT | wxBOTTOM, 5);
-    vboxControls->Add(btnPort, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
-    vboxControls->Add(svboxTools, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
+    vboxControls->Add(svboxOperation, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxControls->Add(btnPort, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxControls->Add(svboxTools, 0, wxEXPAND);
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -119,8 +118,8 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    hboxMain->Add(vboxInput, 2, wxEXPAND);
-    hboxMain->Add(vboxControls, 1, wxEXPAND | wxLEFT | wxRIGHT, 5);
+    hboxMain->Add(vboxInput, 2, wxEXPAND | wxRIGHT, 5);
+    hboxMain->Add(vboxControls, 1, wxEXPAND | wxRIGHT, 5);
     hboxMain->Add(vboxOutput, 2, wxEXPAND);
 
     pnlMain->SetSizer(hboxMain);
