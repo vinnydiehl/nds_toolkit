@@ -41,7 +41,7 @@ pgCodeBeautifier::pgCodeBeautifier(wxWindow *parent)
     vboxMargin = new wxBoxSizer(wxVERTICAL);
 
     pnlMain = new wxPanel(this, wxID_ANY);
-    hboxMain = new wxBoxSizer(wxVERTICAL);
+    hboxMain = new wxBoxSizer(wxHORIZONTAL);
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -60,10 +60,20 @@ pgCodeBeautifier::pgCodeBeautifier(wxWindow *parent)
 
     vboxControls = new wxBoxSizer(wxVERTICAL);
 
-    ///// Begin svboxOptions
+    ///// Begin svboxOptions/vboxOptions
+
+    /**
+     * The Options box is a wxBoxSizer within a wxStaticBoxSizer. The
+     * checkboxes are all in the former, which is then added to the latter
+     * with the wxALIGN_CENTER_HORIZONTAL flag, thus keeping the checkboxes
+     * aligned in the center of the static box, but keeping them aligned
+     * on the left with respect to each other.
+    **/
 
     svboxOptions = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
                                         _T("Options"));
+
+    vboxOptions = new wxBoxSizer(wxVERTICAL);
 
     chkUpperHex = new wxCheckBox(pnlMain, wxID_ANY, _T("&Uppercase Hex"));
     chkStripBlankLines = new wxCheckBox(pnlMain, wxID_ANY,
@@ -71,9 +81,11 @@ pgCodeBeautifier::pgCodeBeautifier(wxWindow *parent)
     chkStripComments = new wxCheckBox(pnlMain, wxID_ANY,
                                       _T("S&trip Comments"));
 
-    svboxOptions->Add(chkUpperHex, 0, wxBOTTOM, 5);
-    svboxOptions->Add(chkStripBlankLines, 0, wxBOTTOM, 5);
-    svboxOptions->Add(chkStripComments);
+    vboxOptions->Add(chkUpperHex, 0, wxBOTTOM, 5);
+    vboxOptions->Add(chkStripBlankLines, 0, wxBOTTOM, 5);
+    vboxOptions->Add(chkStripComments);
+
+    svboxOptions->Add(vboxOptions, 0, wxALIGN_CENTER_HORIZONTAL);
 
     ///// btnBeautify is top-level
 

@@ -53,7 +53,8 @@ public:
       wxTextCtrl *txtCodeInput;
     wxBoxSizer *vboxControls;
       wxStaticBoxSizer *svboxOptions;
-        wxCheckBox *chkUpperHex, *chkStripBlankLines, *chkStripComments;
+        wxBoxSizer *vboxOptions;
+          wxCheckBox *chkUpperHex, *chkStripBlankLines, *chkStripComments;
       wxButton *btnBeautify;
       wxStaticBoxSizer *svboxTools;
         wxButton *btnClear, *btnCopy, *btnPaste;
