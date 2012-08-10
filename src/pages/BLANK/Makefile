@@ -23,7 +23,8 @@ ROOT = ../..
 
 # Source Directories
 INCDIR = .
-INCPATHS = $(INCDIR)
+COMMONINCDIR = $(ROOT)/common
+INCPATHS = $(INCDIR) $(COMMONINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options

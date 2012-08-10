@@ -45,12 +45,10 @@ pgBlank::pgBlank(wxWindow *parent)
     // Add layout boxes and whatnot like so:
     // hboxName = new wxBoxSizer(wxHORIZONTAL);
     // And then items to that:
-    // lblFoo = new wxStaticText(pnlMain, wxID_ANY, _T("Whatever..."));
+    // lblFoo = new wxStaticText(pnlMain, wxID_ANY, _T("Label Text"));
     // hboxName->Add(lblFoo, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
     // Then add it to the main box...
     // vboxMain->Add(hboxName, 0, wxEXPAND);
-    // Maybe add a separator? This uses the SEPARATOR macro from globals.h.
-    // vboxMain->Add(-1, SEPARATOR);
     // You get the idea...
 
     pnlMain->SetSizer(vboxMain);
