@@ -35,8 +35,7 @@ _CONFIG_HEADER_DEFAULT = '''\
 #define ADD_BUTTON_ACTIVATOR_GENERATOR
 #define ADD_POINTER_SEARCHER
 #define ADD_CODE_PORTER
-#define ADD_CODE_COMPRESSOR
-#define ADD_CODE_BEAUTIFIER\
+#define ADD_CODE_COMPRESSOR\
 '''
 
 # Check all fatals before anything else.

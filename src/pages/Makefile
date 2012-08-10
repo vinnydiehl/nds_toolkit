@@ -23,8 +23,6 @@ ifndef $(ENFORCE_CONFIG)
     POINTER_SEARCHER = PointerSearcher.o pgPointerSearcher.o
     CODE_PORTER = CodePorter.o pgCodePorter.o
     CODE_COMPRESSOR = EBuilder.o LoopCodeGenerator.o pgCodeCompressor.o
-    # DEBUG:
-    CODE_BEAUTIFIER = pgCodeBeautifier.o
 endif
 
 # Make Utility

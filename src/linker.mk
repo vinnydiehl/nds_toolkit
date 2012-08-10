@@ -38,8 +38,6 @@ ifeq ($(SETUP),default)
     CODE_COMPRESSOR = LoopCodeGenerator.o \
 		      PatchCodeBuilder.o \
 		      pgCodeCompressor.o
-    # DEBUG
-    CODE_BEAUTIFIER = pgCodeBeautifier.o
 endif
 
 # Root Source Directory
