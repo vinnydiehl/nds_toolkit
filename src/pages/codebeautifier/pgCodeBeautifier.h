@@ -23,9 +23,16 @@
 #ifndef PGCODEBEAUTIFIER_H_INCLUDED
 #define PGCODEBEAUTIFIER_H_INCLUDED
 
+#include <wx/button.h>
+#include <wx/checkbox.h>
+#include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <wx/sizer.h>
+#include <wx/stattext.h>
+#include <wx/string.h>
+#include <wx/textctrl.h>
 
+#include "Clipboard.h"
 #include "globals.h"
 
 class pgCodeBeautifier : public wxPanel
@@ -38,23 +45,36 @@ public:
 
     /** Main Content **/
 
-    wxBoxSizer *vboxMargin, *vboxMain;
+    wxBoxSizer *vboxMargin, *hboxMain;
     wxPanel *pnlMain;
 
-    // Add layout boxes and such like so:
-    // wxBoxSizer *hboxName;
-    // wxStaticText *lblFoo;
+    wxBoxSizer *vboxCodeInput;
+      wxStaticText *lblCodeInput;
+      wxTextCtrl *txtCodeInput;
+    wxBoxSizer *vboxControls;
+      wxStaticBoxSizer *svboxOptions;
+        wxCheckBox *chkUpperHex, *chkStripBlankLines, *chkStripComments;
+      wxButton *btnBeautify;
+      wxStaticBoxSizer *svboxTools;
+        wxButton *btnClear, *btnCopy, *btnPaste;
+    wxBoxSizer *vboxCodeOutput;
+      wxStaticText *lblCodeOutput;
+      wxTextCtrl *txtCodeOutput;
 
     /** Events **/
 
-    // Insert events here.
+    void Beautify(wxCommandEvent &event);
+
+    void Clear(wxCommandEvent &event);
+    void Copy(wxCommandEvent &event);
+    void Paste(wxCommandEvent &event);
 
 private:
 
     /** Identifiers **/
 
-    // Format:
-    // static const long ID_NAME;
+    static const long ID_BEAUTIFY;
+    static const long ID_CLEAR, ID_COPY, ID_PASTE;
 };
 
 #endif // PGCODEBEAUTIFIER_H_INCLUDED

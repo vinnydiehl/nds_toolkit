@@ -27,8 +27,11 @@ wxString pgCodeBeautifier::Title = _T("Code Beautifier");
 
 /** Initialize Identifiers **/
 
-// Format:
-// const long ClassName::ID_NAME = wxNewId();
+const long pgCodeBeautifier::ID_BEAUTIFY = wxNewId();
+
+const long pgCodeBeautifier::ID_CLEAR = wxNewId();
+const long pgCodeBeautifier::ID_COPY = wxNewId();
+const long pgCodeBeautifier::ID_PASTE = wxNewId();
 
 pgCodeBeautifier::pgCodeBeautifier(wxWindow *parent)
                 : wxPanel(parent, wxID_ANY)
@@ -38,27 +41,162 @@ pgCodeBeautifier::pgCodeBeautifier(wxWindow *parent)
     vboxMargin = new wxBoxSizer(wxVERTICAL);
 
     pnlMain = new wxPanel(this, wxID_ANY);
-    vboxMain = new wxBoxSizer(wxVERTICAL);
+    hboxMain = new wxBoxSizer(wxVERTICAL);
 
-    // Add layout boxes and whatnot like so:
-    // hboxName = new wxBoxSizer(wxHORIZONTAL);
-    // And then items to that:
-    // lblFoo = new wxStaticText(pnlMain, wxID_ANY, _T("Whatever..."));
-    // hboxName->Add(lblFoo, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
-    // Then add it to the main box...
-    // vboxMain->Add(hboxName, 0, wxEXPAND);
-    // You get the idea...
+////////////////////////////////////////////////////////////////////////////////
 
-    pnlMain->SetSizer(vboxMain);
-    vboxMain->SetSizeHints(pnlMain);
+    vboxCodeInput = new wxBoxSizer(wxVERTICAL);
+
+    lblCodeInput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Input"));
+    txtCodeInput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                                  wxDefaultPosition, wxDefaultSize,
+                                  wxTE_MULTILINE | wxHSCROLL);
+
+    vboxCodeInput->Add(lblCodeInput, 0,
+                       wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
+    vboxCodeInput->Add(txtCodeInput, 1, wxEXPAND);
+
+////////////////////////////////////////////////////////////////////////////////
+
+    vboxControls = new wxBoxSizer(wxVERTICAL);
+
+    ///// Begin svboxOptions
+
+    svboxOptions = new wxStaticBoxSizer(wxVERTICAL, pnlMain,
+                                        _T("Options"));
+
+    chkUpperHex = new wxCheckBox(pnlMain, wxID_ANY, _T("&Uppercase Hex"));
+    chkStripBlankLines = new wxCheckBox(pnlMain, wxID_ANY,
+                                        _T("&Strip Blank Lines"));
+    chkStripComments = new wxCheckBox(pnlMain, wxID_ANY,
+                                      _T("S&trip Comments"));
+
+    svboxOptions->Add(chkUpperHex, 0, wxBOTTOM, 5);
+    svboxOptions->Add(chkStripBlankLines, 0, wxBOTTOM, 5);
+    svboxOptions->Add(chkStripComments);
+
+    ///// btnBeautify is top-level
+
+    btnBeautify = new wxButton(pnlMain, ID_BEAUTIFY, _T("&Beautify"));
+
+    ///// Begin svboxTools
+
+    svboxTools = new wxStaticBoxSizer(wxVERTICAL, pnlMain, _T("Tools"));
+
+    btnClear = new wxButton(pnlMain, ID_CLEAR, _T("C&lear"));
+    btnCopy = new wxButton(pnlMain, ID_COPY, _T("&Copy"));
+    btnPaste = new wxButton(pnlMain, ID_PASTE, _T("&Paste"));
+
+    svboxTools->Add(btnClear, 0, wxEXPAND | wxBOTTOM, 3);
+    svboxTools->Add(btnCopy, 0, wxEXPAND | wxBOTTOM, 3);
+    svboxTools->Add(btnPaste, 0, wxEXPAND);
+
+    // Finish up vboxControls
+    vboxControls->Add(svboxOptions, 0, wxEXPAND | wxBOTTOM, 5);
+    vboxControls->Add(btnBeautify, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxControls->Add(svboxTools, 0, wxEXPAND);
+
+////////////////////////////////////////////////////////////////////////////////
+
+    vboxCodeOutput = new wxBoxSizer(wxVERTICAL);
+
+    lblCodeOutput = new wxStaticText(pnlMain, wxID_ANY, _T("Code Output"));
+    txtCodeOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
+                                   wxDefaultPosition, wxDefaultSize,
+                                   wxTE_MULTILINE | wxHSCROLL);
+
+    vboxCodeOutput->Add(lblCodeOutput, 0,
+                        wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
+    vboxCodeOutput->Add(txtCodeOutput, 1, wxEXPAND);
+
+////////////////////////////////////////////////////////////////////////////////
+
+    hboxMain->Add(vboxCodeInput, 2, wxEXPAND | wxRIGHT, 5);
+    hboxMain->Add(vboxControls, 1, wxEXPAND | wxRIGHT, 5);
+    hboxMain->Add(vboxCodeOutput, 2, wxEXPAND);
+
+    pnlMain->SetSizer(hboxMain);
+    hboxMain->SetSizeHints(pnlMain);
 
     vboxMargin->Add(pnlMain, 1, wxEXPAND | wxALL, MARGIN);
     SetSizer(vboxMargin);
     vboxMargin->SetSizeHints(this);
 
-    // Connect main window events
-    // Put all of your event connections here. Example:
-//  Connect(ID_NAME, wxEVT_COMMAND_BUTTON_CLICKED,
-//          wxCommandEventHandler(ClassName::MethodName));
+    // Connect Code Porter events
+    Connect(ID_BEAUTIFY, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodeBeautifier::Beautify));
+
+    Connect(ID_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodeBeautifier::Clear));
+    Connect(ID_COPY, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodeBeautifier::Copy));
+    Connect(ID_PASTE, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgCodeBeautifier::Paste));
+}
+
+void pgCodeBeautifier::Beautify(wxCommandEvent &WXUNUSED(event))
+{
+    wxString inputval = txtCodeInput->GetValue();
+
+    // Test for things that would make us want to bail.
+    if (inputval.Trim().Trim(false).IsEmpty())
+    {
+        wxMessageBox(_T("There is no code input."), _T("Error"));
+        return;
+    }
+
+    try
+    {
+        // Something
+    }
+    catch (wxString msg)
+    {
+        wxMessageBox(msg, _T("Error"));
+    }
+}
+
+void pgCodeBeautifier::Clear(wxCommandEvent &WXUNUSED(event))
+{
+    int dlgresult = wxMessageBox(
+        _T("\
+Are you sure that you would like to clear the input and output boxes?\
+"),
+        _T("Clear Input/Output?"), wxYES_NO
+    );
+
+    if (dlgresult == wxYES)
+    {
+        txtCodeInput->SetValue(_T(""));
+        txtCodeOutput->SetValue(_T(""));
+    }
+}
+void pgCodeBeautifier::Copy(wxCommandEvent &WXUNUSED(event))
+{
+    wxString str = txtCodeOutput->GetValue();
+
+    if (!str.IsEmpty())
+    {
+        Clipboard::SetClipboard(str);
+
+        if (Clipboard::GetClipboard() == str)
+            wxMessageBox(_T("Code output copied successfully."),
+                         _T("Success"));
+    }
+}
+void pgCodeBeautifier::Paste(wxCommandEvent &WXUNUSED(event))
+{
+    // Prompt them if the input box isn't empty.
+    int dlgresult = !txtCodeInput->GetValue().IsEmpty()
+                    ? wxMessageBox(
+                        _T("\
+Are you sure that you would like to paste in a new input?\n\
+This will overwrite any current data in the input box.\
+"),
+                        _T("Overwrite Input?"), wxYES_NO
+                    )
+                    : wxYES;
+
+    if (dlgresult == wxYES)
+        txtCodeInput->SetValue(Clipboard::GetClipboard());
 }
 

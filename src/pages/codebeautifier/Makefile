@@ -21,8 +21,9 @@ ROOT = ../..
 
 # Source Directories
 INCDIR = .
+CLIPINCDIR = $(ROOT)/clipboard
 COMMONINCDIR = $(ROOT)/common
-INCPATHS = $(INCDIR) $(COMMONINCDIR)
+INCPATHS = $(INCDIR) $(CLIPINCDIR) $(COMMONINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -55,6 +56,7 @@ configure:
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgCodeBeautifier.o: $(INCDIR)/pgCodeBeautifier.h \
+                              $(CLIPINCDIR)/Clipboard.h \
                               $(COMMONINCDIR)/globals.h
 	$(CXX) $(CFLAGS) pgCodeBeautifier.cpp
 
