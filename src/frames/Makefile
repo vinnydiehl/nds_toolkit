@@ -29,7 +29,8 @@ FHINCDIR = $(ROOT)/filehandler
 PAGESINCDIR = $(ROOT)/pages/buttonactivatorgenerator \
 	      $(ROOT)/pages/codecompressor \
 	      $(ROOT)/pages/codeporter \
-	      $(ROOT)/pages/pointersearcher
+	      $(ROOT)/pages/pointersearcher \
+	      $(ROOT)/pages/codebeautifier
 PARSEINCDIR = $(ROOT)/codeparser
 INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMMONINCDIR) \
 	   $(COMPATINCDIR) $(FHINCDIR) $(PAGESINCDIR) $(PARSEINCDIR)
@@ -39,7 +40,8 @@ PAGESINCLDS = \
   $(ROOT)/pages/buttonactivatorgenerator/pgButtonActivatorGenerator.h \
   $(ROOT)/pages/codeporter/pgCodePorter.h \
   $(ROOT)/pages/pointersearcher/pgPointerSearcher.h \
-  $(ROOT)/pages/codecompressor/pgCodeCompressor.h
+  $(ROOT)/pages/codecompressor/pgCodeCompressor.h \
+  $(ROOT)/pages/codebeautifier/pgCodeBeautifier.h
 
 # wxWidgets Options
 WXCFLAGS = `wx-config --cxxflags`

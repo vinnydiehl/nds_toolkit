@@ -35,7 +35,8 @@ _CONFIG_HEADER_DEFAULT = '''\
 #define ADD_BUTTON_ACTIVATOR_GENERATOR
 #define ADD_POINTER_SEARCHER
 #define ADD_CODE_PORTER
-#define ADD_CODE_COMPRESSOR\
+#define ADD_CODE_COMPRESSOR
+#define ADD_CODE_BEAUTIFIER\
 '''
 
 # Check all fatals before anything else.
@@ -289,6 +290,15 @@ for option in config:
         )
         config_header_options.append(
             '#define ADD_CODE_COMPRESSOR'
+        )
+        break
+for option in config:
+    if search(r'add[_-]options?\s+--add-code-beautifier', option):
+        makefile_options.append(
+'CODE_BEAUTIFIER = pgCodeBeautifier.o'
+        )
+        config_header_options.append(
+            '#define ADD_CODE_BEAUTIFIER'
         )
         break
 

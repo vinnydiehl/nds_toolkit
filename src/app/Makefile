@@ -30,7 +30,8 @@ FRAMEINCDIR = $(ROOT)/frames
 PAGESINCDIR = $(ROOT)/pages/buttonactivatorgenerator \
 	      $(ROOT)/pages/codecompressor \
 	      $(ROOT)/pages/codeporter \
-	      $(ROOT)/pages/pointersearcher
+	      $(ROOT)/pages/pointersearcher \
+	      $(ROOT)/pages/codebeautifier
 PARSEINCDIR = $(ROOT)/codeparser
 INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMMONINCDIR) \
 	   $(COMPATINCDIR) $(FHINCDIR) $(FRAMEINCDIR) $(PAGESINCDIR) \

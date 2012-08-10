@@ -58,6 +58,8 @@ ifeq ($(SETUP),default)
     CODE_COMPRESSOR = LoopCodeGenerator.o \
 		      PatchCodeBuilder.o \
 		      pgCodeCompressor.o
+    # DEBUG
+    CODE_BEAUTIFIER = pgCodeBeautifier.o
 endif
 
 # Tell pages/Makefile to enforce the configuration. That Makefile requires
@@ -66,7 +68,8 @@ PAGESMAKEVARS = ENFORCE_CONFIG=1 \
 		BUTTON_ACTIVATOR_GENERATOR="$(BUTTON_ACTIVATOR_GENERATOR)" \
 		POINTER_SEARCHER="$(POINTER_SEARCHER)" \
 		CODE_PORTER="$(CODE_PORTER)" \
-		CODE_COMPRESSOR="$(CODE_COMPRESSOR)"
+		CODE_COMPRESSOR="$(CODE_COMPRESSOR)" \
+		CODE_BEAUTIFIER="$(CODE_BEAUTIFIER)"
 
 # Root Source Directory
 ROOT = .
@@ -86,7 +89,7 @@ EXE = $(BINDIR)/$(NAME)
 OBJ = Clipboard.o CodeParser.o Downloader.o FileHandler.o \
       MenuBar.o Program.o frmMain.o \
       $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
-      $(CODE_PORTER) $(CODE_COMPRESSOR)
+      $(CODE_PORTER) $(CODE_COMPRESSOR) $(CODE_BEAUTIFIER)
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compatability Library Paths
@@ -156,6 +159,9 @@ $(OBJDIR)/CodePorter.o:
 $(OBJDIR)/pgPointerSearcher.o:
 	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
 $(OBJDIR)/PointerSearcher.o:
+	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
+
+$(OBJDIR)/pgCodeBeautifier.o:
 	$(MAKE) -C pages $(MAKETGT) $(PAGESMAKEVARS)
 
 # clipboard

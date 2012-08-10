@@ -16,13 +16,15 @@
 
 # @file Makefile - Recursively builds all of the application's pages.
 
-# If we aren't enforcing the config settings, just build everything.
+# If we aren't enforcing the config settings, just build default.
 ifndef $(ENFORCE_CONFIG)
     BUTTON_ACTIVATOR_GENERATOR = ButtonActivatorGenerator.o \
 				 pgButtonActivatorGenerator.o
     POINTER_SEARCHER = PointerSearcher.o pgPointerSearcher.o
     CODE_PORTER = CodePorter.o pgCodePorter.o
     CODE_COMPRESSOR = EBuilder.o LoopCodeGenerator.o pgCodeCompressor.o
+    # DEBUG:
+    CODE_BEAUTIFIER = pgCodeBeautifier.o
 endif
 
 # Make Utility
@@ -38,7 +40,7 @@ OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
 OBJ = $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
-      $(CODE_PORTER) $(CODE_COMPRESSOR)
+      $(CODE_PORTER) $(CODE_COMPRESSOR) $(CODE_BEAUTIFIER)
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
@@ -76,6 +78,9 @@ $(OBJDIR)/EBuilder.o:
 	$(MAKE) -C codecompressor $(MAKETGT)
 $(OBJDIR)/LoopCodeGenerator.o:
 	$(MAKE) -C codecompressor $(MAKETGT)
+
+$(OBJDIR)/pgCodeBeautifier.o:
+	$(MAKE) -C codebeautifier $(MAKETGT)
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)
