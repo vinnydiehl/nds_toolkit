@@ -14,27 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# @file Makefile - Builds the application base.
+# @file Makefile - Builds the Code Beautifier page.
 
 # Orientation of this Makefile
-ROOT = ..
+ROOT = ../..
 
 # Source Directories
 INCDIR = .
-BASEINCDIR = $(ROOT)/base
 CLIPINCDIR = $(ROOT)/clipboard
 COMMONINCDIR = $(ROOT)/common
 COMPATINCDIR = $(ROOT)/compatibility
-FHINCDIR = $(ROOT)/filehandler
-FRAMEINCDIR = $(ROOT)/frames
-PAGESINCDIR = $(ROOT)/pages/buttonactivatorgenerator \
-	      $(ROOT)/pages/codecompressor \
-	      $(ROOT)/pages/codeporter \
-	      $(ROOT)/pages/pointersearcher \
-	      $(ROOT)/pages/codebeautifier
 PARSEINCDIR = $(ROOT)/codeparser
-INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMMONINCDIR) \
-	   $(COMPATINCDIR) $(FHINCDIR) $(FRAMEINCDIR) $(PAGESINCDIR) \
+INCPATHS = $(INCDIR) $(CLIPINCDIR) $(COMMONINCDIR) $(COMPATINCDIR) \
 	   $(PARSEINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
@@ -46,7 +37,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = Program.o
+OBJ = pgCodeBeautifier.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -67,8 +58,11 @@ debug: $(OPATHS)
 configure:
 	mkdir -p $(OBJDIR)
 
-$(OBJDIR)/Program.o: $(INCDIR)/Program.h $(FRAMEINCDIR)/frmMain.h
-	$(CXX) $(CFLAGS) Program.cpp
+$(OBJDIR)/pgCodeBeautifier.o: $(INCDIR)/pgCodeBeautifier.h \
+                              $(CLIPINCDIR)/Clipboard.h \
+                              $(COMMONINCDIR)/globals.h \
+			      $(PARSEINCDIR)/CodeParser.h
+	$(CXX) $(CFLAGS) pgCodeBeautifier.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

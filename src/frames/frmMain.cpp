@@ -58,17 +58,22 @@ frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, NAME)
                     pgCodeCompressor::Title);
 #endif
 
+#ifdef ADD_CODE_BEAUTIFIER
+    nbMain->AddPage(new pgCodeBeautifier(nbMain),
+                    pgCodeBeautifier::Title);
+#endif
+
     vboxNotebook->Add(nbMain, 1, wxEXPAND);
     pnlNotebook->SetSizer(vboxNotebook);
     vboxNotebook->SetSizeHints(pnlNotebook);
 
     /** Configure Form **/
 
-    // Set the menu bar to a new instance of MenuBar
+    // Set the menu bar to a new instance of MenuBar.
     SetMenuBar(new MenuBar(this));
-    // Give it a starting size of 800x500 for now.
-    SetSize(wxSize(800, 500)); // 2012-06-09 gbchaosmaster from 750x450
-    // Center the window on screen on startup
+    // 800x500 startup size seems reasonable.
+    SetSize(wxSize(800, 500));
+    // Center the window on screen on startup.
     Center();
 }
 

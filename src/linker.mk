@@ -59,7 +59,7 @@ EXE = $(BINDIR)/$(NAME)
 OBJ = Clipboard.o CodeParser.o Downloader.o FileHandler.o \
       MenuBar.o Program.o frmMain.o \
       $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
-      $(CODE_PORTER) $(CODE_COMPRESSOR)
+      $(CODE_PORTER) $(CODE_COMPRESSOR) $(CODE_BEAUTIFIER)
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compatability Library Paths
