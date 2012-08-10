@@ -33,6 +33,7 @@
 #include <wx/textctrl.h>
 
 #include "Clipboard.h"
+#include "CodeParser.h"
 #include "globals.h"
 
 class pgCodeBeautifier : public wxPanel

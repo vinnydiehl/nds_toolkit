@@ -81,6 +81,9 @@ pgCodeBeautifier::pgCodeBeautifier(wxWindow *parent)
     chkStripComments = new wxCheckBox(pnlMain, wxID_ANY,
                                       _T("S&trip Comments"));
 
+    // Checked by default:
+    chkUpperHex->SetValue(true);
+
     vboxOptions->Add(chkUpperHex, 0, wxBOTTOM, 5);
     vboxOptions->Add(chkStripBlankLines, 0, wxBOTTOM, 5);
     vboxOptions->Add(chkStripComments);
@@ -157,14 +160,27 @@ void pgCodeBeautifier::Beautify(wxCommandEvent &WXUNUSED(event))
         return;
     }
 
-    try
+    // Gather all of the flags from the checkboxes.
+    int flags = 0x0;
+    if (chkUpperHex->GetValue())
+        flags |= UPPER_HEX;
+    if (chkStripBlankLines->GetValue())
+        flags |= STRIP_BLANK_LINES;
+    if (chkStripComments->GetValue())
+        flags |= STRIP_COMMENTS;
+
+    // Run CodeParser::Beautify() and get the result...
+    wxString result = CodeParser::Beautify(txtCodeInput->GetValue(), flags);
+
+    // Test the result to see if we got an invalid, if so, error.
+    if (result == _T("Invalid"))
     {
-        // Something
+        wxMessageBox(_T("Invalid code input."), _T("Error"));
+        return;
     }
-    catch (wxString msg)
-    {
-        wxMessageBox(msg, _T("Error"));
-    }
+
+    // If it passed, set the output.
+    txtCodeOutput->SetValue(result);
 }
 
 void pgCodeBeautifier::Clear(wxCommandEvent &WXUNUSED(event))
