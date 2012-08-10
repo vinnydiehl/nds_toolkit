@@ -92,7 +92,11 @@ add_options --add-button-activator-generator
 add_options --add-pointer-searcher
 add_options --add-code-porter
 add_options --add-code-compressor
+add_options --add-code-beautifier
 ```
+
+As of now, the only way to use the Code Beautifier page is to enable it as a
+build option. The page is disabled in the default configuration.
 
 To apply your selected options to be used next build, run ```./configure```. If
 there is no ```.ndsconfig``` or if the file is blank, by default all pages
