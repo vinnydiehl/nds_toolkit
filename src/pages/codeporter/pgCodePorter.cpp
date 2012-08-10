@@ -143,16 +143,16 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
 
 void pgCodePorter::Port(wxCommandEvent &WXUNUSED(event))
 {
-    wxString inputval = txtInput->GetValue();
-    wxString offsetval = txtOffset->GetValue();
+    wxString inputval = txtInput->GetValue().Trim().Trim(false);
+    wxString offsetval = txtOffset->GetValue().Trim().Trim(false);
 
     // Test for things that would make us want to bail.
-    if (inputval.Trim().Trim(false).IsEmpty())
+    if (inputval.IsEmpty())
     {
         wxMessageBox(_T("There is no code input."), _T("Error"));
         return;
     }
-    else if (offsetval.Trim().Trim(false).IsEmpty())
+    else if (offsetval.IsEmpty())
     {
         wxMessageBox(_T("No offset has been specified."), _T("Error"));
         return;
