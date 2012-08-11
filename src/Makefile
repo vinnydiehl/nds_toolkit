@@ -43,7 +43,12 @@
 # edit its contents unless you know what you're doing, and do not edit the
 # designators surrounding it or the configuration script will break.
 ### BEGIN CONFIG ###
-SETUP = default
+BUTTON_ACTIVATOR_GENERATOR = ButtonActivatorGenerator.o \
+                             pgButtonActivatorGenerator.o
+POINTER_SEARCHER = PointerSearcher.o pgPointerSearcher.o
+CODE_PORTER = CodePorter.o pgCodePorter.o
+CODE_COMPRESSOR = LoopCodeGenerator.o PatchCodeBuilder.o pgCodeCompressor.o
+CODE_BEAUTIFIER = pgCodeBeautifier.o
 ### END CONFIG ###
 
 # Parse preset config setups. Note that if the page is to be included,
@@ -58,6 +63,7 @@ ifeq ($(SETUP),default)
     CODE_COMPRESSOR = LoopCodeGenerator.o \
 		      PatchCodeBuilder.o \
 		      pgCodeCompressor.o
+    CODE_BEAUTIFIER = pgCodeBeautifier.o
 endif
 
 # Tell pages/Makefile to enforce the configuration. That Makefile requires
