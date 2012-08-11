@@ -136,6 +136,9 @@ void PointerSearcher::Search(wxArrayString *outputSearchResults,
             ));
     }
 
+    if (outputSearchResults->IsEmpty())
+        throw wxString(_T("No results were found."));
+
     // Copy this locally, it looks cleaner.
     wxArrayString results = *outputSearchResults;
 
