@@ -32,6 +32,9 @@ const long pgPointerSearcher::ID_BROWSE_FILE_2 = wxNewId();
 
 const long pgPointerSearcher::ID_FIND_POINTERS = wxNewId();
 
+const long pgPointerSearcher::ID_SEARCH_RESULTS = wxNewId();
+const long pgPointerSearcher::ID_HEX_VALUE = wxNewId();
+
 pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
                  :  wxPanel(parent, wxID_ANY)
 {
@@ -88,7 +91,7 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     txtAddress2 = new wxTextCtrl(pnlMain, wxID_ANY);
 
     lblHexValue = new wxStaticText(pnlMain, wxID_ANY, _T("Hex Value"));
-    txtHexValue = new wxTextCtrl(pnlMain, wxID_ANY);
+    txtHexValue = new wxTextCtrl(pnlMain, ID_HEX_VALUE);
 
     // Row 1
     gridDataInput->Add(lblAddress1, 0, wxALIGN_CENTER_HORIZONTAL);
@@ -160,7 +163,7 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     lblSearchResults = new wxStaticText(
         pnlMain, wxID_ANY, _T("Pointer Address : Value At :: Offset")
     );
-    lstSearchResults = new wxListBox(pnlMain, wxID_ANY);
+    lstSearchResults = new wxListBox(pnlMain, ID_SEARCH_RESULTS);
 
     vboxSearchResults->Add(lblSearchResults, 0,
                            wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
@@ -172,8 +175,8 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
 
     lblPtrCode = new wxStaticText(pnlMain, wxID_ANY, _T("Pointer Code"));
     txtPtrCode = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
-                                      wxDefaultPosition, wxDefaultSize,
-                                      wxTE_MULTILINE | wxHSCROLL);
+                                wxDefaultPosition, wxDefaultSize,
+                                wxTE_MULTILINE | wxHSCROLL);
 
     vboxPtrCode->Add(lblPtrCode, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxPtrCode->Add(txtPtrCode, 1, wxEXPAND);
@@ -213,6 +216,11 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
             wxCommandEventHandler(pgPointerSearcher::SelectFile1));
     Connect(ID_BROWSE_FILE_2, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgPointerSearcher::SelectFile2));
+
+    Connect(ID_SEARCH_RESULTS, wxEVT_COMMAND_LISTBOX_SELECTED,
+            wxCommandEventHandler(pgPointerSearcher::RefreshPtrCode));
+    Connect(ID_HEX_VALUE, wxEVT_COMMAND_TEXT_UPDATED,
+            wxCommandEventHandler(pgPointerSearcher::RefreshPtrCode));
 }
 
 /** Main Algorithm **/
@@ -283,6 +291,27 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
     lstSearchResults->Set(searchResults);
     lstSearchResults->SetSelection(smallest);
     txtPtrCode->SetValue(ptrCode);
+}
+void pgPointerSearcher::RefreshPtrCode(wxCommandEvent &WXUNUSED(event))
+{
+    // Stop if we have nothing to do.
+    if (lstSearchResults->IsEmpty() || txtHexValue->IsEmpty())
+        return;
+
+    try
+    {
+        txtPtrCode->SetValue(
+            PointerSearcher::ArCode(
+                lstSearchResults->GetStringSelection(),
+                txtHexValue->GetValue()
+            )
+        );
+    }
+    catch (wxString msg)
+    {
+        wxMessageBox(msg, _T("Error"));
+        return;
+    }
 }
 
 /** File Input **/
