@@ -40,10 +40,13 @@ enum TargetType
 class PointerSearcher
 {
 public:
-    static void Search(wxString *outputSearchResults, wxString *outputPtrCode,
+    static void Search(wxArrayString *outputSearchResults,
+                       wxString *outputPtrCode, unsigned *outputSmallest,
                        wxFFileInputStream *file1, wxFFileInputStream *file2,
                        wxString addr1, wxString addr2, wxString hexValueStr,
                        TargetType posneg, wxString maxPtrOffsetStr);
+
+    static wxString ArCode(wxString result, wxString hexValueStr);
 };
 
 #endif // POINTERSEARCHER_H_INCLUDED

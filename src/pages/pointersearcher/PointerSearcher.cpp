@@ -22,8 +22,9 @@
 
 #include "PointerSearcher.h"
 
-void PointerSearcher::Search(wxString *outputSearchResults,
+void PointerSearcher::Search(wxArrayString *outputSearchResults,
                              wxString *outputPtrCode,
+                             unsigned *outputSmallest,
                              wxFFileInputStream *file1,
                              wxFFileInputStream *file2,
                              wxString addr1str,
@@ -96,7 +97,7 @@ void PointerSearcher::Search(wxString *outputSearchResults,
     // End of error checking, beginning of calculation.
 
     // We can clear out the output strings now so they can be appended to.
-    *outputSearchResults = _T("");
+    outputSearchResults->Clear();
     *outputPtrCode = _T("");
 
     // Seek to the beginning of each stream.
@@ -117,13 +118,6 @@ void PointerSearcher::Search(wxString *outputSearchResults,
     if (offsetTargetType == Negative)
         desiredOffset *= -1;
 
-    // Use the Hex Value input to determine the code type.
-    char codeType = hexValue >= 0x0 && hexValue <= 0xFF
-                    ? 2
-                    : hexValue > 0xFF && hexValue <= 0xFFFF
-                      ? 1
-                      : 0;
-
     // Loop through the file's size in bytes.
     // sizeof(int) because 32-bit integers are being read from the files.
     for (long i = 0; i < file1len; i += sizeof(int))
@@ -134,25 +128,25 @@ void PointerSearcher::Search(wxString *outputSearchResults,
         if (offset1 == offset2 &&
             ((offset1 <= desiredOffset && offset1 > 0) ||
              (offset1 >= desiredOffset && offset1 < 0)))
-            *outputSearchResults += wxString::Format(
-                _T("0x%.8X : 0x%.8X :: 0x%.8X\n"),
+            outputSearchResults->Add(wxString::Format(
+                _T("0x%.8X : 0x%.8X :: 0x%.8X"),
                 i + 0x2000000,
                 addr1 - offset1,
                 offset1
-            );
+            ));
     }
 
-    // Get rid of the newline at the very end that the loop leaves.
-    if (!outputSearchResults->IsEmpty())
-        outputSearchResults->RemoveLast();
+    if (outputSearchResults->IsEmpty())
+        throw wxString(_T("No results were found."));
 
-    // Get an array of the results to loop over.
-    wxArrayString results = wxc::wxSplit(*outputSearchResults, _T('\n'));
+    // Copy this locally, it looks cleaner.
+    wxArrayString results = *outputSearchResults;
 
     // These need to be tracked outside of the loop.
     long smallestOffset = 0;
-    wxString smallestAddress;
+    unsigned smallest;
 
+    // Loop over the results and find the smallest.
     for (unsigned i = 0; i < results.GetCount(); ++i)
     {
         // Just to be on the safe side, make sure we don't have a blank.
@@ -166,38 +160,63 @@ void PointerSearcher::Search(wxString *outputSearchResults,
         // If this result is the best so far, save some data about it.
         if (smallestOffset == 0 || offset < smallestOffset)
         {
+            smallest = i;
             smallestOffset = offset;
-            smallestAddress = results[i].Mid(3, 7);
         }
     }
 
-    // First two lines of the AR code output
-    *outputPtrCode = wxString::Format(
+    *outputPtrCode = ArCode(results[smallest], hexValueStr);
+    *outputSmallest = smallest;
+}
+
+wxString PointerSearcher::ArCode(wxString result, wxString hexValueStr)
+{
+    // Convert the hex value to an integer.
+    long hexValue;
+    if (!hexValueStr.ToLong(&hexValue, 16))
+        throw wxString(_T("Hex Value must be a hex number."));
+
+    // Use the hex value to determine the code type.
+    char codeType = hexValue >= 0x0 && hexValue <= 0xFF
+                    ? 2
+                    : hexValue > 0xFF && hexValue <= 0xFFFF
+                      ? 1
+                      : 0;
+
+    // Get the offset and the address...
+    long offset;
+    result.Mid(29, 8).ToLong(&offset, 16);
+    wxString address = result.Mid(3, 7);
+
+    // First two lines of the AR code output:
+    wxString builder = wxString::Format(
         _T("6%s 00000000\nB%s 00000000\n"),
-        smallestAddress.c_str(), smallestAddress.c_str()
+        address.c_str(), address.c_str()
     );
 
-    *outputPtrCode += smallestOffset < 0
-        // Best offset is negative:
+    builder += offset < 0
+        // Offset is negative:
         ? wxString::Format(
             _T("\
 DC000000 %.8X\n\
 %X8000000 %.8X\n\
 D2000000 00000000\
 "),
-            smallestOffset - 0x8000000,
+            offset - 0x8000000,
             codeType,
             hexValue
         )
-        // Best offset is positive:
+        // Offset is positive:
         : wxString::Format(
             _T("\
 %X%.7X %.8X\n\
 D2000000 00000000\
 "),
             codeType,
-            smallestOffset,
+            offset,
             hexValue
         );
+
+    return builder;
 }
 

@@ -25,6 +25,7 @@
 
 #include <wx/button.h>
 #include <wx/checkbox.h>
+#include <wx/listbox.h>
 #include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <wx/radiobut.h>
@@ -75,7 +76,7 @@ public:
         wxButton *btnFindPointers;
       wxBoxSizer *vboxSearchResults;
         wxStaticText *lblSearchResults;
-        wxTextCtrl *txtSearchResults;
+        wxListBox *lstSearchResults;
       wxBoxSizer *vboxPtrCode;
         wxStaticText *lblPtrCode;
         wxTextCtrl *txtPtrCode;
@@ -83,6 +84,7 @@ public:
     /** Events **/
 
     void FindPointers(wxCommandEvent &event);
+    void RefreshPtrCode(wxCommandEvent &event);
     void SelectFile1(wxCommandEvent &event);
     void SelectFile2(wxCommandEvent &event);
 
@@ -97,6 +99,7 @@ private:
 
     static const long ID_BROWSE_FILE_1, ID_BROWSE_FILE_2;
     static const long ID_FIND_POINTERS;
+    static const long ID_SEARCH_RESULTS, ID_HEX_VALUE;
 
     /** Private Methods **/
 
