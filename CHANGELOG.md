@@ -39,3 +39,28 @@ First stable release.
 
  * Revamp the Button Activator Generator.
 
+## 0.5b1
+
+A big step up from the previous release, a lot of new features are available
+in this beta.
+
+### Features
+
+ * Button Activator Generator GUI completely revamped.
+   * Added a Code Input to the Button Activator Generator.
+ * Added a Code Beautifier page.
+ * Pointer Searcher page has been improved.
+   * You may now select results from the Search Results box to view the
+     pointer code for that result.
+   * The Hex Value input, when changed, will now update the Pointer Code
+     output live.
+
+### Improvements
+
+ * Minor performance optimizations in the Code Porter.
+
+### Bug Fixes
+
+ * Fixed a crash in the Pointer Searcher that occurred when no search results
+   were found; it now alerts you to the lack of results.
+
