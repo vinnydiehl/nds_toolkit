@@ -144,7 +144,7 @@ void PointerSearcher::Search(wxArrayString *outputSearchResults,
 
     // These need to be tracked outside of the loop.
     long smallestOffset = 0;
-    unsigned smallest;
+    unsigned smallest = 0;
 
     // Loop over the results and find the smallest.
     for (unsigned i = 0; i < results.GetCount(); ++i)
