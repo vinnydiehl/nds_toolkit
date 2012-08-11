@@ -160,13 +160,11 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     lblSearchResults = new wxStaticText(
         pnlMain, wxID_ANY, _T("Pointer Address : Value At :: Offset")
     );
-    txtSearchResults = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
-                                      wxDefaultPosition, wxDefaultSize,
-                                      wxTE_MULTILINE | wxHSCROLL);
+    lstSearchResults = new wxListBox(pnlMain, wxID_ANY);
 
     vboxSearchResults->Add(lblSearchResults, 0,
                            wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
-    vboxSearchResults->Add(txtSearchResults, 1, wxEXPAND);
+    vboxSearchResults->Add(lstSearchResults, 1, wxEXPAND);
 
     ///// Begin vboxPtrCode
 
@@ -262,11 +260,13 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
         return;
     }
 
-    wxString searchResults, ptrCode;
+    wxArrayString searchResults;
+    wxString ptrCode;
+    unsigned smallest;
 
     try
     {
-        PointerSearcher::Search(&searchResults, &ptrCode,
+        PointerSearcher::Search(&searchResults, &ptrCode, &smallest,
                                 File1Input, File2Input,
                                 txtAddress1->GetValue(),
                                 txtAddress2->GetValue(),
@@ -280,7 +280,8 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
         return;
     }
 
-    txtSearchResults->SetValue(searchResults);
+    lstSearchResults->Set(searchResults);
+    lstSearchResults->SetSelection(smallest);
     txtPtrCode->SetValue(ptrCode);
 }
 

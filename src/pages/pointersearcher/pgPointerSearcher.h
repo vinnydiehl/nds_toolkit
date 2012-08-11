@@ -25,6 +25,7 @@
 
 #include <wx/button.h>
 #include <wx/checkbox.h>
+#include <wx/listbox.h>
 #include <wx/msgdlg.h>
 #include <wx/panel.h>
 #include <wx/radiobut.h>
@@ -75,7 +76,7 @@ public:
         wxButton *btnFindPointers;
       wxBoxSizer *vboxSearchResults;
         wxStaticText *lblSearchResults;
-        wxTextCtrl *txtSearchResults;
+        wxListBox *lstSearchResults;
       wxBoxSizer *vboxPtrCode;
         wxStaticText *lblPtrCode;
         wxTextCtrl *txtPtrCode;
