@@ -60,6 +60,19 @@ public:
     wxPanel *pnlNotebook;
     wxBoxSizer *vboxNotebook;
     wxAuiNotebook *nbMain;
+
+    MenuBar *menuBar;
+
+    /** Events **/
+
+    void SetMinSizeToPage(void);
+    void SetMinSizeToPage(wxCommandEvent &event);
+
+private:
+
+    /** Identifiers **/
+
+    static const long ID_NOTEBOOK;
 };
 
 #endif // FRMMAIN_H_INCLUDED

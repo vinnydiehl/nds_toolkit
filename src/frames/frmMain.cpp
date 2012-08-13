@@ -22,6 +22,10 @@
 
 #include "frmMain.h"
 
+/** Initialize Identifiers **/
+
+const long frmMain::ID_NOTEBOOK = wxNewId();
+
 frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, NAME)
 {
     /** Main Window **/
@@ -31,7 +35,7 @@ frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, NAME)
 
     // 2012-06-09 gbchaosmaster - How about using a wxAuiNotebook?
     // Changed nbMain, wxAuiNotebook from wxNotebook
-    nbMain = new wxAuiNotebook(pnlNotebook, wxID_ANY, wxDefaultPosition,
+    nbMain = new wxAuiNotebook(pnlNotebook, ID_NOTEBOOK, wxDefaultPosition,
                                wxDefaultSize, wxAUI_NB_TOP |
                                wxAUI_NB_TAB_SPLIT | wxAUI_NB_TAB_MOVE |
                                wxAUI_NB_SCROLL_BUTTONS);
@@ -39,7 +43,9 @@ frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, NAME)
     // Add the pages selectively depending on the build configuration.
 
 #ifdef ADD_BUTTON_ACTIVATOR_GENERATOR
-    nbMain->AddPage(new pgButtonActivatorGenerator(nbMain),
+    pgButtonActivatorGenerator *buttonActivatorGenerator =
+        new pgButtonActivatorGenerator(nbMain);
+    nbMain->AddPage(buttonActivatorGenerator,
                     pgButtonActivatorGenerator::Title);
 #endif
 
@@ -69,11 +75,45 @@ frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, NAME)
 
     /** Configure Form **/
 
-    // Set the menu bar to a new instance of MenuBar.
-    SetMenuBar(new MenuBar(this));
-    // 800x500 startup size seems reasonable.
+    // Set the menu bar.
+    menuBar = new MenuBar(this);
+    SetMenuBar(menuBar);
+    // 800x500 default size seems reasonable.
     SetSize(wxSize(800, 500));
     // Center the window on screen on startup.
     Center();
+
+    SetMinSizeToPage();
+
+    Connect(ID_NOTEBOOK, wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED,
+            wxCommandEventHandler(frmMain::SetMinSizeToPage));
+}
+
+void frmMain::SetMinSizeToPage(void)
+{
+    wxSize curPageMinSize =
+        ((pgButtonActivatorGenerator*)nbMain->GetPage(
+            nbMain->GetSelection()
+         ))->vboxMargin->GetMinSize();
+
+    // Just for the sake of having a little bit of extra padding...
+    // This will be added onto both the height and width.
+    unsigned char safety = MARGIN * 2;
+
+    SetMinSize(wxSize(
+        // Width
+        curPageMinSize.GetWidth() +
+        safety,
+        // Height
+        curPageMinSize.GetHeight() +
+        // Account for the height of the menu bar and the notebook.
+        menuBar->GetSize().GetHeight() + nbMain->GetTabCtrlHeight() +
+        safety
+    ));
+}
+void frmMain::SetMinSizeToPage(wxCommandEvent &WXUNUSED(event))
+{
+    // Overload so the function can be used as an event.
+    SetMinSizeToPage();
 }
 
