@@ -43,9 +43,7 @@ frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, NAME)
     // Add the pages selectively depending on the build configuration.
 
 #ifdef ADD_BUTTON_ACTIVATOR_GENERATOR
-    pgButtonActivatorGenerator *buttonActivatorGenerator =
-        new pgButtonActivatorGenerator(nbMain);
-    nbMain->AddPage(buttonActivatorGenerator,
+    nbMain->AddPage(new pgButtonActivatorGenerator(nbMain),
                     pgButtonActivatorGenerator::Title);
 #endif
 
@@ -91,8 +89,13 @@ frmMain::frmMain(void) : wxFrame(NULL, wxID_ANY, NAME)
 
 void frmMain::SetMinSizeToPage(void)
 {
+    /**
+     * Don't allow the window to shrink to where widgets are trunctuated.
+    **/
+
+    // Get the minimum size of the current notebook page.
     wxSize curPageMinSize =
-        ((pgButtonActivatorGenerator*)nbMain->GetPage(
+        ((PAGE_CAST)nbMain->GetPage(
             nbMain->GetSelection()
          ))->vboxMargin->GetMinSize();
 
