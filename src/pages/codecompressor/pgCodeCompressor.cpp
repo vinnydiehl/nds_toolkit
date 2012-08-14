@@ -291,7 +291,10 @@ void pgCodeCompressor::LoopGenerate(wxCommandEvent &WXUNUSED(event))
     try
     {
         txtLoopOutput->SetValue(LoopCodeGenerator::Generate(
-            baseCode, totalLoopCount, offsetIncrement, valueIncrement
+            CodeParser::Beautify(baseCode),
+            totalLoopCount,
+            offsetIncrement,
+            valueIncrement
         ));
     }
     catch (wxString msg)
