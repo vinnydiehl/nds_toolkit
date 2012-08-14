@@ -1,0 +1,303 @@
+#!/usr/bin/env ruby
+
+# Set the working directory to the project's pages directory.
+Dir.chdir "../../src/pages"
+
+# Allow command line arguments.
+class_name, title, orient = ARGV[0], ARGV[1], ARGV[2].downcase
+
+# Initialize these variables at the global scope.
+main_box_sizer = example_box_sizer = example_orient = nil
+
+# User interface to class name/title selection:
+loop do
+  # Get the class name.
+  loop do
+    if !class_name || class_name == "" || class_name.include?(" ")
+      print "Enter the name of the class to generate: "
+      class_name = STDIN.gets.strip
+    end
+
+    if !Dir.glob("**/#{class_name}.*").empty?
+      puts "The class you have selected already exists."
+      class_name = nil
+      next
+    end
+
+    break unless !class_name || class_name == "" || class_name.include?(" ")
+
+    puts "Invalid class name."
+  end
+
+  # Get the page title.
+  loop do
+    if !title || title == ""
+      print "Enter the title of the page to generate: "
+      title = STDIN.gets.strip
+    end
+
+    break unless !title || title == ""
+
+    puts "Invalid title."
+  end
+
+  # Get the orientation.
+  loop do
+    if !orient || !"vh".include?(orient)
+      print "\
+Would you like the main box sizer to be vertical or horizontal? (v/h) "
+      orient = STDIN.gets.chomp.downcase
+    end
+
+    break unless !orient || !"vh".include?(orient)
+
+    puts "Invalid selection."
+  end
+
+  # Get the name of the main box sizer.
+  main_box_sizer = orient + "boxMain"
+  # For the sake of appearing intelligent in the example comment...
+  example_box_sizer = "vh".sub(orient, "") + "boxName"
+  example_orient = orient == "v" ? "horizontal" : "vertical"
+  # Turn the orientation selection into a word.
+  orient = orient == "v" ? "vertical" : "horizontal"
+
+  print "\
+You have chosen the following options.
+Class Name: #{class_name}
+Page Title: #{title}
+Orientation: #{orient.capitalize}
+Is this acceptable? [y] "
+
+  choice = STDIN.gets.chomp
+
+  # Unless they press N, off we go.
+  break unless choice.strip.downcase == "n"
+
+  # If they did press N, reset everything.
+  class_name = title = nil
+  puts
+end
+
+print "\nWriting files... "
+
+# New directory for the page.
+newdir = title.downcase.gsub /\s+/, ""
+Dir.mkdir newdir
+Dir.chdir newdir
+
+File.open("Makefile", "w") { |f| f << <<EOF
+# NDS Toolkit - A suite of tools for hacking Nintendo video games.
+# Copyright (C) 2012 Vinny Diehl
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# @file Makefile - Builds the #{title} page.
+
+# Orientation of this Makefile
+ROOT = ../..
+
+# Source Directories
+INCDIR = .
+COMMONINCDIR = $(ROOT)/common
+INCPATHS = $(INCDIR) $(COMMONINCDIR)
+INCFLAGS = $(addprefix -I,$(INCPATHS))
+
+# wxWidgets Options
+WXCFLAGS = `wx-config --cxxflags`
+
+# Output Directories
+BUILDROOT = $(ROOT)/build
+OBJDIR = $(BUILDROOT)/obj
+
+# Output Files
+OBJ = #{class_name}.o
+OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
+
+# Compiler
+CXX = g++
+DEBUG = -g -DDEBUG
+CFLAGS = -Wall -c -o $@ $(WXCFLAGS) $(INCFLAGS)
+
+.PHONY: all debug configure clean rebuild rebuild-dbg
+
+all: CFLAGS += -O3
+all: configure
+all: $(OPATHS)
+
+debug: CFLAGS += $(DEBUG)
+debug: configure
+debug: $(OPATHS)
+
+configure:
+	mkdir -p $(OBJDIR)
+
+$(OBJDIR)/#{class_name}.o: $(INCDIR)/#{class_name}.h \\
+#{" " * (14 + class_name.length)}$(COMMONINCDIR)/globals.h
+	$(CXX) $(CFLAGS) #{class_name}.cpp
+
+clean: configure
+	touch $(OPATHS) && rm $(OPATHS)
+
+rebuild: clean
+rebuild: all
+
+rebuild-dbg: clean
+rebuild-dbg: debug
+
+EOF
+} # Close file block.
+
+File.open("#{class_name}.h", "w") { |f| f << <<EOF
+/**
+ * NDS Toolkit - A suite of tools for hacking Nintendo video games.
+ * Copyright (C) 2012 Vinny Diehl
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+**/
+
+/**
+ * @file #{class_name}.h - Header file for the #{title} page.
+**/
+
+#ifndef #{class_name.upcase}_H_INCLUDED
+#define #{class_name.upcase}_H_INCLUDED
+
+#include <wx/panel.h>
+#include <wx/sizer.h>
+
+#include "globals.h"
+
+class #{class_name} : public wxPanel
+{
+public:
+
+    static wxString Title;
+
+    #{class_name}(wxWindow *parent);
+
+    /** Main Content **/
+
+    wxBoxSizer *vboxMargin, *#{main_box_sizer};
+    wxPanel *pnlMain;
+
+    // Add layout boxes and such like so:
+    // wxBoxSizer *#{example_box_sizer};
+    // wxStaticText *lblFoo;
+
+    /** Events **/
+
+    // Insert events here.
+
+private:
+
+    /** Identifiers **/
+
+    // Format:
+    // static const long ID_NAME;
+};
+
+#endif // #{class_name.upcase}_H_INCLUDED
+
+EOF
+} # Close file block.
+
+File.open("#{class_name}.cpp", "w") { |f| f << <<EOF
+/**
+ * NDS Toolkit - A suite of tools for hacking Nintendo video games.
+ * Copyright (C) 2012 Vinny Diehl
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+**/
+
+/**
+ * @file #{class_name}.cpp - The program's #{title} page.
+**/
+
+#include "#{class_name}.h"
+
+// Title of the page:
+wxString #{class_name}::Title = _T("#{title}");
+
+/** Initialize Identifiers **/
+
+// Format:
+// const long #{class_name}::ID_NAME = wxNewId();
+
+#{class_name}::#{class_name}(wxWindow *parent)
+#{" " * class_name.length}: wxPanel(parent, wxID_ANY)
+{
+    /** Main Content **/
+
+    vboxMargin = new wxBoxSizer(wxVERTICAL);
+
+    pnlMain = new wxPanel(this, wxID_ANY);
+    #{main_box_sizer} = new wxBoxSizer(wx#{orient.upcase});
+
+    // Add layout boxes and whatnot like so:
+    // #{example_box_sizer} = new wxBoxSizer(wx#{example_orient.upcase});
+    // And then items to that:
+    // lblFoo = new wxStaticText(pnlMain, wxID_ANY, _T("Label Text"));
+    // #{example_box_sizer}->Add(lblFoo, 0, wxALIGN_CENTER_#{orient.upcase} | wxRIGHT, 5);
+    // Then add it to the main box...
+    // #{main_box_sizer}->Add(#{example_box_sizer}, 0, wxEXPAND);
+    // You get the idea...
+
+    pnlMain->SetSizer(#{main_box_sizer});
+    #{main_box_sizer}->SetSizeHints(pnlMain);
+
+    vboxMargin->Add(pnlMain, 1, wxEXPAND | wxALL, MARGIN);
+    SetSizer(vboxMargin);
+    vboxMargin->SetSizeHints(this);
+
+    // Connect main window events
+    // Put all of your event connections here. Example:
+//  Connect(ID_NAME, wxEVT_COMMAND_BUTTON_CLICKED,
+//          wxCommandEventHandler(#{class_name}::MethodName));
+}
+
+EOF
+} # Close file block.
+
+# Finish up with a message:
+print "\
+Finished!
+3 files written.
+
+Location of #{title} code:
+#{Dir.getwd}
+"
+
