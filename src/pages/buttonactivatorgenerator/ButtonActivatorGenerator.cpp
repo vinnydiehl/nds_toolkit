@@ -75,7 +75,7 @@ void ButtonActivatorGenerator::UpdateOutput(void)
     wxString input = CodeParser::Beautify(mCodeInput->GetValue());
     builder += CodeParser::Verify(input)
                ? input + _T('\n')
-               : _T('\n');
+               : _T("\n");
 
     // Final line of the AR code.
     builder += _T("D2000000 00000000");
