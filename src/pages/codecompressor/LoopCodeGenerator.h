@@ -31,7 +31,5 @@ public:
                              wxString totalLoopCountStr,
                              wxString offsetIncrementStr,
                              wxString valueIncrementStr);
-private:
-    static wxString mZPad(wxString str, unsigned n);
 };
 

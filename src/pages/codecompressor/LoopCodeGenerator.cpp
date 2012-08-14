@@ -54,15 +54,15 @@ _T("If Offset Increment is 1/2/4, Base Code must start with '0'.")
         return wxString::Format(
             _T("\
 D5000000 %s\n\
-C0000000 %s\n\
+C0000000 %.8X\n\
 D%i000000 %s\n\
 %s\
 D2000000 00000000\
 "),
             // Right half of the Base Code
             CodeParser::RightColumn(baseCode)[0].c_str(),
-            // Total Loop Count, minus 1, converted to hex
-            mZPad(wxString::Format(_T("%X"), totalLoopCount - 1), 8).c_str(),
+            // Total Loop Count minus 1
+            totalLoopCount - 1,
             // Map the offset increment to this value with a big ternary
             offsetIncrement == 1 ? 8
                 : offsetIncrement == 2 ? 7
@@ -71,12 +71,12 @@ D2000000 00000000\
             // Left half of the Base Code
             CodeParser::LeftColumn(baseCode)[0].c_str(),
             // If there's a Value Increment, gather up that
-            valueIncrementStr.IsEmpty()
+            (valueIncrementStr.IsEmpty()
             ? _T("")
             : wxString::Format(
-                _T("D4000000 %s\n"),
-                mZPad(wxString::Format(_T("%X"), valueIncrement), 8).c_str()
-            ).c_str()
+                _T("D4000000 %.8X\n"),
+                valueIncrement
+            )).c_str()
         );
     }
     else
@@ -89,29 +89,18 @@ _T("If there is a Value Increment, the Offset Increment must be 1/2/4.")
 
         return wxString::Format(
             _T("\
-C0000000 %s\n\
+C0000000 %.8X\n\
 %s\n\
-DC000000 %s\n\
+DC000000 %.8X\n\
 D2000000 00000000\
 "),
-            // Total Loop Count, minus 1, converted to hex
-            mZPad(wxString::Format(_T("%X"), totalLoopCount - 1), 8).c_str(),
+            // Total Loop Count minus 1
+            totalLoopCount - 1,
             // Entire Base Code
             baseCode.c_str(),
-            // Offset Increment converted to hex
-            mZPad(wxString::Format(_T("%X"), offsetIncrement), 8).c_str()
+            // Offset Increment
+            offsetIncrement
         );
     }
-}
-
-wxString LoopCodeGenerator::mZPad(wxString str, unsigned n)
-{
-    /**
-     * Return str, padded to length n with zeros.
-    **/
-
-    return str.Len() < n
-           ? str.Pad(n - str.Len(), _T('0'), false)
-           : str;
 }
 
