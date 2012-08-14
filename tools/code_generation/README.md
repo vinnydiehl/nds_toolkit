@@ -1,7 +1,7 @@
 # Code Generation Tools
 
 The tools in this directory are to aid the process of developing for the NDS
-Toolkit, possibly to speed up certain coding tasks. This README will be updated
+Toolkit, by speeding up automatable coding tasks. This README will be updated
 as new tools are added.
 
 ## page_generator
