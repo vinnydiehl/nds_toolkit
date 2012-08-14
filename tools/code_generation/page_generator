@@ -3,8 +3,11 @@
 # Set the working directory to the project's pages directory.
 Dir.chdir "../../src/pages"
 
-# Allow command line arguments.
-class_name, title, orient = ARGV[0], ARGV[1], ARGV[2].downcase
+# Allow command line arguments - "" if a given argument doesn't exist.
+class_name, title, orient = (ARGV + [""] * 3).map &:strip
+
+# This needs to be lowercase.
+orient.downcase!
 
 # Initialize these variables at the global scope.
 main_box_sizer = example_box_sizer = example_orient = nil
@@ -12,46 +15,34 @@ main_box_sizer = example_box_sizer = example_orient = nil
 # User interface to class name/title selection:
 loop do
   # Get the class name.
-  loop do
-    if !class_name || class_name == "" || class_name.include?(" ")
-      print "Enter the name of the class to generate: "
-      class_name = STDIN.gets.strip
-    end
+  until class_name[/^\S+$/]
+    print "Enter the name of the class to generate: "
+    class_name = STDIN.gets.strip
 
     if !Dir.glob("**/#{class_name}.*").empty?
       puts "The class you have selected already exists."
-      class_name = nil
+      class_name = ""
       next
     end
 
-    break unless !class_name || class_name == "" || class_name.include?(" ")
-
-    puts "Invalid class name."
+    puts "Invalid class name." unless class_name[/^\S+$/]
   end
 
   # Get the page title.
-  loop do
-    if !title || title == ""
-      print "Enter the title of the page to generate: "
-      title = STDIN.gets.strip
-    end
+  until title[/^.+$/]
+    print "Enter the title of the page to generate: "
+    title = STDIN.gets.strip
 
-    break unless !title || title == ""
-
-    puts "Invalid title."
+    puts "Invalid title." unless title[/^.+$/]
   end
 
   # Get the orientation.
-  loop do
-    if !orient || !"vh".include?(orient)
-      print "\
+  until orient[/^[vh]$/]
+    print "\
 Would you like the main box sizer to be vertical or horizontal? (v/h) "
-      orient = STDIN.gets.chomp.downcase
-    end
+    orient = STDIN.gets.strip.downcase
 
-    break unless !orient || !"vh".include?(orient)
-
-    puts "Invalid selection."
+    puts "Invalid selection." unless orient[/^[vh]$/]
   end
 
   # Get the name of the main box sizer.
@@ -69,13 +60,13 @@ Page Title: #{title}
 Orientation: #{orient.capitalize}
 Is this acceptable? [y] "
 
-  choice = STDIN.gets.chomp
+  choice = STDIN.gets.strip
 
   # Unless they press N, off we go.
-  break unless choice.strip.downcase == "n"
+  break unless choice.downcase == "n"
 
   # If they did press N, reset everything.
-  class_name = title = nil
+  class_name = title = ""
   puts
 end
 
@@ -86,7 +77,8 @@ newdir = title.downcase.gsub /\s+/, ""
 Dir.mkdir newdir
 Dir.chdir newdir
 
-File.open("Makefile", "w") { |f| f << <<EOF
+File.open("Makefile", "w") do |f|
+  f << <<EOF
 # NDS Toolkit - A suite of tools for hacking Nintendo video games.
 # Copyright (C) 2012 Vinny Diehl
 #
@@ -157,9 +149,10 @@ rebuild-dbg: clean
 rebuild-dbg: debug
 
 EOF
-} # Close file block.
+end
 
-File.open("#{class_name}.h", "w") { |f| f << <<EOF
+File.open("#{class_name}.h", "w") do |f|
+  f << <<EOF
 /**
  * NDS Toolkit - A suite of tools for hacking Nintendo video games.
  * Copyright (C) 2012 Vinny Diehl
@@ -222,9 +215,10 @@ private:
 #endif // #{class_name.upcase}_H_INCLUDED
 
 EOF
-} # Close file block.
+end
 
-File.open("#{class_name}.cpp", "w") { |f| f << <<EOF
+File.open("#{class_name}.cpp", "w") do |f|
+  f << <<EOF
 /**
  * NDS Toolkit - A suite of tools for hacking Nintendo video games.
  * Copyright (C) 2012 Vinny Diehl
@@ -290,9 +284,9 @@ wxString #{class_name}::Title = _T("#{title}");
 }
 
 EOF
-} # Close file block.
+end
 
-# Finish up with a message:
+# Finish-up message:
 print "\
 Finished!
 3 files written.
