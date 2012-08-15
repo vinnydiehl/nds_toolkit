@@ -64,3 +64,18 @@ in this beta.
  * Fixed a crash in the Pointer Searcher that occurred when no search results
    were found; it now alerts you to the lack of results.
 
+## 0.5
+
+### Bug Fixes from Beta
+
+ * Fixed build on Windows and on some build configurations.
+
+### New Features Since Beta
+
+ * The window will no longer allow you to shrink it to the point where widgets
+   get trunctuated.
+ * The Pointer Searcher will now clear the address box when you load in a new
+   .bin file (unless the .bin file has an address at the end of its file name,
+   e.g. My_Game_Name_2E71A216.bin, in which case it will still auto-fill the
+   address box for you).
+
