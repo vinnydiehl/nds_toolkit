@@ -330,8 +330,8 @@ void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
 {
     // If the filename has an 8 digit hex number at the end of it, just
     // before the .bin, put that in the corresponding Address text box.
+    // Otherwise, clear the text box.
     wxString last8 = filename.Mid(filename.Len() - 12, 8);
-    if (CodeParser::IsHex(last8))
-        address->SetValue(last8);
+    address->SetValue(CodeParser::IsHex(last8) ? last8 : _T(""));
 }
 
