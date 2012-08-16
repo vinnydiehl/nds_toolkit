@@ -24,6 +24,7 @@
 #define FRMMAIN_H_INCLUDED
 
 #include <wx/frame.h>
+#include <wx/gdicmn.h>
 #include <wx/panel.h>
 #include <wx/sizer.h>
 #include <wx/aui/auibook.h>
