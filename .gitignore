@@ -22,3 +22,6 @@ build/
 # Local Configuration File
 .ndsconfig
 
+# CxxTest Generated Files
+*.test.cpp
+
