@@ -40,7 +40,7 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
 {
     /** Initialize Member Variables **/
 
-    Wildcard = _T("Binary Files (*.bin)|*.bin|All Files (*.*)|*.*");
+    Wildcard = _T("Binary Files (*.bin)|*.bin|All Files|*");
 
     /** Main Content **/
 
