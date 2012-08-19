@@ -16,17 +16,6 @@
 
 # @file Makefile - Contains instructions for building the tests.
 
-ifeq ($(SETUP),default)
-BUTTON_ACTIVATOR_GENERATOR = ButtonActivatorGenerator.o \
-				 pgButtonActivatorGenerator.o
-POINTER_SEARCHER = PointerSearcher.o pgPointerSearcher.o
-CODE_PORTER = CodePorter.o pgCodePorter.o
-CODE_COMPRESSOR = LoopCodeGenerator.o \
-		      PatchCodeBuilder.o \
-		      pgCodeCompressor.o
-CODE_BEAUTIFIER = pgCodeBeautifier.o
-endif
-
 # Orientation of this Makefile
 TESTROOT = .
 SRCROOT = ../src

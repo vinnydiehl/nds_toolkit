@@ -21,7 +21,6 @@ MAKE = make
 
 # Orientation of this Makefile
 TESTROOT = ..
-SRCROOT = ../../src
 
 # Output Directories
 BUILDROOT = $(TESTROOT)/build
