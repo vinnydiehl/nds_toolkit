@@ -332,6 +332,6 @@ void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
     // before the .bin, put that in the corresponding Address text box.
     // Otherwise, clear the text box.
     wxString last8 = filename.Mid(filename.Len() - 12, 8);
-    address->SetValue(CodeParser::IsHex(last8) ? last8 : _T(""));
+    address->SetValue(CodeParser::IsHex(last8) ? last8.Upper() : _T(""));
 }
 
