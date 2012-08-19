@@ -89,10 +89,14 @@ void PointerSearcher::Search(wxArrayString *outputSearchResults,
         throw wxString(_T("Please input two different addresses."));
 
     // Addresses should be from 6-7 characters, not including 0's.
-    if (addr1 < 0x100000 || addr1 > 0xFFFFFFF)
-        throw wxString(_T("Address 1 is too big or too small."));
-    if (addr2 < 0x100000 || addr2 > 0xFFFFFFF)
-        throw wxString(_T("Address 2 is too big or too small."));
+    if (addr1 < 0x100000)
+        throw wxString(_T("Address 1 is too small."));
+    if (addr1 > 0xFFFFFFF)
+        throw wxString(_T("Address 1 is too big."));
+    if (addr2 < 0x100000)
+        throw wxString(_T("Address 2 is too small."));
+    if (addr2 > 0xFFFFFFF)
+        throw wxString(_T("Address 2 is too big."));
 
     // End of error checking, beginning of calculation.
 
