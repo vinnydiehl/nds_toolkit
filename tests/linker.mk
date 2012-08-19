@@ -27,7 +27,7 @@ SRCROOT = ../src
 NAME = testrunner
 
 # wxWidgets Options
-WXLDFLAGS = `wx-config --libs`
+WXLDFLAGS = `wx-config --libs core`
 
 # Output Directories
 BUILDROOT = $(TESTROOT)/build
