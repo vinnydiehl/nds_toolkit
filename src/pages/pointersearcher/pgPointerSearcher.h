@@ -31,9 +31,9 @@
 #include <wx/radiobut.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
-#include <wx/stream.h>
 #include <wx/string.h>
 #include <wx/textctrl.h>
+#include <wx/wfstream.h>
 
 #include "PointerSearcher.h"
 
