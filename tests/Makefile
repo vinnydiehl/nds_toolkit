@@ -33,9 +33,11 @@ TEMPDIR = $(BUILDROOT)/temp
 
 # Output Files
 EXE = $(BINDIR)/$(NAME)
-OBJ = LoopCodeGeneratorTestSuite.o PointerSearcherTestSuite.o main.o
+OBJ = LoopCodeGeneratorTestSuite.o PatchCodeBuilderTestSuite.o \
+      PointerSearcherTestSuite.o main.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
-SRCOBJ = CodeParser.o LoopCodeGenerator.o PointerSearcher.o arrstr.o
+SRCOBJ = CodeParser.o LoopCodeGenerator.o PatchCodeBuilder.o \
+	 PointerSearcher.o arrstr.o
 SRCOPATHS = $(addprefix $(SRCOBJDIR)/,$(SRCOBJ))
 
 # Compiler
@@ -70,9 +72,11 @@ $(OBJDIR)/main.o: $(TEMPDIR)/main.cpp
 
 ### Test Object Builds
 
+$(OBJDIR)/PointerSearcherTestSuite.o:
+	$(MAKE) -C pages
 $(OBJDIR)/LoopCodeGeneratorTestSuite.o:
 	$(MAKE) -C pages
-$(OBJDIR)/PointerSearcherTestSuite.o:
+$(OBJDIR)/PatchCodeBuilderTestSuite.o:
 	$(MAKE) -C pages
 
 ### Source Object Builds
@@ -84,6 +88,10 @@ $(SRCOBJDIR)/CodeParser.o:
 $(SRCOBJDIR)/LoopCodeGenerator.o:
 	$(MAKE) -C $(SRCROOT)/pages/codecompressor rebuild
 	mv $(SRCBUILDOBJDIR)/LoopCodeGenerator.o $(SRCOBJDIR)
+
+$(SRCOBJDIR)/PatchCodeBuilder.o:
+	$(MAKE) -C $(SRCROOT)/pages/codecompressor rebuild
+	mv $(SRCBUILDOBJDIR)/PatchCodeBuilder.o $(SRCOBJDIR)
 
 $(SRCOBJDIR)/PointerSearcher.o:
 	$(MAKE) -C $(SRCROOT)/pages/pointersearcher rebuild

@@ -37,9 +37,11 @@ SRCOBJDIR = $(BUILDROOT)/srcobj
 
 # Output Files
 EXE = $(BINDIR)/$(NAME)
-OBJ = LoopCodeGeneratorTestSuite.o PointerSearcherTestSuite.o main.o
+OBJ = LoopCodeGeneratorTestSuite.o PatchCodeBuilderTestSuite.o \
+      PointerSearcherTestSuite.o main.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
-SRCOBJ = CodeParser.o LoopCodeGenerator.o PointerSearcher.o arrstr.o
+SRCOBJ = CodeParser.o LoopCodeGenerator.o PatchCodeBuilder.o \
+	 PointerSearcher.o arrstr.o
 SRCOPATHS = $(addprefix $(SRCOBJDIR)/,$(SRCOBJ))
 
 # Compiler

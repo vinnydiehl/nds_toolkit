@@ -36,7 +36,7 @@ BUILDROOT = $(TESTROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = LoopCodeGeneratorTestSuite.o
+OBJ = LoopCodeGeneratorTestSuite.o PatchCodeBuilderTestSuite.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -62,16 +62,24 @@ configure:
 generate:
 	$(TESTGEN) $(PARTFLAGS) -o LoopCodeGeneratorTestSuite.test.cpp \
 	                           LoopCodeGeneratorTestSuite.h
+	$(TESTGEN) $(PARTFLAGS) -o PatchCodeBuilderTestSuite.test.cpp \
+	                           PatchCodeBuilderTestSuite.h
 
 LoopCodeGeneratorTestSuite.test.cpp: generate
+PatchCodeBuilderTestSuite.test.cpp: generate
 
-$(OBJDIR)/LoopCodeGeneratorTestSuite.o: LoopCodeGeneratorTestSuite.test.cpp \
-                                        $(INCDIR)/LoopCodeGeneratorTestSuite.h \
-				        $(PAGEINCDIR)/LoopCodeGenerator.h
+$(OBJDIR)/LoopCodeGeneratorTestSuite.o: \
+    LoopCodeGeneratorTestSuite.test.cpp \
+    $(INCDIR)/LoopCodeGeneratorTestSuite.h $(PAGEINCDIR)/LoopCodeGenerator.h
 	$(CXX) $(CFLAGS) LoopCodeGeneratorTestSuite.test.cpp
 
+$(OBJDIR)/PatchCodeBuilderTestSuite.o: PatchCodeBuilderTestSuite.test.cpp \
+				       $(INCDIR)/PatchCodeBuilderTestSuite.h \
+				       $(PAGEINCDIR)/PatchCodeBuilder.h
+	$(CXX) $(CFLAGS) PatchCodeBuilderTestSuite.test.cpp
+
 # Clean removes generated files.
-GENS = LoopCodeGeneratorTestSuite.test.cpp
+GENS = LoopCodeGeneratorTestSuite.test.cpp PatchCodeBuilderTestSuite.test.cpp
 clean:
 	touch $(GENS) && rm $(GENS)
 
