@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# @file Makefile - Builds the Pointer Searcher's test suite.
+# @file Makefile - Builds the Code Compressor's test suites.
 
 # Orientation of this Makefile
 TESTROOT = ../..
@@ -22,9 +22,10 @@ SRCROOT = ../../../src
 
 # Source Directories
 INCDIR = .
-PAGEINCDIR = $(SRCROOT)/pages/pointersearcher
+PAGEINCDIR = $(SRCROOT)/pages/codecompressor
+PARSEINCDIR = $(SRCROOT)/codeparser
 COMPATINCDIR = $(SRCROOT)/compatibility
-INCPATHS = $(INCDIR) $(PAGEINCDIR) $(COMPATINCDIR)
+INCPATHS = $(INCDIR) $(PAGEINCDIR) $(PARSEINCDIR) $(COMPATINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -35,7 +36,7 @@ BUILDROOT = $(TESTROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = PointerSearcherTestSuite.o
+OBJ = LoopCodeGeneratorTestSuite.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -59,18 +60,18 @@ configure:
 	mkdir -p $(OBJDIR)
 
 generate:
-	$(TESTGEN) $(PARTFLAGS) -o PointerSearcherTestSuite.test.cpp \
-	                           PointerSearcherTestSuite.h
+	$(TESTGEN) $(PARTFLAGS) -o LoopCodeGeneratorTestSuite.test.cpp \
+	                           LoopCodeGeneratorTestSuite.h
 
-PointerSearcherTestSuite.test.cpp: generate
+LoopCodeGeneratorTestSuite.test.cpp: generate
 
-$(OBJDIR)/PointerSearcherTestSuite.o: PointerSearcherTestSuite.test.cpp \
-                                      $(INCDIR)/PointerSearcherTestSuite.h \
-				      $(PAGEINCDIR)/PointerSearcher.h
-	$(CXX) $(CFLAGS) PointerSearcherTestSuite.test.cpp
+$(OBJDIR)/LoopCodeGeneratorTestSuite.o: LoopCodeGeneratorTestSuite.test.cpp \
+                                        $(INCDIR)/LoopCodeGeneratorTestSuite.h \
+				        $(PAGEINCDIR)/LoopCodeGenerator.h
+	$(CXX) $(CFLAGS) LoopCodeGeneratorTestSuite.test.cpp
 
 # Clean removes generated files.
-GENS = PointerSearcherTestSuite.test.cpp
+GENS = LoopCodeGeneratorTestSuite.test.cpp
 clean:
 	touch $(GENS) && rm $(GENS)
 
