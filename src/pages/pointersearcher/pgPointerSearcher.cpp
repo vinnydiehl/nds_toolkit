@@ -103,7 +103,9 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     gridDataInput->Add(txtAddress2, 1, wxEXPAND);
     gridDataInput->Add(txtHexValue, 1, wxEXPAND);
 
-    svboxDataInput->Add(gridDataInput, 1, wxEXPAND);
+    // 2012-08-24 gbchaosmaster - This looked a little squished at the top.
+    // Adding 3 pixels of padding seems to balance it out okay.
+    svboxDataInput->Add(gridDataInput, 1, wxEXPAND | wxTOP, 3);
 
     gridDataInput->AddGrowableCol(0, 1);
     gridDataInput->AddGrowableCol(1, 1);
