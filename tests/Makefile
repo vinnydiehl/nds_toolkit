@@ -33,8 +33,9 @@ TEMPDIR = $(BUILDROOT)/temp
 
 # Output Files
 EXE = $(BINDIR)/$(NAME)
-OBJ = CodePorterTestSuite.o LoopCodeGeneratorTestSuite.o \
-      PatchCodeBuilderTestSuite.o PointerSearcherTestSuite.o main.o
+OBJ = CodeParserTestSuite.o CodePorterTestSuite.o \
+      LoopCodeGeneratorTestSuite.o PatchCodeBuilderTestSuite.o \
+      PointerSearcherTestSuite.o main.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 SRCOBJ = CodeParser.o CodePorter.o LoopCodeGenerator.o PatchCodeBuilder.o \
 	 PointerSearcher.o arrstr.o
@@ -71,6 +72,9 @@ $(OBJDIR)/main.o: $(TEMPDIR)/main.cpp
 	$(CXX) $(CFLAGS) $(TEMPDIR)/main.cpp
 
 ### Test Object Builds
+
+$(OBJDIR)/CodeParserTestSuite.o:
+	$(MAKE) -C codeparser
 
 $(OBJDIR)/PointerSearcherTestSuite.o:
 	$(MAKE) -C pages
