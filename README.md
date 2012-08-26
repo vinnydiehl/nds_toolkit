@@ -13,13 +13,15 @@ and C++ hackers that wanted to improve the tool.
 
 If you want to help develop on this code, feel free! If any contributions are
 made to this tool that give it features that Demonic722's version does not
-have, I will work to implement that feature in his version as well.
+have, I will work to implement that feature in his version as well. See the
+[Contributing](#contributing) section below if you're new at this. If you're
+familiar with GitHub and know what you're doing, just don't develop on any of
+the main branches- create your own branch off of inbound, and be sure to
+submit your pull request to inbound.
 
 The code is in the ```src``` directory. If you are a user of this program,
-follow the build instructions below to get it installed on your computer. If
-you would like to develop, well, here's the code! I only ask that you style
-your code to look consistent with the other code in this project, and do not
-ask for your code to be pulled into the central, trunk, or release branches.
+follow the install instructions immediately below to get it installed on your
+computer.
 
 ## Installation
 
@@ -113,4 +115,73 @@ add_options --add-code-beautifier
 To apply your selected options to be used next build, run ```./configure```. If
 there is no ```.ndsconfig``` or if the file is blank, by default all pages
 will be built and included in the application.
+
+## Contributing
+
+All developers are welcome to contribute to the code for NDS Toolkit. All that
+I ask is that you follow the coding style of the existing codebase, and keep
+line length under 80 characters. To get working on the NDS Toolkit:
+
+ 1. Fork this project
+([click here to fork](https://github.com/gbchaosmaster/nds-toolkit/fork_select))
+ 2. On your system, where ever you want to put the directory with the code:
+    ```git clone git@github.com:<YOUR-GITHUB-USERNAME>/nds-toolkit.git```
+ 3. Go into your newly cloned directory: ```cd nds-toolkit```
+ 4. Pull down the latest copy of the development branch:
+    ```git checkout -b inbound && git pull origin inbound```
+ 5. Add the maintainer's repository to your repo:
+```git remote add upstream https://github.com/gbchaosmaster/nds-toolkit.git```
+ 6. Create a branch for you to work in (name it whatever you'd like):
+    ```git checkout -b your-branch```
+ 7. Write your code, making regular commits (see [below](#commits) for
+    details)
+ 8. *time passes, maintainer repo is being updated in the mean time*
+ 9. Switch to your inbound branch and pull down the latest changes:
+```git checkout inbound && git fetch upstream && git rebase upstream/inbound```
+ 10. Switch back to your working branch and rebase those changes:
+    ```git checkout your-branch && git rebase inbound```
+ 11. Repeat 6-9 as necessary
+ 12. When your code is finished, **make sure the test suite runs**. No pull
+     requests with failing tests (or tests modified to work around changes that
+     you made, unless you had a good reason to do so that is mentioned in your
+     commit/pull request) will be accepted. See the
+     [test documentation](inbound/tests#readme) for more information.
+ 13. Push the code to your forked repository: ```git push origin your-branch```
+ 14. Send a pull request to the maintainer- make sure that you select the
+     ```inbound``` branch for it to be pulled into.
+
+### Commits
+
+To add changes to the staging area (the list of changes that will be
+committed), use ```git add <file or directory>``` to add a file or directory
+and all of the changes within. ```git add .``` will add all of the changes from
+the current directory on down. Use ```git status``` to view the staged changes,
+and ```git commit``` when you're ready to type your message.
+
+All commits should focus one one solid unit of change, and each should have a
+good message describing the commit. It should follow the following format:
+
+```
+A short description, 50 characters or less
+
+Note the lack of punctuation at the end of the short description.
+Anyway, this part, separated from the short description by a blank
+line, should be written in normal prose and wrapped at 72 characters.
+
+ * You can include bulleted lists.
+ * Just use asterisks, like this.
+
+ 1. Numbered lists are also possible.
+ 2. Just indent these lists with one space. If it gets lengthy and you
+    need to wrap the line, keep it neatly indented like so.
+
+If you want to include a code sample, indent it with 4 spaces like so:
+
+    #include <stdio.h>
+    int main()
+    {
+        printf("Hello World!\n");
+        return 0;
+    }
+```
 
