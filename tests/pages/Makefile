@@ -27,8 +27,8 @@ BUILDROOT = $(TESTROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = LoopCodeGeneratorTestSuite.o PatchCodeBuilderTestSuite.o \
-      PointerSearcherTestSuite.o
+OBJ = CodePorterTestSuite.o LoopCodeGeneratorTestSuite.o \
+      PatchCodeBuilderTestSuite.o PointerSearcherTestSuite.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 .PHONY: all configure
@@ -41,6 +41,9 @@ configure:
 
 $(OBJDIR)/PointerSearcherTestSuite.o:
 	$(MAKE) -C pointersearcher
+
+$(OBJDIR)/CodePorterTestSuite.o:
+	$(MAKE) -C codeporter
 
 $(OBJDIR)/LoopCodeGeneratorTestSuite.o:
 	$(MAKE) -C codecompressor
