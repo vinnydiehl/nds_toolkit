@@ -103,8 +103,8 @@ LIBOPATHS = $(WX29BUILD)/arrstr.o
 MAKE = make
 MAKETGT =
 
-.PHONY: all debug distclean configure clean \
-	rebuild rebuild-dbg erase delete
+.PHONY: all build-run debug distclean configure clean delete erase install \
+        rebuild rebuild-dbg rebuild-run rebuild-debug-run run uninstall
 
 all: configure
 all: $(EXE)
@@ -209,6 +209,9 @@ delete:
 install:
 	cp $(EXE) $(INSTALL)
 	ln -s $(INSTALL)/$(NAME) $(INSTALL)/$(ALTNAME)
+
+uninstall:
+	rm -f $(INSTALL)/$(NAME) $(INSTALL)/$(ALTNAME)
 
 run:
 	$(EXE)

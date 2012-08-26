@@ -21,6 +21,18 @@ you would like to develop, well, here's the code! I only ask that you style
 your code to look consistent with the other code in this project, and do not
 ask for your code to be pulled into the central, trunk, or release branches.
 
+## Installation
+
+*Note: See the [Setup](#setup) section below if you don't have a C++ compiler
+and wxWidgets installed- if you don't know, you probably need to install one or
+both of them.*
+
+The NDS Toolkit can be installed with the conventional
+```./configure && make && sudo make install```, ran from the ```src```
+directory. Note that the ```./configure``` step is unnecessary if you have not
+set up a ```.ndsconfig``` and wish to build with the default settings (see
+the [Build Configuration](#build-configuration) section below).
+
 ## Build Instructions
 
 ### Setup
@@ -69,6 +81,9 @@ your ```.ndsconfig``` if you have one.
 ```make run``` will run the already built executable. You can also use the
 commands ```make build-run```, ```make debug-run```, ```make rebuild-run```,
 and ```make rebuild-dbg-run```; they will work as you expect them to.
+
+```make install``` and ```make uninstall``` will install/uninstall
+the NDS Toolkit. These commands will need to be run as root.
 
 ### Incremental Builds
 
