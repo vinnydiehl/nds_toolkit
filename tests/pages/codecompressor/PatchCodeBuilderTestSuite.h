@@ -50,11 +50,11 @@ private:
         wxString codeInput, exCodeOutput;
 
         // Open the files with testing info.
-        wxFFile fInputOptions((dir + _T("/code_input")).c_str());
+        wxFFile fCodeInput((dir + _T("/code_input")).c_str());
         wxFFile fCodeOutput((dir + _T("/code_output")).c_str());
 
         // Read the code output/input into their strings.
-        fInputOptions.ReadAll(&codeInput);
+        fCodeInput.ReadAll(&codeInput);
         fCodeOutput.ReadAll(&exCodeOutput);
 
         // Trim all file inputs.
