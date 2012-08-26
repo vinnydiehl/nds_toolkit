@@ -22,7 +22,7 @@
 
 #include "PatchCodeBuilder.h"
 
-wxString PatchCodeBuilder::BuildPatchCode(wxString input)
+wxString PatchCodeBuilder::Build(wxString input)
 {
     // Verify their input
     if (!CodeParser::Verify(input))

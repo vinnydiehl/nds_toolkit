@@ -69,7 +69,7 @@ private:
         exCodeOutput = wxc::wxJoin(trimmer, _T('\n')).Trim().Trim(false);
 
         // The actual results will be stored into these and compared:
-        wxString codeOutput = PatchCodeBuilder::BuildPatchCode(codeInput);
+        wxString codeOutput = PatchCodeBuilder::Build(codeInput);
 
         TS_TRACE("Testing patch code match...");
         TS_ASSERT(codeOutput == exCodeOutput);

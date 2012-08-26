@@ -316,7 +316,7 @@ void pgCodeCompressor::PatchBuild(wxCommandEvent &WXUNUSED(event))
 
     try
     {
-        txtOutput->SetValue(PatchCodeBuilder::BuildPatchCode(inputval));
+        txtOutput->SetValue(PatchCodeBuilder::Build(inputval));
     }
     catch (wxString msg)
     {

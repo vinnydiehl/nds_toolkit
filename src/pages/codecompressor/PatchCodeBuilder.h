@@ -33,7 +33,7 @@
 class PatchCodeBuilder
 {
 public:
-    static wxString BuildPatchCode(wxString input);
+    static wxString Build(wxString input);
 
 private:
     static wxArrayString mGroup(wxArrayString arr, size_t n=2);
