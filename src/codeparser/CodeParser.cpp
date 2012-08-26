@@ -107,7 +107,8 @@ wxString CodeParser::Beautify(wxString code, int flags)
         }
     }
 
-    return wxc::wxJoin(final, _T('\n'));
+    // Trim any whitespace on either end before returning.
+    return wxc::wxJoin(final, _T('\n')).Trim().Trim(false);
 }
 
 bool CodeParser::Verify(wxString code)
