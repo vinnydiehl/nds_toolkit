@@ -37,7 +37,7 @@ class LoopCodeGeneratorTestSuite : public CxxTest::TestSuite
 {
 public:
 
-    void test1(void)
+    void testGenerate1(void)
     {
         mRunTest(TEST_FILES + _T("/1"));
     }

@@ -36,7 +36,7 @@ class CodePorterTestSuite : public CxxTest::TestSuite
 {
 public:
 
-    void test1(void)
+    void testPort1(void)
     {
         mRunTest(TEST_FILES + _T("/1"));
     }

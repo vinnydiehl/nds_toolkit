@@ -37,7 +37,7 @@ class PointerSearcherTestSuite : public CxxTest::TestSuite
 {
 public:
 
-    void testBinResults1(void)
+    void testSearch1(void)
     {
         mRunBinFileTest(TEST_FILES + _T("/1"));
     }

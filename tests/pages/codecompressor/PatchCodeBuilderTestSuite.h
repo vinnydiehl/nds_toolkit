@@ -37,7 +37,7 @@ class PatchCodeBuilderTestSuite : public CxxTest::TestSuite
 {
 public:
 
-    void test1(void)
+    void testBuild1(void)
     {
         mRunTest(TEST_FILES + _T("/1"));
     }
