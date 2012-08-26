@@ -31,7 +31,7 @@
 
 #include "wx2.9/arrstr.h"
 
-const wxString BIN_FILES = _T("../../pages/pointersearcher/bin_files");
+const wxString TEST_FILES = _T("../../pages/pointersearcher/test_files");
 
 class PointerSearcherTestSuite : public CxxTest::TestSuite
 {
@@ -39,7 +39,7 @@ public:
 
     void testBinResults1(void)
     {
-        mRunBinFileTest(BIN_FILES + _T("/1"));
+        mRunBinFileTest(TEST_FILES + _T("/1"));
     }
 
 private:
