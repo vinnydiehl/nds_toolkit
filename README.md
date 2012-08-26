@@ -40,25 +40,44 @@ the [Build Configuration](#build-configuration) section below).
 ### Setup
 
 Running one of these will install all of the needed build tools for this
-application, depending on your distro:
+application, depending on your distro...
 
-    sudo apt-get install build-essential libwxgtk2.8
+Debian:
 
-[](/blank)
+```Shell
+sudo apt-get install build-essential libwxgtk2.8
+```
 
-    sudo yum groupinstall 'Development Tools'
-    sudo yum install wxGTK
+Red Hat:
 
-If you're using Pacman/Portage/whatever, you know enough to be able to find GCC
-and wxWidgets on your own.
+```Shell
+sudo yum groupinstall 'Development Tools'
+sudo yum install wxGTK
+# OR run them both at once:
+sudo yum groupinstall 'Development Tools' && sudo yum install wxGTK
+```
+
+Gentoo:
+
+```Shell
+su -c 'emerge wxGTK'
+```
+
+Arch:
+
+```Shell
+su -c 'pacman -S wxgtk'
+```
 
 The NDS Toolkit is written in C++ using wxWidgets 2.8.12 (and is known to
 build successfully on 2.9.3). If your compiler is having trouble finding the
 wxWidgets library and you know that you have it installed, check that there is
 output for the following commands:
 
-    wx-config --cxxflags
-    wx-config --libs
+```Shell
+wx-config --cxxflags
+wx-config --libs
+```
 
 ### Full Build
 
