@@ -203,15 +203,22 @@ rebuild-dbg: debug
 
 erase: delete
 delete:
-	mkdir -p $(BUILDROOT) && rm -r $(BUILDROOT)
-	mkdir -p $(WX29BUILD) && rm -r $(WX29BUILD)
+	@mkdir -p $(BUILDROOT)
+	@rm -r $(BUILDROOT)
+	@mkdir -p $(WX29BUILD)
+	@rm -r $(WX29BUILD)
+	@echo "All build items have been removed."
 
 install:
-	cp $(EXE) $(INSTALL)
-	ln -s $(INSTALL)/$(NAME) $(INSTALL)/$(ALTNAME)
+	@test -f $(EXE) || \
+	 (echo "Build the program first so that it may be installed."; exit 1)
+	@install -m 0755 $(EXE) $(INSTALL)/$(NAME)
+	@ln -s $(INSTALL)/$(NAME) $(INSTALL)/$(ALTNAME)
+	@echo "NDS Toolkit has been installed."
 
 uninstall:
-	rm -f $(INSTALL)/$(NAME) $(INSTALL)/$(ALTNAME)
+	@rm -f $(INSTALL)/$(NAME) $(INSTALL)/$(ALTNAME)
+	@echo "NDS Toolkit has been uninstalled."
 
 run:
 	$(EXE)
