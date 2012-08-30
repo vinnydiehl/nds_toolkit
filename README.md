@@ -197,7 +197,7 @@ line, should be written in normal prose and wrapped at 72 characters.
 If you want to include a code sample, indent it with 4 spaces like so:
 
     #include <stdio.h>
-    int main()
+    int main(void)
     {
         printf("Hello World!\n");
         return 0;
