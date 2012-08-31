@@ -56,7 +56,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/ButtonActivatorGenerator.o: \
     $(INCDIR)/ButtonActivatorGenerator.h $(PARSEINCDIR)/CodeParser.h

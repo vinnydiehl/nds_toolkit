@@ -51,7 +51,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/Downloader.o: $(INCDIR)/Downloader.h
 	$(CXX) $(CFLAGS) Downloader.cpp

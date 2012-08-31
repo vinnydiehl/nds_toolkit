@@ -43,7 +43,7 @@ debug: MAKETGT += debug
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(WX29BUILD)
+	@mkdir -p $(WX29BUILD)
 
 $(WX29BUILD)/arrstr.o:
 	$(MAKE) -C $(WX29LIB) $(MAKETGT)

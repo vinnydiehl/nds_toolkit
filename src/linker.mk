@@ -87,7 +87,7 @@ debug: configure
 debug: $(EXE)
 
 configure:
-	mkdir -p $(BINDIR)
+	@mkdir -p $(BINDIR)
 
 $(EXE): $(OPATHS)
 	$(CXX) $(OPATHS) $(LIBOPATHS) $(LDFLAGS) -o $@

@@ -53,7 +53,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/MenuBar.o: $(INCDIR)/MenuBar.h $(COMMONINCDIR)/globals.h \
 	             $(FHINCDIR)/Downloader.h

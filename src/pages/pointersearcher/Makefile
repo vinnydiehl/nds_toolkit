@@ -56,7 +56,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgPointerSearcher.o: $(INCDIR)/pgPointerSearcher.h \
                                $(COMMONINCDIR)/globals.h \

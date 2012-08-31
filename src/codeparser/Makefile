@@ -52,7 +52,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/CodeParser.o: $(INCDIR)/CodeParser.h \
                         $(COMPATINCDIR)/wx2.9/arrstr.h

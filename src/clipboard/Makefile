@@ -51,7 +51,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/Clipboard.o: $(INCDIR)/Clipboard.h
 	$(CXX) $(CFLAGS) Clipboard.cpp

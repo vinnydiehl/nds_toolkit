@@ -56,7 +56,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgCodeCompressor.o: $(INCDIR)/pgCodeCompressor.h \
 			      $(INCDIR)/LoopCodeGenerator.h \

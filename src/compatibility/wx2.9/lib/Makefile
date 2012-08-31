@@ -51,7 +51,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(BUILDDIR)
+	@mkdir -p $(BUILDDIR)
 
 $(BUILDDIR)/arrstr.o: $(INCDIR)/arrstr.h
 	$(CXX) $(CFLAGS) arrstr.cpp

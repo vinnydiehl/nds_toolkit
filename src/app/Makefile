@@ -65,7 +65,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/Program.o: $(INCDIR)/Program.h $(FRAMEINCDIR)/frmMain.h
 	$(CXX) $(CFLAGS) Program.cpp

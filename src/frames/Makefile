@@ -70,7 +70,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/frmMain.o: $(INCDIR)/frmMain.h $(BASEINCDIR)/MenuBar.h \
                      $(COMMONINCDIR)/config.h $(COMMONINCDIR)/globals.h \

@@ -56,7 +56,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgCodePorter.o: $(INCDIR)/pgCodePorter.h \
                           $(INCDIR)/CodePorter.h \

@@ -56,7 +56,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgCodeBeautifier.o: $(INCDIR)/pgCodeBeautifier.h \
                               $(CLIPINCDIR)/Clipboard.h \

@@ -114,7 +114,7 @@ debug: configure
 debug: $(EXE)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(EXE): $(OPATHS) $(LIBOPATHS)
 	$(MAKE) -f linker.mk $(MAKETGT)
@@ -187,13 +187,18 @@ $(WX29BUILD)/arrstr.o:
 	$(MAKE) -C $(COMPAT) $(MAKETGT)
 
 clean:
-	mkdir -p $(OBJDIR) && rm -r $(OBJDIR)
-	mkdir -p $(WX29BUILD) && rm -r $(WX29BUILD)
+	@mkdir -p $(OBJDIR)
+	@rm -r $(OBJDIR)
+	@mkdir -p $(WX29BUILD)
+	@rm -r $(WX29BUILD)
+	@echo "Build objects cleaned."
 
 distclean:
-	touch .ndsconfig && mv .ndsconfig .ndsconfig.tmp
-	./configure
-	mv .ndsconfig.tmp .ndsconfig
+	@touch .ndsconfig
+	@mv .ndsconfig .ndsconfig.tmp
+	@./configure > /dev/null || ./configure
+	@mv .ndsconfig.tmp .ndsconfig
+	@echo "Configuration has been reset."
 
 rebuild: clean
 rebuild: $(EXE)

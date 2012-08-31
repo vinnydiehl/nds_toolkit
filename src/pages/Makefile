@@ -54,7 +54,7 @@ debug: configure
 debug: $(OPATHS)
 
 configure:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgButtonActivatorGenerator.o:
 	$(MAKE) -C buttonactivatorgenerator $(MAKETGT)
