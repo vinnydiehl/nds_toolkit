@@ -79,3 +79,30 @@ in this beta.
    e.g. My_Game_Name_2E71A216.bin, in which case it will still auto-fill the
    address box for you).
 
+## 0.6
+
+This version did not have a beta because it fixed a critical bug that I wanted
+at release as quickly as possible.
+
+### Bug Fixes
+
+ * Select button on the Button Activator Generator now works.
+ * "All Files" on the file selection box now allows you to actually view all
+   files, not just ones with a dot somewhere in them (*.*).
+
+### Tweaks
+
+ * Tweaked padding on some UI elements that seemed too close together.
+ * Code Beautifier now trims blank lines from the very top/bottom of the
+   output, regardless of settings.
+
+### Usability
+
+ * Made some Pointer Searcher error messages more detailed.
+ * Made the Makefile output a lot nicer and cleaned it up a bit.
+ * Added more to the documentation.
+
+### Development
+
+ * Added a code testing system, and a couple test suites.
+
