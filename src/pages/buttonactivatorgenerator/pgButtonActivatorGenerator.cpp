@@ -99,7 +99,7 @@ pgButtonActivatorGenerator::pgButtonActivatorGenerator(wxWindow *parent)
     chkUp = new wxCheckBox(pnlMain, ID_UP, _T("&Up"));
     chkDown = new wxCheckBox(pnlMain, ID_DOWN, _T("&Down"));
     chkStart = new wxCheckBox(pnlMain, ID_START, _T("&Start"));
-    chkSelect = new wxCheckBox(pnlMain, ID_START, _T("Selec&t"));
+    chkSelect = new wxCheckBox(pnlMain, ID_SELECT, _T("Selec&t"));
     chkFolded = new wxCheckBox(pnlMain, ID_FOLDED, _T("&Folded"));
     chkDebug = new wxCheckBox(pnlMain, ID_DEBUG, _T("Deb&ug"));
 
