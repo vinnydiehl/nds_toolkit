@@ -43,7 +43,8 @@ SRCOPATHS = $(addprefix $(SRCOBJDIR)/,$(SRCOBJ))
 
 # Compiler
 CXX = g++
-CFLAGS = -Wall -Wextra -O2 -c -o $@
+CXXTESTFLAGS = -I$$CXXTEST
+CFLAGS = -Wall -Wextra -O2 -c -o $@ $(CXXTESTFLAGS)
 
 # cxxtestgen
 TESTGEN = cxxtestgen

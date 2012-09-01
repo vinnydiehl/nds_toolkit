@@ -41,7 +41,8 @@ OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
 CXX = g++
-CFLAGS = -Wall -Wextra -O2 -c -o $@ $(WXCFLAGS) $(INCFLAGS)
+CXXTESTFLAGS = -I$$CXXTEST
+CFLAGS = -Wall -Wextra -O2 -c -o $@ $(CXXTESTFLAGS) $(WXCFLAGS) $(INCFLAGS)
 
 # Make Utility
 MAKE = make
