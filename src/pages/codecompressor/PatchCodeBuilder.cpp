@@ -60,7 +60,10 @@ wxString PatchCodeBuilder::Build(wxString input)
     wxString primer = wxString::Format(
         _T("E%s %.8X"),
         lines[0].Mid(1, 7).c_str(),
-        code.GetCount() * 4
+        // This needs a cast to int or it will throw a runtime warning on
+        // Windows machines about the format specifier not matching the
+        // argument type.
+        (int)(code.GetCount() * 4)
     );
 
     // If the number of lines is odd, append a "00000000", we'll use it later
