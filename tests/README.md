@@ -12,18 +12,28 @@ how to use the framework, you may refer to their official documentation
 
 To install CxxTest on your system, use, for example, one of the following:
 
-```
+```Shell
 sudo apt-get install cxxtest
 ```
 
-```
+```Shell
 sudo yum install cxxtest
 ```
 
-If you are having problems compiling this code, first make sure that it isn't
+You will also need an environment variable named CXXTEST containing the path
+to the cxxtest include directory. If this is not set, the tests will not build.
+Try adding the following line to your ```.bashrc```:
+
+```Shell
+export CXXTEST=/usr/include
+```
+
+If the above does not work, yours is in a different location.
+
+If you are having problems compiling this code, also make sure that it isn't
 a problem on your end by checking that this has output:
 
-```
+```Shell
 cxxtestgen -v
 ```
 
