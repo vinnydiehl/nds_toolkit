@@ -40,6 +40,9 @@ public:
         wxString wildcard=_T("All Files (*.*)|*.*"),
         wxString title=_T("Select a File")
     );
+
+private:
+    static wxString mActiveFile;
 };
 
 #endif // FILEHANDLER_H_INCLUDED

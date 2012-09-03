@@ -22,24 +22,32 @@
 
 #include "FileHandler.h"
 
+wxString FileHandler::mActiveFile = _T("");
+
 wxFFileInputStream* FileHandler::GetStream(wxWindow *parent,
                                            wxTextCtrl *display,
                                            wxString wildcard,
                                            wxString title)
 {
-    wxFileDialog dlgOpenFile(parent, title, wxGetHomeDir(), wxEmptyString,
+    wxFileDialog dlgOpenFile(parent, title,
+                             // Default to home directory if it's the first
+                             // time they're selecting a file.
+                             !mActiveFile.IsEmpty() ? _T("") : wxGetHomeDir(),
+                             // If they're already selected a file, jump to
+                             // its location automatically and highlight it.
+                             mActiveFile,
                              wildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
     // Show the dialog. Once it closes, if they pressed cancel, stop.
     if (dlgOpenFile.ShowModal() == wxID_CANCEL) return NULL;
 
-    wxString path = dlgOpenFile.GetPath();
+    mActiveFile = dlgOpenFile.GetPath();
 
     // If they want to output the file path into a TextCtrl, do so.
     if (display != NULL)
-        display->SetValue(path);
+        display->SetValue(mActiveFile);
 
     // Return the input stream for the file.
-    return new wxFFileInputStream(path);
+    return new wxFFileInputStream(mActiveFile);
 }
 
