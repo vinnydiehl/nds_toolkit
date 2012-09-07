@@ -221,4 +221,3 @@ This will overwrite any current data in the input box.\
     if (dlgresult == wxYES)
         txtInput->SetValue(Clipboard::GetClipboard());
 }
-

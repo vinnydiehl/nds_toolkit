@@ -80,4 +80,3 @@ private:
 };
 
 #endif // PGCODEBEAUTIFIER_H_INCLUDED
-

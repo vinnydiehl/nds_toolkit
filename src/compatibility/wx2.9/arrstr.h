@@ -34,4 +34,3 @@ wxArrayString wxSplit(wxString str, wxChar sep);
 } // End namespace wxc
 
 #endif // WX29_ARRSTR_H_INCLUDED
-

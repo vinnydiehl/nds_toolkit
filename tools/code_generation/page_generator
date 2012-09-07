@@ -147,7 +147,6 @@ rebuild: all
 
 rebuild-dbg: clean
 rebuild-dbg: debug
-
 EOF
 end
 
@@ -217,7 +216,6 @@ private:
 };
 
 #endif // #{class_name.upcase}_H_INCLUDED
-
 EOF
 end
 
@@ -269,7 +267,6 @@ wxString #{class_name}::Title = _T("#{title}");
 //  Connect(ID_NAME, wxEVT_COMMAND_BUTTON_CLICKED,
 //          wxCommandEventHandler(#{class_name}::MethodName));
 }
-
 EOF
 end
 
@@ -281,4 +278,3 @@ Finished!
 Location of #{title} code:
 #{Dir.getwd}
 "
-

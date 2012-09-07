@@ -83,4 +83,3 @@ void MenuBar::About(wxCommandEvent &WXUNUSED(event))
 
     wxAboutBox(info);
 }
-

@@ -74,4 +74,3 @@ $(OBJDIR)/CodeParserTestSuite.o: CodeParserTestSuite.test.cpp \
 GENS = CodeParserTestSuite.test.cpp
 clean:
 	touch $(GENS) && rm $(GENS)
-

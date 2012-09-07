@@ -11,4 +11,3 @@ accordingly, then modify the contents of the files to suit your needs.
 
 If you would like to automate this process, check out the ```page_generator```
 script in ```tools/code_generation```.
-

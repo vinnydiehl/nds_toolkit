@@ -52,4 +52,3 @@ const wxString USRCHEAT_FILE_NAME = _T("usrcheat.rar");
 const int MARGIN = 5;
 
 #endif // GLOBALS_H_INCLUDED
-

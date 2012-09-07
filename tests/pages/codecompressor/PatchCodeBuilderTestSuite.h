@@ -75,4 +75,3 @@ private:
         TS_ASSERT(codeOutput == exCodeOutput);
     }
 };
-

@@ -406,4 +406,3 @@ Are you sure that you would like to clear the input and output boxes?\
         txtOutput->SetValue(_T(""));
     }
 }
-

@@ -113,4 +113,3 @@ wxString CodePorter::mPurePort(wxString code, wxString offset, PorterMode mode)
 
     return CodeParser::JoinColumns(left, right);
 }
-

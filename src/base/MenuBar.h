@@ -59,4 +59,3 @@ private:
 };
 
 #endif // MENUBAR_H_INCLUDED
-

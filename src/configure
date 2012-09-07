@@ -315,4 +315,3 @@ else:
     configure('\n'.join(makefile_options), '\n'.join(config_header_options))
 
 print 'Configuration complete!'
-

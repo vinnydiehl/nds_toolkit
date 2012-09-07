@@ -67,4 +67,3 @@ wxArrayString wxSplit(wxString str, wxChar sep)
 }
 
 } // End namespace wxc
-

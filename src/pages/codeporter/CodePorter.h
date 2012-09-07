@@ -47,4 +47,3 @@ private:
 };
 
 #endif // CODEPORTER_H_INCLUDED
-

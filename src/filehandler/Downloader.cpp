@@ -102,4 +102,3 @@ void Downloader::SelectAndDownload(void)
     if (SelectPath())
         Download();
 }
-

@@ -100,4 +100,3 @@ wxArrayString PatchCodeBuilder::mGroup(wxArrayString arr, size_t n)
 
     return output;
 }
-

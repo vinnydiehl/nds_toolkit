@@ -46,4 +46,3 @@ private:
 };
 
 #endif // FILEHANDLER_H_INCLUDED
-

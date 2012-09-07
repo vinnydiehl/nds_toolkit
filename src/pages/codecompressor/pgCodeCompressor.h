@@ -123,4 +123,3 @@ private:
 };
 
 #endif // PGCODECOMPRESSOR_H_INCLUDED
-

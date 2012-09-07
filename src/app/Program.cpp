@@ -33,4 +33,3 @@ bool NDSToolkit::OnInit()
 
     return true;
 }
-

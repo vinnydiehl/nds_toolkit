@@ -107,4 +107,3 @@ private:
 };
 
 #endif // PGPOINTERSEARCHER_H_INCLUDED
-

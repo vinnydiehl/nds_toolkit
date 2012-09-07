@@ -45,4 +45,3 @@ wxString Clipboard::GetClipboard(void)
     }
     return str;
 }
-

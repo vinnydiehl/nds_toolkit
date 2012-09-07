@@ -74,4 +74,3 @@ $(OBJDIR)/PointerSearcherTestSuite.o: PointerSearcherTestSuite.test.cpp \
 GENS = PointerSearcherTestSuite.test.cpp
 clean:
 	touch $(GENS) && rm $(GENS)
-

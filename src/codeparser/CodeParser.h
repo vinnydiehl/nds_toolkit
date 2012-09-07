@@ -60,4 +60,3 @@ private:
 };
 
 #endif // CODEPARSER_H_INLCUDED
-

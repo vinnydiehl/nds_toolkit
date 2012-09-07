@@ -369,4 +369,3 @@ void pgButtonActivatorGenerator::CheckInput(wxCommandEvent &WXUNUSED(event))
 {
     mController->UpdateOutput();
 }
-

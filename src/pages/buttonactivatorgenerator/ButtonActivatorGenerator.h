@@ -109,4 +109,3 @@ private:
 };
 
 #endif // BUTTONACTIVATORGENERATOR_H_INCLUDED
-

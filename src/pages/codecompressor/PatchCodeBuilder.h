@@ -40,4 +40,3 @@ private:
 };
 
 #endif // PATCHCODEBUILDER_H_INCLUDED
-

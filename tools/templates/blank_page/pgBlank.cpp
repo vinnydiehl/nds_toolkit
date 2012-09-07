@@ -63,4 +63,3 @@ pgBlank::pgBlank(wxWindow *parent)
 //  Connect(ID_NAME, wxEVT_COMMAND_BUTTON_CLICKED,
 //          wxCommandEventHandler(ClassName::MethodName));
 }
-

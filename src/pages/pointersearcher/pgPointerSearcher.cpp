@@ -336,4 +336,3 @@ void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
     wxString last8 = filename.Mid(filename.Len() - 12, 8);
     address->SetValue(CodeParser::IsHex(last8) ? last8.Upper() : _T(""));
 }
-

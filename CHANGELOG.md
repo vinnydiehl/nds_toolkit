@@ -105,4 +105,3 @@ at release as quickly as possible.
 ### Development
 
  * Added a code testing system, and a couple test suites.
-

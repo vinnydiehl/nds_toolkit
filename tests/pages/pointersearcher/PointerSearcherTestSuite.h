@@ -112,4 +112,3 @@ private:
         TS_ASSERT(smallestIndex == exSmallestIndex);
     }
 };
-

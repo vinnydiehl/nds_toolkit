@@ -37,4 +37,3 @@ public:
 };
 
 #endif // CLIPBOARD_H_INLCUDED
-

@@ -62,4 +62,3 @@ private:
 };
 
 #endif // PGBLANK_H_INCLUDED
-

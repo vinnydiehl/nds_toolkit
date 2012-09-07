@@ -50,4 +50,3 @@ public:
 };
 
 #endif // POINTERSEARCHER_H_INCLUDED
-

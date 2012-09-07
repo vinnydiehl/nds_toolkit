@@ -32,4 +32,3 @@ public:
                              wxString offsetIncrementStr,
                              wxString valueIncrementStr);
 };
-

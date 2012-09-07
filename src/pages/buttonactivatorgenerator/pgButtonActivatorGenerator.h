@@ -119,4 +119,3 @@ private:
 };
 
 #endif // PGBUTTONACTIVATORGENERATOR_H_INCLUDED
-

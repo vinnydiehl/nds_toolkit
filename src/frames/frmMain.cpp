@@ -119,4 +119,3 @@ void frmMain::SetMinSizeToPage(wxCommandEvent &WXUNUSED(event))
     // Overload so the function can be used as an event.
     SetMinSizeToPage();
 }
-

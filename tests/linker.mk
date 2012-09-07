@@ -59,4 +59,3 @@ configure:
 
 $(EXE): $(OPATHS)
 	$(CXX) $(OPATHS) $(SRCOPATHS) $(LDFLAGS) -o $@
-

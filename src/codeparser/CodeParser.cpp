@@ -225,4 +225,3 @@ wxString CodeParser::mStripChar(wxString str, wxString ch)
 
     return output;
 }
-

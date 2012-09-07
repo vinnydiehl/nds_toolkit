@@ -49,4 +49,3 @@ $(OBJDIR)/LoopCodeGeneratorTestSuite.o:
 	$(MAKE) -C codecompressor
 $(OBJDIR)/PatchCodeBuilderTestSuite.o:
 	$(MAKE) -C codecompressor
-

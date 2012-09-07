@@ -207,4 +207,3 @@ void ButtonActivatorGenerator::Clear(bool update)
     if (update)
         UpdateOutput();
 }
-

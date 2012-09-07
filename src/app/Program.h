@@ -34,4 +34,3 @@ public:
 };
 
 #endif // PROGRAM_H_INCLUDED
-

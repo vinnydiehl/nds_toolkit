@@ -19,4 +19,3 @@ vertical or horizontal, respectively.
 
 If you give no command line arguments, it will ask you for your selections
 at runtime.
-

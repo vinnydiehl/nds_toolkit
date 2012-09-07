@@ -60,4 +60,3 @@ modified the source code to assure that you are testing the latest code.
 
 To delete everything that is built, including the executable, run
 ```make delete``` or ```make erase```.
-

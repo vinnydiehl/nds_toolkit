@@ -75,4 +75,3 @@ $(OBJDIR)/CodePorterTestSuite.o: CodePorterTestSuite.test.cpp \
 GENS = CodePorterTestSuite.test.cpp
 clean:
 	touch $(GENS) && rm $(GENS)
-

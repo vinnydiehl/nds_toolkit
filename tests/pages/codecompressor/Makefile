@@ -83,4 +83,3 @@ $(OBJDIR)/PatchCodeBuilderTestSuite.o: PatchCodeBuilderTestSuite.test.cpp \
 GENS = LoopCodeGeneratorTestSuite.test.cpp PatchCodeBuilderTestSuite.test.cpp
 clean:
 	touch $(GENS) && rm $(GENS)
-

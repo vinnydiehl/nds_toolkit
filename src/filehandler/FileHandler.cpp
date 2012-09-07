@@ -50,4 +50,3 @@ wxFFileInputStream* FileHandler::GetStream(wxWindow *parent,
     // Return the input stream for the file.
     return new wxFFileInputStream(mActiveFile);
 }
-
