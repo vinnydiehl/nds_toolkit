@@ -74,7 +74,7 @@ LIBOPATHS = $(WX29BUILD)/arrstr.o
 # Compiler
 CXX = g++
 DEBUG = -g -DDEBUG
-LDFLAGS = -Wall $(WXLDFLAGS)
+LDFLAGS = -Wall -Wextra $(WXLDFLAGS)
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
 

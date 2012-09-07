@@ -57,7 +57,7 @@ OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 # Compiler
 CXX = g++
 DEBUG = -g -DDEBUG
-CFLAGS = -Wall -c -o $@ $(WXCFLAGS) $(INCFLAGS)
+CFLAGS = -Wall -Wextra -c -o $@ $(WXCFLAGS) $(INCFLAGS)
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
 
