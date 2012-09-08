@@ -53,13 +53,15 @@ Would you like the main box sizer to be vertical or horizontal? (v/h) "
   # Turn the orientation selection into a word.
   orient = orient == "v" ? "vertical" : "horizontal"
 
-  print "\
+  puts <<EOS
+
 You have chosen the following options.
 Class Name: #{class_name}
 Page Title: #{title}
 Orientation: #{orient.capitalize}
-Is this acceptable? [y] "
+EOS
 
+  print "Is this acceptable? [y] "
   choice = STDIN.gets.strip
 
   # Unless they press N, off we go.
@@ -271,10 +273,10 @@ EOF
 end
 
 # Finish-up message:
-print "\
+puts <<EOS
 Finished!
 3 files written.
 
 Location of #{title} code:
 #{Dir.getwd}
-"
+EOS
