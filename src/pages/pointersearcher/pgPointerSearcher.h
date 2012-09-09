@@ -77,9 +77,12 @@ public:
       wxBoxSizer *vboxSearchResults;
         wxStaticText *lblSearchResults;
         wxListBox *lstSearchResults;
+        wxBoxSizer *hboxResultsControls;
+          wxButton *btnCopyResult, *btnImport, *btnExport;
       wxBoxSizer *vboxPtrCode;
         wxStaticText *lblPtrCode;
         wxTextCtrl *txtPtrCode;
+        wxButton *btnCopyPtrCode;
 
     /** Events **/
 
@@ -100,6 +103,8 @@ private:
     static const long ID_BROWSE_FILE_1, ID_BROWSE_FILE_2;
     static const long ID_FIND_POINTERS;
     static const long ID_SEARCH_RESULTS, ID_HEX_VALUE;
+    static const long ID_COPY_RESULT, ID_COPY_PTR_CODE;
+    static const long ID_IMPORT, ID_EXPORT;
 
     /** Private Methods **/
 

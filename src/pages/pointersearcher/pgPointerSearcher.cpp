@@ -35,6 +35,12 @@ const long pgPointerSearcher::ID_FIND_POINTERS = wxNewId();
 const long pgPointerSearcher::ID_SEARCH_RESULTS = wxNewId();
 const long pgPointerSearcher::ID_HEX_VALUE = wxNewId();
 
+const long pgPointerSearcher::ID_COPY_RESULT = wxNewId();
+const long pgPointerSearcher::ID_COPY_PTR_CODE = wxNewId();
+
+const long pgPointerSearcher::ID_IMPORT = wxNewId();
+const long pgPointerSearcher::ID_EXPORT = wxNewId();
+
 pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
                  :  wxPanel(parent, wxID_ANY)
 {
@@ -167,9 +173,22 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     );
     lstSearchResults = new wxListBox(pnlMain, ID_SEARCH_RESULTS);
 
+    // Nested hbox with search results buttons:
+    hboxResultsControls = new wxBoxSizer(wxHORIZONTAL);
+    //
+    btnCopyResult = new wxButton(pnlMain, ID_COPY_RESULT,
+                                 _T("Copy Current &Result"));
+    btnImport = new wxButton(pnlMain, ID_IMPORT, _T("&Import"));
+    btnExport = new wxButton(pnlMain, ID_EXPORT, _T("&Export"));
+    //
+    hboxResultsControls->Add(btnCopyResult, 3, wxEXPAND | wxRIGHT, 5);
+    hboxResultsControls->Add(btnImport, 2, wxEXPAND | wxRIGHT, 5);
+    hboxResultsControls->Add(btnExport, 2, wxEXPAND);
+
     vboxSearchResults->Add(lblSearchResults, 0,
                            wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
-    vboxSearchResults->Add(lstSearchResults, 1, wxEXPAND);
+    vboxSearchResults->Add(lstSearchResults, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxSearchResults->Add(hboxResultsControls, 0, wxEXPAND);
 
     ///// Begin vboxPtrCode
 
@@ -179,9 +198,12 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     txtPtrCode = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                                 wxDefaultPosition, wxDefaultSize,
                                 wxTE_MULTILINE | wxHSCROLL);
+    btnCopyPtrCode = new wxButton(pnlMain, ID_COPY_PTR_CODE,
+                                  _T("&Copy Pointer Code"));
 
     vboxPtrCode->Add(lblPtrCode, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
-    vboxPtrCode->Add(txtPtrCode, 1, wxEXPAND);
+    vboxPtrCode->Add(txtPtrCode, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxPtrCode->Add(btnCopyPtrCode, 0, wxEXPAND);
 
     ///// Finish up gridLower
 
