@@ -88,7 +88,7 @@ at release as quickly as possible.
 
  * Select button on the Button Activator Generator now works.
  * "All Files" on the file selection box now allows you to actually view all
-   files, not just ones with a dot somewhere in them (*.*).
+   files, not just ones with a dot somewhere in them (\*.\*).
 
 ### Tweaks
 
@@ -105,3 +105,16 @@ at release as quickly as possible.
 ### Development
 
  * Added a code testing system, and a couple test suites.
+
+## 0.6.1
+
+### Bug Fixes
+
+ * Fixed runtime warning that occured on Windows every time the Patch Code
+   Builder was ran.
+
+### Developer Improvements
+
+ * Washed all of the extra end-of-file newlines out of the source code.
+ * Safer compile options- more warnings!
+ * Tests made more cross-platform accessable.

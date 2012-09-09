@@ -17,8 +17,7 @@
 **/
 
 /**
- * @file globals.h - Constants and macros that are meant to be used in various
- *                   multiple files throughout the program.
+ * @file globals.h - Constants and macros to be used by any files.
 **/
 
 #ifndef GLOBALS_H_INCLUDED
@@ -31,7 +30,7 @@
 // Program name:
 const wxString NAME = _T("NDS Toolkit");
 // Current program version:
-const wxString VERSION = _T("0.6");
+const wxString VERSION = _T("0.6.1");
 // Description:
 const wxString DESCRIPTION = _T("\
 A suite of tools for hacking Nintendo games.\n\
