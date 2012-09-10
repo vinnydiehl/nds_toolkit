@@ -149,7 +149,7 @@ bool CodeParser::IsHex(wxString str)
      * Return true if str is a valid hexadecimal value, false otherwise.
     **/
 
-    return HEX.Matches(str) ? true : false;
+    return HEX.Matches(str);
 }
 
 wxArrayString CodeParser::LeftColumn(wxString code)
