@@ -37,6 +37,7 @@
 
 #include "PointerSearcher.h"
 
+#include "Clipboard.h"
 #include "CodeParser.h"
 #include "FileHandler.h"
 #include "globals.h"

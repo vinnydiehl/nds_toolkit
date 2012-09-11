@@ -373,9 +373,29 @@ void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
 
 void pgPointerSearcher::CopyResult(wxCommandEvent &WXUNUSED(event))
 {
+    wxString str = lstSearchResults->GetStringSelection();
+
+    if (!str.IsEmpty())
+    {
+        Clipboard::SetClipboard(str);
+
+        if (Clipboard::GetClipboard() == str)
+            wxMessageBox(_T("Currently selected result copied successfully."),
+                         _T("Success"));
+    }
 }
 void pgPointerSearcher::CopyPtrCode(wxCommandEvent &WXUNUSED(event))
 {
+    wxString str = txtPtrCode->GetValue();
+
+    if (!str.IsEmpty())
+    {
+        Clipboard::SetClipboard(str);
+
+        if (Clipboard::GetClipboard() == str)
+            wxMessageBox(_T("Pointer code output copied successfully."),
+                         _T("Success"));
+    }
 }
 
 void pgPointerSearcher::Import(wxCommandEvent &WXUNUSED(event))
