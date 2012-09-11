@@ -245,6 +245,16 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
             wxCommandEventHandler(pgPointerSearcher::RefreshPtrCode));
     Connect(ID_HEX_VALUE, wxEVT_COMMAND_TEXT_UPDATED,
             wxCommandEventHandler(pgPointerSearcher::RefreshPtrCode));
+
+    Connect(ID_COPY_RESULT, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgPointerSearcher::CopyResult));
+    Connect(ID_COPY_PTR_CODE, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgPointerSearcher::CopyPtrCode));
+
+    Connect(ID_IMPORT, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgPointerSearcher::Import));
+    Connect(ID_EXPORT, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgPointerSearcher::Export));
 }
 
 /** Main Algorithm **/
@@ -357,4 +367,20 @@ void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
     // Otherwise, clear the text box.
     wxString last8 = filename.Mid(filename.Len() - 12, 8);
     address->SetValue(CodeParser::IsHex(last8) ? last8.Upper() : _T(""));
+}
+
+/** Output Tools **/
+
+void pgPointerSearcher::CopyResult(wxCommandEvent &WXUNUSED(event))
+{
+}
+void pgPointerSearcher::CopyPtrCode(wxCommandEvent &WXUNUSED(event))
+{
+}
+
+void pgPointerSearcher::Import(wxCommandEvent &WXUNUSED(event))
+{
+}
+void pgPointerSearcher::Export(wxCommandEvent &WXUNUSED(event))
+{
 }

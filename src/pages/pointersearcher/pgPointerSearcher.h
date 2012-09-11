@@ -88,8 +88,14 @@ public:
 
     void FindPointers(wxCommandEvent &event);
     void RefreshPtrCode(wxCommandEvent &event);
+
     void SelectFile1(wxCommandEvent &event);
     void SelectFile2(wxCommandEvent &event);
+
+    void CopyResult(wxCommandEvent &event);
+    void CopyPtrCode(wxCommandEvent &event);
+    void Import(wxCommandEvent &event);
+    void Export(wxCommandEvent &event);
 
     /** Member Variables **/
 
