@@ -14,14 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# @file Makefile - Builds the classes for handling files.
+# @file Makefile - Builds the PSR class.
 
 # Orientation of this Makefile
-ROOT = ..
+ROOT = ../..
 
 # Source Directories
 INCDIR = .
-INCPATHS = $(INCDIR)
+COMPATINCDIR = $(ROOT)/compatibility
+INCPATHS = $(INCDIR) $(COMPATINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -32,16 +33,13 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = Downloader.o FileHandler.o PSR.o
+OBJ = PSR.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
 CXX = g++
 DEBUG = -g -DDEBUG
 CFLAGS = -Wall -Wextra -c -o $@ $(WXCFLAGS) $(INCFLAGS)
-
-# Make Utility
-MAKE = make
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
 
@@ -56,14 +54,8 @@ debug: $(OPATHS)
 configure:
 	@mkdir -p $(OBJDIR)
 
-$(OBJDIR)/Downloader.o: $(INCDIR)/Downloader.h
-	$(CXX) $(CFLAGS) Downloader.cpp
-
-$(OBJDIR)/FileHandler.o: $(INCDIR)/FileHandler.h
-	$(CXX) $(CFLAGS) FileHandler.cpp
-
-$(OBJDIR)/PSR.o:
-	$(MAKE) -C psr
+$(OBJDIR)/PSR.o: $(INCDIR)/PSR.h
+	$(CXX) $(CFLAGS) PSR.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

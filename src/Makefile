@@ -86,7 +86,7 @@ INSTALL = /usr/bin
 # Output Files
 EXE = $(BINDIR)/$(NAME)
 OBJ = Clipboard.o CodeParser.o Downloader.o FileHandler.o \
-      MenuBar.o Program.o frmMain.o \
+      MenuBar.o PSR.o Program.o frmMain.o \
       $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
       $(CODE_PORTER) $(CODE_COMPRESSOR) $(CODE_BEAUTIFIER)
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
@@ -179,6 +179,9 @@ $(OBJDIR)/Downloader.o:
 	$(MAKE) -C filehandler $(MAKETGT)
 
 $(OBJDIR)/FileHandler.o:
+	$(MAKE) -C filehandler $(MAKETGT)
+
+$(OBJDIR)/PSR.o:
 	$(MAKE) -C filehandler $(MAKETGT)
 
 ### Library Builds
