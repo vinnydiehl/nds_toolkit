@@ -33,7 +33,8 @@
 
 // Regular expression constants for verifying file validity.
 const wxRegEx NUMBER(_T("\\A\\d+\\Z"), wxRE_ADVANCED);
-const wxRegEx HEX_NUMBER(_T("\\A[0-9A-F]+\\Z"), wxRE_ADVANCED);
+// * because the "Hex Value" line is allowed to be blank.
+const wxRegEx HEX_NUMBER(_T("\\A[0-9A-F]*\\Z"), wxRE_ADVANCED);
 const wxRegEx RESULT(
     _T("\\A0x[0-9A-F]{8} : 0x[0-9A-F]{8} :: 0x[0-9A-F]{8}\\Z"),
     wxRE_ADVANCED
