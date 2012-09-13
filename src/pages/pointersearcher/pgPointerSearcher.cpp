@@ -303,12 +303,11 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
     }
 
     wxArrayString searchResults;
-    wxString ptrCode;
     unsigned smallest;
 
     try
     {
-        PointerSearcher::Search(&searchResults, &ptrCode, &smallest,
+        PointerSearcher::Search(&searchResults, &smallest,
                                 File1Input, File2Input,
                                 txtAddress1->GetValue(),
                                 txtAddress2->GetValue(),
@@ -324,9 +323,9 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
 
     lstSearchResults->Set(searchResults);
     lstSearchResults->SetSelection(smallest);
-    txtPtrCode->SetValue(ptrCode);
+    RefreshPtrCode();
 }
-void pgPointerSearcher::RefreshPtrCode(wxCommandEvent &WXUNUSED(event))
+void pgPointerSearcher::RefreshPtrCode(void)
 {
     // Stop if we have nothing to do.
     if (lstSearchResults->IsEmpty() || txtHexValue->IsEmpty())
@@ -346,6 +345,11 @@ void pgPointerSearcher::RefreshPtrCode(wxCommandEvent &WXUNUSED(event))
         wxMessageBox(msg, _T("Error"));
         return;
     }
+}
+void pgPointerSearcher::RefreshPtrCode(wxCommandEvent &WXUNUSED(event))
+{
+    // Overload for use as an event.
+    RefreshPtrCode();
 }
 
 /** File Input **/

@@ -23,7 +23,6 @@
 #include "PointerSearcher.h"
 
 void PointerSearcher::Search(wxArrayString *outputSearchResults,
-                             wxString *outputPtrCode,
                              unsigned *outputSmallest,
                              wxFFileInputStream *file1,
                              wxFFileInputStream *file2,
@@ -37,7 +36,6 @@ void PointerSearcher::Search(wxArrayString *outputSearchResults,
      * Run the algorithm for the Pointer Searcher.
      *
      * @param outputSearchResults - String to place search result output into.
-     * @param outputPtrCode - String to place pointer code output into.
      * @param file1 - The File 1 input's wxFFileInputStream.
      * @param file2 - The File 2 input's wxFFileInputStream.
      * @param addr1str - The Address 1 input.
@@ -102,7 +100,6 @@ void PointerSearcher::Search(wxArrayString *outputSearchResults,
 
     // We can clear out the output strings now so they can be appended to.
     outputSearchResults->Clear();
-    *outputPtrCode = _T("");
 
     // Seek to the beginning of each stream.
     // Without this, the search can only run once on each file.
@@ -169,7 +166,6 @@ void PointerSearcher::Search(wxArrayString *outputSearchResults,
         }
     }
 
-    *outputPtrCode = ArCode(results[smallest], hexValueStr);
     *outputSmallest = smallest;
 }
 
