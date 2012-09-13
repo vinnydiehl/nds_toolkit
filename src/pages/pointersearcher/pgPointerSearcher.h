@@ -40,6 +40,7 @@
 #include "Clipboard.h"
 #include "CodeParser.h"
 #include "FileHandler.h"
+#include "PSR.h"
 #include "globals.h"
 
 class pgPointerSearcher : public wxPanel
@@ -88,6 +89,7 @@ public:
     /** Events **/
 
     void FindPointers(wxCommandEvent &event);
+    void RefreshPtrCode(void);
     void RefreshPtrCode(wxCommandEvent &event);
 
     void SelectFile1(wxCommandEvent &event);
@@ -100,7 +102,6 @@ public:
 
     /** Member Variables **/
 
-    wxString Wildcard;
     wxFFileInputStream *File1Input, *File2Input;
 
 private:
@@ -112,6 +113,10 @@ private:
     static const long ID_SEARCH_RESULTS, ID_HEX_VALUE;
     static const long ID_COPY_RESULT, ID_COPY_PTR_CODE;
     static const long ID_IMPORT, ID_EXPORT;
+
+    /** Constants **/
+
+    static const wxString BIN_WILDCARD, PSR_WILDCARD;
 
     /** Private Methods **/
 

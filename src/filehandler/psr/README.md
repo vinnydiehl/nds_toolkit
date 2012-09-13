@@ -5,11 +5,13 @@ follows.
 
 ```
 0
+F432F
 0x02101D40 : 0x0227E17C :: 0x00000090
 0x021C0794 : 0x0227E17C :: 0x00000090
 ```
 
-It simply gives the index of the current selection, followed by each of the
+It simply gives the index of the current selection on the first line and the
+contents of the Hex Value input on the second line, followed by each of the
 results, listed one per line.
 
 The PSR class handles this file format- it contains methods for reading a file,
@@ -34,13 +36,14 @@ call this as you would the constructor- with either an ```wxFFile``` or a
 There are static methods to allow the writing of PSR files without constructing
 an instance of the PSR class.
 
-To write a PSR file, simply pass the file to be written (in one of the same
-forms available for construction and reading), the list of search results,
-and the currently selected result to one of the following overloads:
+To write a PSR file, simply pass the name of the file to be written, the list
+of search results, and the currently selected result to this method:
 
 ```C++
-static void Write(wxFFile *file, wxArrayString results, int index);
-static void Write(wxString filename, wxArrayString results, int index);
+static void Write(wxString filename,
+                  wxArrayString results,
+                  int index,
+                  wxString hexValue);
 ```
 
 ### Verification
@@ -56,4 +59,5 @@ formatted files.
 To access the data in the currently loaded PSR file, you can use the
 ```GetResults()``` method to get a wxArrayString containing all of the search
 results, or the ```GetIndex()``` method to get the index of the currently
-selected result.
+selected result. The ```GetHexValue()``` method gets the contents of the Hex
+Value input.

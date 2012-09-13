@@ -44,10 +44,6 @@ const long pgPointerSearcher::ID_EXPORT = wxNewId();
 pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
                  :  wxPanel(parent, wxID_ANY)
 {
-    /** Initialize Member Variables **/
-
-    Wildcard = _T("Binary Files (*.bin)|*.bin|All Files|*");
-
     /** Main Content **/
 
     vboxMargin = new wxBoxSizer(wxVERTICAL);
@@ -354,14 +350,17 @@ void pgPointerSearcher::RefreshPtrCode(wxCommandEvent &WXUNUSED(event))
 
 /** File Input **/
 
+const wxString pgPointerSearcher::BIN_WILDCARD =
+    _T("Binary Files (*.bin)|*.bin|All Files|*");
+
 void pgPointerSearcher::SelectFile1(wxCommandEvent &WXUNUSED(event))
 {
-    File1Input = FileHandler::GetStream(this, txtFile1, Wildcard);
+    File1Input = FileHandler::GetStream(this, txtFile1, BIN_WILDCARD);
     mParseFileName(txtFile1->GetValue(), txtAddress1);
 }
 void pgPointerSearcher::SelectFile2(wxCommandEvent &WXUNUSED(event))
 {
-    File2Input = FileHandler::GetStream(this, txtFile2, Wildcard);
+    File2Input = FileHandler::GetStream(this, txtFile2, BIN_WILDCARD);
     mParseFileName(txtFile2->GetValue(), txtAddress2);
 }
 void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
@@ -402,9 +401,68 @@ void pgPointerSearcher::CopyPtrCode(wxCommandEvent &WXUNUSED(event))
     }
 }
 
+const wxString pgPointerSearcher::PSR_WILDCARD =
+    _T("Pointer Searcher Results Files (*.psr)|*.psr|All Files|*");
+
 void pgPointerSearcher::Import(wxCommandEvent &WXUNUSED(event))
 {
+    // Prompt them if there are search results that would be overwritten.
+    int dlgresult = !lstSearchResults->IsEmpty()
+                    ? wxMessageBox(
+                        _T("\
+Are you sure that you would like import new search results?\n\
+This will overwrite any current data in the search result output.\
+"),
+                        _T("Overwrite Results?"), wxYES_NO
+                    )
+                    : wxYES;
+
+    if (dlgresult != wxYES)
+        return;
+
+    wxString filename = FileHandler::GetFileSelection(this, NULL,
+                                                      PSR_WILDCARD);
+
+    // Make sure that a file has been selected.
+    if (filename.IsEmpty())
+        return;
+
+    PSR psr(filename);
+
+    if (!psr.Verify())
+    {
+        wxMessageBox(_T("Invalid Pointer Searcher Results file."),
+                     _T("Error"));
+        return;
+    }
+
+    txtHexValue->SetValue(psr.GetHexValue());
+    lstSearchResults->Clear();
+    lstSearchResults->InsertItems(psr.GetResults(), 0);
+    lstSearchResults->SetSelection(psr.GetIndex());
+    RefreshPtrCode();
 }
 void pgPointerSearcher::Export(wxCommandEvent &WXUNUSED(event))
 {
+    if (lstSearchResults->IsEmpty())
+    {
+        wxMessageBox(_T("There are no search results."), _T("Error"));
+        return;
+    }
+
+    wxString filename = FileHandler::GetSaveFileSelection(
+        this,
+        _T("SearchResults.psr"),
+        PSR_WILDCARD
+    );
+
+    if (!filename.IsEmpty())
+    {
+        PSR::Write(
+            filename,
+            lstSearchResults->GetStrings(),
+            lstSearchResults->GetSelection(),
+            txtHexValue->GetValue()
+        );
+    }
 }

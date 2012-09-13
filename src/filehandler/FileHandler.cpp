@@ -24,10 +24,15 @@
 
 wxString FileHandler::mActiveFile = _T("");
 
-wxFFileInputStream* FileHandler::GetStream(wxWindow *parent,
-                                           wxTextCtrl *display,
-                                           wxString wildcard,
-                                           wxString title)
+/**
+ * :BUG: 2012-09-13 gbchaosmaster - Active file auto-selection bug
+ * These four methods will automatically highlight the previously selected
+ * file, which is intended behavior, but if the file to be highlighted clashes
+ * with the wildcard, the wildcard will break.
+**/
+
+wxString FileHandler::GetFileSelection(wxWindow *parent, wxTextCtrl *display,
+                                       wxString wildcard, wxString title)
 {
     wxFileDialog dlgOpenFile(parent, title,
                              // Default to home directory if it's the first
@@ -39,7 +44,8 @@ wxFFileInputStream* FileHandler::GetStream(wxWindow *parent,
                              wildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
     // Show the dialog. Once it closes, if they pressed cancel, stop.
-    if (dlgOpenFile.ShowModal() == wxID_CANCEL) return NULL;
+    if (dlgOpenFile.ShowModal() == wxID_CANCEL)
+        return _T("");
 
     mActiveFile = dlgOpenFile.GetPath();
 
@@ -47,6 +53,41 @@ wxFFileInputStream* FileHandler::GetStream(wxWindow *parent,
     if (display != NULL)
         display->SetValue(mActiveFile);
 
-    // Return the input stream for the file.
-    return new wxFFileInputStream(mActiveFile);
+    // Return the filename.
+    return mActiveFile;
+}
+
+wxFFileInputStream* FileHandler::GetStream(wxWindow *parent,
+                                           wxTextCtrl *display,
+                                           wxString wildcard,
+                                           wxString title)
+{
+    wxString filename = GetFileSelection(parent, display, wildcard, title);
+    return filename.IsEmpty() ? NULL : new wxFFileInputStream(filename);
+}
+
+wxString FileHandler::GetSaveFileSelection(wxWindow *parent,
+                                           wxString saveas,
+                                           wxString wildcard,
+                                           wxString title)
+{
+    wxFileDialog dlgSave(parent, title, wxGetHomeDir(),
+                         saveas, wildcard, wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+
+    // Display the dialog- if they cancel, return an empty string.
+    if (dlgSave.ShowModal() == wxID_CANCEL)
+        return _T("");
+
+    mActiveFile = dlgSave.GetPath();
+
+    return mActiveFile;
+}
+
+wxFFileOutputStream* FileHandler::GetSaveStream(wxWindow *parent,
+                                                wxString saveas,
+                                                wxString wildcard,
+                                                wxString title)
+{
+    wxString filename = GetSaveFileSelection(parent, saveas, wildcard, title);
+    return filename.IsEmpty() ? NULL : new wxFFileOutputStream(filename);
 }

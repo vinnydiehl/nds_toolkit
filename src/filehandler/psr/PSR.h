@@ -27,11 +27,13 @@
 #include <wx/ffile.h>
 #include <wx/regex.h>
 #include <wx/string.h>
+#include <wx/textfile.h>
 
 #include "wx2.9/arrstr.h"
 
 // Regular expression constants for verifying file validity.
 const wxRegEx NUMBER(_T("\\A\\d+\\Z"), wxRE_ADVANCED);
+const wxRegEx HEX_NUMBER(_T("\\A[0-9A-F]+\\Z"), wxRE_ADVANCED);
 const wxRegEx RESULT(
     _T("\\A0x[0-9A-F]{8} : 0x[0-9A-F]{8} :: 0x[0-9A-F]{8}\\Z"),
     wxRE_ADVANCED
@@ -46,13 +48,14 @@ public:
     void Read(wxFFile *file);
     void Read(wxString filename);
 
-    static void Write(wxFFile *file, wxArrayString results, int index);
-    static void Write(wxString filename, wxArrayString results, int index);
+    static void Write(wxString filename, wxArrayString results,
+                      int index, wxString hexValue);
 
     bool Verify(void);
 
     wxArrayString GetResults(void);
     int GetIndex(void);
+    wxString GetHexValue(void);
 
 private:
     wxArrayString mContents;

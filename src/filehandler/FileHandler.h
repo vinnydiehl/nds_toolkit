@@ -34,11 +34,32 @@
 class FileHandler
 {
 public:
+    static wxString GetFileSelection(
+        wxWindow *parent,
+        wxTextCtrl *display=NULL,
+        wxString wildcard=_T("All Files|*"),
+        wxString title=_T("Select a File")
+    );
+
     static wxFFileInputStream* GetStream(
         wxWindow *parent,
         wxTextCtrl *display=NULL,
-        wxString wildcard=_T("All Files (*.*)|*.*"),
+        wxString wildcard=_T("All Files|*"),
         wxString title=_T("Select a File")
+    );
+
+    static wxString GetSaveFileSelection(
+        wxWindow *parent,
+        wxString saveas=_T(""),
+        wxString wildcard=_T("All Files|*"),
+        wxString title=_T("Save As...")
+    );
+
+    static wxFFileOutputStream* GetSaveStream(
+        wxWindow *parent,
+        wxString saveas=_T(""),
+        wxString wildcard=_T("All Files|*"),
+        wxString title=_T("Save As...")
     );
 
 private:

@@ -33,7 +33,7 @@ SETUP = default
 ifeq ($(SETUP),default)
     BUTTON_ACTIVATOR_GENERATOR = ButtonActivatorGenerator.o \
 				 pgButtonActivatorGenerator.o
-    POINTER_SEARCHER = PointerSearcher.o pgPointerSearcher.o
+    POINTER_SEARCHER = PointerSearcher.o PSR.o pgPointerSearcher.o
     CODE_PORTER = CodePorter.o pgCodePorter.o
     CODE_COMPRESSOR = LoopCodeGenerator.o \
 		      PatchCodeBuilder.o \
@@ -58,7 +58,7 @@ OBJDIR = $(BUILDROOT)/obj
 # Output Files
 EXE = $(BINDIR)/$(NAME)
 OBJ = Clipboard.o CodeParser.o Downloader.o FileHandler.o \
-      MenuBar.o PSR.o Program.o frmMain.o \
+      MenuBar.o Program.o frmMain.o \
       $(BUTTON_ACTIVATOR_GENERATOR) $(POINTER_SEARCHER) \
       $(CODE_PORTER) $(CODE_COMPRESSOR) $(CODE_BEAUTIFIER)
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))

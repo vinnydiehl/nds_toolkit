@@ -58,25 +58,32 @@ void PSR::Read(wxString filename)
     Read(new wxFFile(filename));
 }
 
-void PSR::Write(wxFFile *file, wxArrayString results, int index)
+void PSR::Write(wxString filename, wxArrayString results,
+                int index, wxString hexValue)
 {
     /**
      * Write the information to a Pointer Searcher Results file.
     **/
 
-    file->Write(wxString::Format(
-        _T("%d\n%s"),
+    wxTextFile file(filename);
+
+    // Prepare the file for writing.
+    if (file.Exists())
+        file.Open();
+    else file.Create();
+
+    // Empty out any existing contents and write to the file.
+    file.Clear();
+    file.AddLine(wxString::Format(
+        _T("%d\n%s\n%s"),
         index,
+        hexValue.c_str(),
         wxc::wxJoin(results, _T('\n')).c_str()
     ));
-}
-void PSR::Write(wxString filename, wxArrayString results, int index)
-{
-    /**
-     * Overload to allow the filename to be passed in as a wxString.
-    **/
 
-    Write(new wxFFile(filename), results, index);
+    // Save the file to the disk.
+    file.Write();
+    file.Close();
 }
 
 bool PSR::Verify(void)
@@ -86,22 +93,24 @@ bool PSR::Verify(void)
      * Pointer Searcher Results file.
     **/
 
-    // Should definitely have 2 or more lines.
+    // Should definitely have 3 or more lines.
     // Checking this up here prevents an out of range error during the for
     // loop below.
-    if (mContents.GetCount() < 2)
+    if (mContents.GetCount() < 3)
         return false;
 
-    // Make sure that all lines except the first are valid, well-formatted
+    // Make sure that all lines except the first two are valid, well-formatted
     // search results.
-    for (size_t i = 1; i < mContents.GetCount(); ++i)
+    for (size_t i = 2; i < mContents.GetCount(); ++i)
         if (!RESULT.Matches(mContents[i]))
             return false;
 
     // Make sure that the first line is a number and that the number, an index
-    // to the rest of the wxArrayString, doesn't go out of range.
+    // to the rest of the wxArrayString, doesn't go out of range. Also check
+    // that the Hex Value is a valid hexadecimal string.
     return NUMBER.Matches(mContents[0]) &&
-           GetIndex() < mContents.GetCount();
+           HEX_NUMBER.Matches(mContents[1]) &&
+           (unsigned)GetIndex() < mContents.GetCount();
 }
 
 wxArrayString PSR::GetResults(void)
@@ -110,10 +119,10 @@ wxArrayString PSR::GetResults(void)
      * Return a wxArrayString containing all of the search results.
     **/
 
-    // Make and return a copy of the wxArrayString with the first containing
-    // the selected index removed.
+    // Make and return a copy of the wxArrayString and remove the first two
+    // elements.
     wxArrayString copy = mContents;
-    copy.RemoveAt(0);
+    copy.RemoveAt(0, 2);
 
     return copy;
 }
@@ -128,4 +137,12 @@ int PSR::GetIndex(void)
 
     // Just fall back to 0 if the conversion to a number fails.
     return mContents[0].ToLong(&index) ? index : 0;
+}
+wxString PSR::GetHexValue(void)
+{
+    /**
+     * Return the contents of the Hex Value input.
+    **/
+
+    return mContents[1];
 }
