@@ -118,3 +118,18 @@ at release as quickly as possible.
  * Washed all of the extra end-of-file newlines out of the source code.
  * Safer compile options- more warnings!
  * Tests made more cross-platform accessable.
+
+## 0.7b1
+
+This beta release brings a revamped Pointer Searcher, with some new and
+possibly buggy features that need testing.
+
+### Features
+
+ * Added copy buttons to the Pointer Searcher.
+ * Added the ability to import/export your Pointer Searcher search results to
+   a file.
+
+### Improvements
+
+ * Minor performance enhancement in Pointer Searcher's searching algorithm.
