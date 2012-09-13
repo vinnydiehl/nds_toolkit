@@ -21,12 +21,14 @@ ROOT = ../..
 
 # Source Directories
 INCDIR = .
+CLIPINCDIR = $(ROOT)/clipboard
 COMMONINCDIR = $(ROOT)/common
 COMPATINCDIR = $(ROOT)/compatibility
 FHINCDIR = $(ROOT)/filehandler
 PARSEINCDIR = $(ROOT)/codeparser
-INCPATHS = $(INCDIR) $(COMMONINCDIR) $(COMPATINCDIR) $(FHINCDIR) \
-           $(PARSEINCDIR)
+PSRINCDIR = $(FHINCDIR)/psr
+INCPATHS = $(INCDIR) $(CLIPINCDIR) $(COMMONINCDIR) $(COMPATINCDIR) \
+	   $(FHINCDIR) $(PARSEINCDIR) $(PSRINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -59,6 +61,7 @@ configure:
 	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/pgPointerSearcher.o: $(INCDIR)/pgPointerSearcher.h \
+                               $(CLIPINCDIR)/Clipboard.h \
                                $(COMMONINCDIR)/globals.h \
                                $(FHINCDIR)/FileHandler.h \
 	                       $(PARSEINCDIR)/CodeParser.h

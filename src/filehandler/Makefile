@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# @file Makefile - Builds the FileHandler class.
+# @file Makefile - Builds the classes for handling files.
 
 # Orientation of this Makefile
 ROOT = ..
@@ -32,13 +32,16 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = Downloader.o FileHandler.o
+OBJ = Downloader.o FileHandler.o PSR.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
 CXX = g++
 DEBUG = -g -DDEBUG
 CFLAGS = -Wall -Wextra -c -o $@ $(WXCFLAGS) $(INCFLAGS)
+
+# Make Utility
+MAKE = make
 
 .PHONY: all debug configure clean rebuild rebuild-dbg
 
@@ -58,6 +61,9 @@ $(OBJDIR)/Downloader.o: $(INCDIR)/Downloader.h
 
 $(OBJDIR)/FileHandler.o: $(INCDIR)/FileHandler.h
 	$(CXX) $(CFLAGS) FileHandler.cpp
+
+$(OBJDIR)/PSR.o:
+	$(MAKE) -C psr
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

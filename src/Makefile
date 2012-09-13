@@ -53,7 +53,7 @@ SETUP = default
 ifeq ($(SETUP),default)
     BUTTON_ACTIVATOR_GENERATOR = ButtonActivatorGenerator.o \
 				 pgButtonActivatorGenerator.o
-    POINTER_SEARCHER = PointerSearcher.o pgPointerSearcher.o
+    POINTER_SEARCHER = PointerSearcher.o PSR.o pgPointerSearcher.o
     CODE_PORTER = CodePorter.o pgCodePorter.o
     CODE_COMPRESSOR = LoopCodeGenerator.o \
 		      PatchCodeBuilder.o \
@@ -179,6 +179,9 @@ $(OBJDIR)/Downloader.o:
 	$(MAKE) -C filehandler $(MAKETGT)
 
 $(OBJDIR)/FileHandler.o:
+	$(MAKE) -C filehandler $(MAKETGT)
+
+$(OBJDIR)/PSR.o:
 	$(MAKE) -C filehandler $(MAKETGT)
 
 ### Library Builds

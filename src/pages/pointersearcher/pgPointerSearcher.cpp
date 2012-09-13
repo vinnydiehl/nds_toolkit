@@ -35,13 +35,15 @@ const long pgPointerSearcher::ID_FIND_POINTERS = wxNewId();
 const long pgPointerSearcher::ID_SEARCH_RESULTS = wxNewId();
 const long pgPointerSearcher::ID_HEX_VALUE = wxNewId();
 
+const long pgPointerSearcher::ID_COPY_RESULT = wxNewId();
+const long pgPointerSearcher::ID_COPY_PTR_CODE = wxNewId();
+
+const long pgPointerSearcher::ID_IMPORT = wxNewId();
+const long pgPointerSearcher::ID_EXPORT = wxNewId();
+
 pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
                  :  wxPanel(parent, wxID_ANY)
 {
-    /** Initialize Member Variables **/
-
-    Wildcard = _T("Binary Files (*.bin)|*.bin|All Files|*");
-
     /** Main Content **/
 
     vboxMargin = new wxBoxSizer(wxVERTICAL);
@@ -167,9 +169,22 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     );
     lstSearchResults = new wxListBox(pnlMain, ID_SEARCH_RESULTS);
 
+    // Nested hbox with search results buttons:
+    hboxResultsControls = new wxBoxSizer(wxHORIZONTAL);
+    //
+    btnCopyResult = new wxButton(pnlMain, ID_COPY_RESULT,
+                                 _T("Copy Current &Result"));
+    btnImport = new wxButton(pnlMain, ID_IMPORT, _T("&Import"));
+    btnExport = new wxButton(pnlMain, ID_EXPORT, _T("&Export"));
+    //
+    hboxResultsControls->Add(btnCopyResult, 3, wxEXPAND | wxRIGHT, 5);
+    hboxResultsControls->Add(btnImport, 2, wxEXPAND | wxRIGHT, 5);
+    hboxResultsControls->Add(btnExport, 2, wxEXPAND);
+
     vboxSearchResults->Add(lblSearchResults, 0,
                            wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
-    vboxSearchResults->Add(lstSearchResults, 1, wxEXPAND);
+    vboxSearchResults->Add(lstSearchResults, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxSearchResults->Add(hboxResultsControls, 0, wxEXPAND);
 
     ///// Begin vboxPtrCode
 
@@ -179,9 +194,12 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     txtPtrCode = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                                 wxDefaultPosition, wxDefaultSize,
                                 wxTE_MULTILINE | wxHSCROLL);
+    btnCopyPtrCode = new wxButton(pnlMain, ID_COPY_PTR_CODE,
+                                  _T("&Copy Pointer Code"));
 
     vboxPtrCode->Add(lblPtrCode, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
-    vboxPtrCode->Add(txtPtrCode, 1, wxEXPAND);
+    vboxPtrCode->Add(txtPtrCode, 1, wxEXPAND | wxBOTTOM, 5);
+    vboxPtrCode->Add(btnCopyPtrCode, 0, wxEXPAND);
 
     ///// Finish up gridLower
 
@@ -223,6 +241,16 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
             wxCommandEventHandler(pgPointerSearcher::RefreshPtrCode));
     Connect(ID_HEX_VALUE, wxEVT_COMMAND_TEXT_UPDATED,
             wxCommandEventHandler(pgPointerSearcher::RefreshPtrCode));
+
+    Connect(ID_COPY_RESULT, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgPointerSearcher::CopyResult));
+    Connect(ID_COPY_PTR_CODE, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgPointerSearcher::CopyPtrCode));
+
+    Connect(ID_IMPORT, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgPointerSearcher::Import));
+    Connect(ID_EXPORT, wxEVT_COMMAND_BUTTON_CLICKED,
+            wxCommandEventHandler(pgPointerSearcher::Export));
 }
 
 /** Main Algorithm **/
@@ -271,12 +299,11 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
     }
 
     wxArrayString searchResults;
-    wxString ptrCode;
     unsigned smallest;
 
     try
     {
-        PointerSearcher::Search(&searchResults, &ptrCode, &smallest,
+        PointerSearcher::Search(&searchResults, &smallest,
                                 File1Input, File2Input,
                                 txtAddress1->GetValue(),
                                 txtAddress2->GetValue(),
@@ -292,13 +319,16 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
 
     lstSearchResults->Set(searchResults);
     lstSearchResults->SetSelection(smallest);
-    txtPtrCode->SetValue(ptrCode);
+    RefreshPtrCode();
 }
-void pgPointerSearcher::RefreshPtrCode(wxCommandEvent &WXUNUSED(event))
+void pgPointerSearcher::RefreshPtrCode(void)
 {
-    // Stop if we have nothing to do.
+    // Clear the output and stop if we can't do anything.
     if (lstSearchResults->IsEmpty() || txtHexValue->IsEmpty())
+    {
+        txtPtrCode->Clear();
         return;
+    }
 
     try
     {
@@ -315,17 +345,25 @@ void pgPointerSearcher::RefreshPtrCode(wxCommandEvent &WXUNUSED(event))
         return;
     }
 }
+void pgPointerSearcher::RefreshPtrCode(wxCommandEvent &WXUNUSED(event))
+{
+    // Overload for use as an event.
+    RefreshPtrCode();
+}
 
 /** File Input **/
 
+const wxString pgPointerSearcher::BIN_WILDCARD =
+    _T("Binary Files (*.bin)|*.bin|All Files|*");
+
 void pgPointerSearcher::SelectFile1(wxCommandEvent &WXUNUSED(event))
 {
-    File1Input = FileHandler::GetStream(this, txtFile1, Wildcard);
+    File1Input = FileHandler::GetStream(this, txtFile1, BIN_WILDCARD);
     mParseFileName(txtFile1->GetValue(), txtAddress1);
 }
 void pgPointerSearcher::SelectFile2(wxCommandEvent &WXUNUSED(event))
 {
-    File2Input = FileHandler::GetStream(this, txtFile2, Wildcard);
+    File2Input = FileHandler::GetStream(this, txtFile2, BIN_WILDCARD);
     mParseFileName(txtFile2->GetValue(), txtAddress2);
 }
 void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
@@ -335,4 +373,99 @@ void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
     // Otherwise, clear the text box.
     wxString last8 = filename.Mid(filename.Len() - 12, 8);
     address->SetValue(CodeParser::IsHex(last8) ? last8.Upper() : _T(""));
+}
+
+/** Output Tools **/
+
+void pgPointerSearcher::CopyResult(wxCommandEvent &WXUNUSED(event))
+{
+    wxString str = lstSearchResults->GetStringSelection();
+
+    if (!str.IsEmpty())
+    {
+        Clipboard::SetClipboard(str);
+
+        if (Clipboard::GetClipboard() == str)
+            wxMessageBox(_T("Currently selected result copied successfully."),
+                         _T("Success"));
+    }
+}
+void pgPointerSearcher::CopyPtrCode(wxCommandEvent &WXUNUSED(event))
+{
+    wxString str = txtPtrCode->GetValue();
+
+    if (!str.IsEmpty())
+    {
+        Clipboard::SetClipboard(str);
+
+        if (Clipboard::GetClipboard() == str)
+            wxMessageBox(_T("Pointer code output copied successfully."),
+                         _T("Success"));
+    }
+}
+
+const wxString pgPointerSearcher::PSR_WILDCARD =
+    _T("Pointer Searcher Results Files (*.psr)|*.psr|All Files|*");
+
+void pgPointerSearcher::Import(wxCommandEvent &WXUNUSED(event))
+{
+    // Prompt them if there are search results that would be overwritten.
+    int dlgresult = !lstSearchResults->IsEmpty()
+                    ? wxMessageBox(
+                        _T("\
+Are you sure that you would like import new search results?\n\
+This will overwrite any current data in the search result output.\
+"),
+                        _T("Overwrite Results?"), wxYES_NO
+                    )
+                    : wxYES;
+
+    if (dlgresult != wxYES)
+        return;
+
+    wxString filename = FileHandler::GetFileSelection(this, NULL,
+                                                      PSR_WILDCARD);
+
+    // Make sure that a file has been selected.
+    if (filename.IsEmpty())
+        return;
+
+    PSR psr(filename);
+
+    if (!psr.Verify())
+    {
+        wxMessageBox(_T("Invalid Pointer Searcher Results file."),
+                     _T("Error"));
+        return;
+    }
+
+    txtHexValue->SetValue(psr.GetHexValue());
+    lstSearchResults->Clear();
+    lstSearchResults->InsertItems(psr.GetResults(), 0);
+    lstSearchResults->SetSelection(psr.GetIndex());
+    RefreshPtrCode();
+}
+void pgPointerSearcher::Export(wxCommandEvent &WXUNUSED(event))
+{
+    if (lstSearchResults->IsEmpty())
+    {
+        wxMessageBox(_T("There are no search results."), _T("Error"));
+        return;
+    }
+
+    wxString filename = FileHandler::GetSaveFileSelection(
+        this,
+        _T("SearchResults.psr"),
+        PSR_WILDCARD
+    );
+
+    if (!filename.IsEmpty())
+    {
+        PSR::Write(
+            filename,
+            lstSearchResults->GetStrings(),
+            lstSearchResults->GetSelection(),
+            txtHexValue->GetValue()
+        );
+    }
 }

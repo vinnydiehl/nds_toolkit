@@ -14,29 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# @file Makefile - Builds the application base.
+# @file Makefile - Builds the PSR class.
 
 # Orientation of this Makefile
-ROOT = ..
+ROOT = ../..
 
 # Source Directories
 INCDIR = .
-BASEINCDIR = $(ROOT)/base
-CLIPINCDIR = $(ROOT)/clipboard
-COMMONINCDIR = $(ROOT)/common
 COMPATINCDIR = $(ROOT)/compatibility
-FHINCDIR = $(ROOT)/filehandler
-FRAMEINCDIR = $(ROOT)/frames
-PAGESINCDIR = $(ROOT)/pages/buttonactivatorgenerator \
-	      $(ROOT)/pages/codecompressor \
-	      $(ROOT)/pages/codeporter \
-	      $(ROOT)/pages/pointersearcher \
-	      $(ROOT)/pages/codebeautifier
-PARSEINCDIR = $(ROOT)/codeparser
-PSRINCDIR = $(FHINCDIR)/psr
-INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMMONINCDIR) \
-	   $(COMPATINCDIR) $(FHINCDIR) $(FRAMEINCDIR) $(PAGESINCDIR) \
-	   $(PARSEINCDIR) $(PSRINCDIR)
+INCPATHS = $(INCDIR) $(COMPATINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -47,7 +33,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = Program.o
+OBJ = PSR.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -68,8 +54,8 @@ debug: $(OPATHS)
 configure:
 	@mkdir -p $(OBJDIR)
 
-$(OBJDIR)/Program.o: $(INCDIR)/Program.h $(FRAMEINCDIR)/frmMain.h
-	$(CXX) $(CFLAGS) Program.cpp
+$(OBJDIR)/PSR.o: $(INCDIR)/PSR.h
+	$(CXX) $(CFLAGS) PSR.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)

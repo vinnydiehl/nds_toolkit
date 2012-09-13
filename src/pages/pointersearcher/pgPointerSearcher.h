@@ -37,8 +37,10 @@
 
 #include "PointerSearcher.h"
 
+#include "Clipboard.h"
 #include "CodeParser.h"
 #include "FileHandler.h"
+#include "PSR.h"
 #include "globals.h"
 
 class pgPointerSearcher : public wxPanel
@@ -77,20 +79,29 @@ public:
       wxBoxSizer *vboxSearchResults;
         wxStaticText *lblSearchResults;
         wxListBox *lstSearchResults;
+        wxBoxSizer *hboxResultsControls;
+          wxButton *btnCopyResult, *btnImport, *btnExport;
       wxBoxSizer *vboxPtrCode;
         wxStaticText *lblPtrCode;
         wxTextCtrl *txtPtrCode;
+        wxButton *btnCopyPtrCode;
 
     /** Events **/
 
     void FindPointers(wxCommandEvent &event);
+    void RefreshPtrCode(void);
     void RefreshPtrCode(wxCommandEvent &event);
+
     void SelectFile1(wxCommandEvent &event);
     void SelectFile2(wxCommandEvent &event);
 
+    void CopyResult(wxCommandEvent &event);
+    void CopyPtrCode(wxCommandEvent &event);
+    void Import(wxCommandEvent &event);
+    void Export(wxCommandEvent &event);
+
     /** Member Variables **/
 
-    wxString Wildcard;
     wxFFileInputStream *File1Input, *File2Input;
 
 private:
@@ -100,6 +111,12 @@ private:
     static const long ID_BROWSE_FILE_1, ID_BROWSE_FILE_2;
     static const long ID_FIND_POINTERS;
     static const long ID_SEARCH_RESULTS, ID_HEX_VALUE;
+    static const long ID_COPY_RESULT, ID_COPY_PTR_CODE;
+    static const long ID_IMPORT, ID_EXPORT;
+
+    /** Constants **/
+
+    static const wxString BIN_WILDCARD, PSR_WILDCARD;
 
     /** Private Methods **/
 
