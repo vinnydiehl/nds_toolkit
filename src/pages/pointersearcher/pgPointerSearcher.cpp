@@ -323,9 +323,12 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
 }
 void pgPointerSearcher::RefreshPtrCode(void)
 {
-    // Stop if we have nothing to do.
+    // Clear the output and stop if we can't do anything.
     if (lstSearchResults->IsEmpty() || txtHexValue->IsEmpty())
+    {
+        txtPtrCode->Clear();
         return;
+    }
 
     try
     {
