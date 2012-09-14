@@ -287,11 +287,6 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
         wxMessageBox(_T("There is no Address 2 input."), _T("Error"));
         return;
     }
-    if (hexValue.IsEmpty())
-    {
-        wxMessageBox(_T("There is no Hex Value input."), _T("Error"));
-        return;
-    }
     if (maxPtrOffset.IsEmpty())
     {
         wxMessageBox(_T("There is no Max Pointer Offset input."), _T("Error"));
@@ -307,7 +302,6 @@ void pgPointerSearcher::FindPointers(wxCommandEvent &WXUNUSED(event))
                                 File1Input, File2Input,
                                 txtAddress1->GetValue(),
                                 txtAddress2->GetValue(),
-                                txtHexValue->GetValue(),
                                 radOnlyPos->GetValue() ? Positive : Negative,
                                 txtMaxPtrOffset->GetValue());
     }

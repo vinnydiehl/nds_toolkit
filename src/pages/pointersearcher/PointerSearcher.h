@@ -43,7 +43,7 @@ public:
     static void Search(wxArrayString *outputSearchResults,
                        unsigned *outputSmallest,
                        wxFFileInputStream *file1, wxFFileInputStream *file2,
-                       wxString addr1, wxString addr2, wxString hexValueStr,
+                       wxString addr1, wxString addr2,
                        TargetType posneg, wxString maxPtrOffsetStr);
 
     static wxString ArCode(wxString result, wxString hexValueStr);

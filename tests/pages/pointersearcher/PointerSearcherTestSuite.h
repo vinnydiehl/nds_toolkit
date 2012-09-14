@@ -90,18 +90,27 @@ private:
 
         // The actual results will be stored into these and compared:
         wxArrayString searchResults;
-        wxString pointerCode;
         unsigned smallestIndex;
 
         PointerSearcher::Search(
-            &searchResults, &pointerCode, &smallestIndex,
+            // Variables to read results into:
+            &searchResults, &smallestIndex,
+            // Files:
             new wxFFileInputStream(dir + _T('/') + inputOptions[0]),
             new wxFFileInputStream(dir + _T('/') + inputOptions[1]),
+            // Addresses 1 and 2:
             inputOptions[2],
             inputOptions[3],
-            inputOptions[4],
+            // Offset Pos/Neg:
             inputOptions[5] == _T("Positive") ? Positive : Negative,
+            // Max Pointer Offset:
             inputOptions[6]
+        );
+
+        wxString pointerCode = PointerSearcher::ArCode(
+            searchResults[smallestIndex],
+            // Hex Value:
+            inputOptions[4]
         );
 
         TS_TRACE("Testing search results match...");

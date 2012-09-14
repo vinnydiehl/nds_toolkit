@@ -28,7 +28,6 @@ void PointerSearcher::Search(wxArrayString *outputSearchResults,
                              wxFFileInputStream *file2,
                              wxString addr1str,
                              wxString addr2str,
-                             wxString hexValueStr,
                              TargetType offsetTargetType,
                              wxString maxPtrOffsetStr)
 {
@@ -40,7 +39,6 @@ void PointerSearcher::Search(wxArrayString *outputSearchResults,
      * @param file2 - The File 2 input's wxFFileInputStream.
      * @param addr1str - The Address 1 input.
      * @param addr2str - The Address 2 input.
-     * @param hexValueStr - The Hex Value input.
      * @param offsetTargetType - "Only Positive"/"Only Negative" selection.
      * @param maxPtrOffsetStr - The Max Pointer Offset input.
     **/
@@ -68,14 +66,12 @@ void PointerSearcher::Search(wxArrayString *outputSearchResults,
         throw wxString(_T("The files being compared are different lengths."));
 
     // Try converting all of the numeric stuff to numeric types now.
-    long addr1, addr2, hexValue, maxPtrOffset;
+    long addr1, addr2, maxPtrOffset;
 
     if (!addr1str.ToLong(&addr1, 16))
         throw wxString(_T("Address 1 must be a hex number."));
     if (!addr2str.ToLong(&addr2, 16))
         throw wxString(_T("Address 2 must be a hex number."));
-    if (!hexValueStr.ToLong(&hexValue, 16))
-        throw wxString(_T("Hex Value must be a hex number."));
     if (!maxPtrOffsetStr.ToLong(&maxPtrOffset, 16))
         throw wxString(_T("Max Pointer Offset must be a hex number."));
 
