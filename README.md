@@ -1,5 +1,7 @@
 # NDS Toolkit
 
+*[GameHacking Release Thread](http://gamehacking.org/vb/threads/6772-NDS-Toolkit-Cross-Platform)*
+
 This version of the NDS Toolkit is a port of Demonic722's C#.NET tool. The
 original is located at:
 
