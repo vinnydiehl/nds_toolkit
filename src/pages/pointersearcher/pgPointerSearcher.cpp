@@ -354,11 +354,13 @@ void pgPointerSearcher::SelectFile1(wxCommandEvent &WXUNUSED(event))
 {
     File1Input = FileHandler::GetStream(this, txtFile1, BIN_WILDCARD);
     mParseFileName(txtFile1->GetValue(), txtAddress1);
+    mAutoDetectBinFiles();
 }
 void pgPointerSearcher::SelectFile2(wxCommandEvent &WXUNUSED(event))
 {
     File2Input = FileHandler::GetStream(this, txtFile2, BIN_WILDCARD);
     mParseFileName(txtFile2->GetValue(), txtAddress2);
+    mAutoDetectBinFiles();
 }
 void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
 {
@@ -367,6 +369,54 @@ void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
     // Otherwise, clear the text box.
     wxString last8 = filename.Mid(filename.Len() - 12, 8);
     address->SetValue(CodeParser::IsHex(last8) ? last8.Upper() : _T(""));
+}
+void pgPointerSearcher::mAutoDetectBinFiles(void)
+{
+    // We need to figure out what file we need to auto-fill.
+    wxFFileInputStream **activeInputStream;
+    wxTextCtrl *activeTextCtrl, *activeAddress;
+    wxString existingFilename;
+
+    // If they're both selected or both empty, exit.
+    if (!File1Input == !File2Input)
+        return;
+    // Otherwise, set the active controls to whichever input is empty.
+    else if (!File1Input)
+    {
+        activeInputStream = &File1Input;
+        activeTextCtrl = txtFile1;
+        activeAddress = txtAddress1;
+        existingFilename = txtFile2->GetValue();
+    }
+    else
+    {
+        activeInputStream = &File2Input;
+        activeTextCtrl = txtFile2;
+        activeAddress = txtAddress2;
+        existingFilename = txtFile1->GetValue();
+    }
+
+    // Get all of the .bin files in the directory.
+    wxArrayString fileList;
+    wxDir::GetAllFiles(
+        wxFileName(existingFilename).GetPath(),
+        &fileList,
+        _T("*.bin"),
+        // Don't recurse into subdirectories (overrides default flag):
+        wxDIR_FILES
+    );
+
+    // Remove the already open file from said that list.
+    fileList.Remove(existingFilename);
+
+    // Only continue if there is one other .bin file in the directory.
+    if (fileList.GetCount() != 1)
+        return;
+
+    // Load the detected file.
+    *activeInputStream = new wxFFileInputStream(fileList[0]);
+    activeTextCtrl->SetValue(fileList[0]);
+    mParseFileName(fileList[0], activeAddress);
 }
 
 /** Output Tools **/

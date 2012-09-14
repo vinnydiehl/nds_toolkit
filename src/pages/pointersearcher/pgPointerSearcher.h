@@ -25,6 +25,8 @@
 
 #include <wx/button.h>
 #include <wx/checkbox.h>
+#include <wx/dir.h>
+#include <wx/filename.h>
 #include <wx/listbox.h>
 #include <wx/msgdlg.h>
 #include <wx/panel.h>
@@ -121,6 +123,7 @@ private:
     /** Private Methods **/
 
     void mParseFileName(wxString filename, wxTextCtrl *address);
+    void mAutoDetectBinFiles(void);
 };
 
 #endif // PGPOINTERSEARCHER_H_INCLUDED
