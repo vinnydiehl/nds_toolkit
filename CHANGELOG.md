@@ -133,3 +133,28 @@ possibly buggy features that need testing.
 ### Improvements
 
  * Minor performance enhancement in Pointer Searcher's searching algorithm.
+
+## 0.7
+
+This release essentially brought an overhaul to the Pointer Searcher page.
+See below to see what has changed since the beta.
+
+### Bug Fixes
+
+ * ```sudo make install``` will no longer fail if the program is already
+   installed- it will merely update the program.
+
+### Features
+
+ * Upon selecting a file for the Pointer Searcher, if there is exactly one
+   other .bin file in the same directory, that will automatically be loaded
+   into the other file.
+ * If there are exactly two .bin files in the current working directory when
+   NDS Toolkit is launched, both of those files will automatically be loaded
+   into the Pointer Searcher.
+
+### Improvements
+
+ * The Hex Value has been untied from the Search Results completely- you can
+   now run the search with none entered, and results will appear- the Pointer
+   Code output will be filled as you change the Hex Value input, as usual.

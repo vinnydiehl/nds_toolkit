@@ -30,7 +30,7 @@
 // Program name:
 const wxString NAME = _T("NDS Toolkit");
 // Current program version:
-const wxString VERSION = _T("0.7b1");
+const wxString VERSION = _T("0.7");
 // Description:
 const wxString DESCRIPTION = _T("\
 A suite of tools for hacking Nintendo games.\n\
