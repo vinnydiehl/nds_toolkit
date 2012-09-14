@@ -221,7 +221,7 @@ install:
 	@test -f $(EXE) || \
 	 (echo "Build the program first so that it may be installed."; exit 1)
 	@install -m 0755 $(EXE) $(INSTALL)/$(NAME)
-	@ln -s $(INSTALL)/$(NAME) $(INSTALL)/$(ALTNAME)
+	@ln -sf $(INSTALL)/$(NAME) $(INSTALL)/$(ALTNAME)
 	@echo "NDS Toolkit has been installed."
 
 uninstall:
