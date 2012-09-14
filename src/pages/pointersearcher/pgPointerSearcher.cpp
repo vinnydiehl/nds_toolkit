@@ -228,6 +228,37 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     SetSizer(vboxMargin);
     vboxMargin->SetSizeHints(this);
 
+    // Get a list of all of the .bin files in the working directory:
+    wxArrayString fileList;
+    wxDir::GetAllFiles(
+        wxGetCwd(),
+        &fileList,
+        _T("*.bin"),
+        // Don't recurse into subdirectories (overrides default flag):
+        wxDIR_FILES
+    );
+
+    // If there are two .bin files in the directory that NDS Toolkit is
+    // launched from, automaticaly load them.
+    if (fileList.GetCount() == 2)
+    {
+        // :TODO: 2012-09-14 gbchaosmaster - Repetitive code
+        // There's quite a bit of repetition here. Time to abstract?
+
+        File1Input = new wxFFileInputStream(fileList[0]);
+        txtFile1->SetValue(fileList[0]);
+        mParseFileName(fileList[0], txtAddress1);
+
+        File2Input = new wxFFileInputStream(fileList[1]);
+        txtFile2->SetValue(fileList[1]);
+        mParseFileName(fileList[1], txtAddress2);
+    }
+
+    // If a file is auto-loaded, the focus will be on the File 1 text box
+    // when the user switches to the control, and its contents will be
+    // highlighted- this is ugly. Move the focus elsewhere to stop this.
+    lstSearchResults->SetFocus();
+
     // Connect main window events
     Connect(ID_FIND_POINTERS, wxEVT_COMMAND_BUTTON_CLICKED,
             wxCommandEventHandler(pgPointerSearcher::FindPointers));
