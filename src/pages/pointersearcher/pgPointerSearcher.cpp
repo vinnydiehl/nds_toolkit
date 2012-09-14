@@ -242,16 +242,8 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     // launched from, automaticaly load them.
     if (fileList.GetCount() == 2)
     {
-        // :TODO: 2012-09-14 gbchaosmaster - Repetitive code
-        // There's quite a bit of repetition here. Time to abstract?
-
-        File1Input = new wxFFileInputStream(fileList[0]);
-        txtFile1->SetValue(fileList[0]);
-        mParseFileName(fileList[0], txtAddress1);
-
-        File2Input = new wxFFileInputStream(fileList[1]);
-        txtFile2->SetValue(fileList[1]);
-        mParseFileName(fileList[1], txtAddress2);
+        mLoadFile(&File1Input, fileList[0], txtFile1, txtAddress1);
+        mLoadFile(&File2Input, fileList[1], txtFile2, txtAddress2);
     }
 
     // If a file is auto-loaded, the focus will be on the File 1 text box
@@ -401,6 +393,15 @@ void pgPointerSearcher::mParseFileName(wxString filename, wxTextCtrl *address)
     wxString last8 = filename.Mid(filename.Len() - 12, 8);
     address->SetValue(CodeParser::IsHex(last8) ? last8.Upper() : _T(""));
 }
+void pgPointerSearcher::mLoadFile(wxFFileInputStream **stream,
+                                  wxString filename,
+                                  wxTextCtrl *fileTextCtrl,
+                                  wxTextCtrl *addressTextCtrl)
+{
+    *stream = new wxFFileInputStream(filename);
+    fileTextCtrl->SetValue(filename);
+    mParseFileName(filename, addressTextCtrl);
+}
 void pgPointerSearcher::mAutoDetectBinFiles(void)
 {
     // We need to figure out what file we need to auto-fill.
@@ -445,9 +446,8 @@ void pgPointerSearcher::mAutoDetectBinFiles(void)
         return;
 
     // Load the detected file.
-    *activeInputStream = new wxFFileInputStream(fileList[0]);
-    activeTextCtrl->SetValue(fileList[0]);
-    mParseFileName(fileList[0], activeAddress);
+    mLoadFile(&(*activeInputStream), fileList[0],
+              activeTextCtrl, activeAddress);
 }
 
 /** Output Tools **/

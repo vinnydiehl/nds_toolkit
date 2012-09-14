@@ -123,6 +123,8 @@ private:
     /** Private Methods **/
 
     void mParseFileName(wxString filename, wxTextCtrl *address);
+    void mLoadFile(wxFFileInputStream **stream, wxString filename,
+                   wxTextCtrl *fileTextCtrl, wxTextCtrl *addressTextCtrl);
     void mAutoDetectBinFiles(void);
 };
 
