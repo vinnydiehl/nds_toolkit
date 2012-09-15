@@ -197,6 +197,8 @@ pgPointerSearcher::pgPointerSearcher(wxWindow *parent)
     btnCopyPtrCode = new wxButton(pnlMain, ID_COPY_PTR_CODE,
                                   _T("&Copy Pointer Code"));
 
+    txtPtrCode->SetFont(FIXED_FONT);
+
     vboxPtrCode->Add(lblPtrCode, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxPtrCode->Add(txtPtrCode, 1, wxEXPAND | wxBOTTOM, 5);
     vboxPtrCode->Add(btnCopyPtrCode, 0, wxEXPAND);

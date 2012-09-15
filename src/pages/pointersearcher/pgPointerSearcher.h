@@ -43,6 +43,7 @@
 #include "CodeParser.h"
 #include "FileHandler.h"
 #include "PSR.h"
+#include "fonts.h"
 #include "globals.h"
 
 class pgPointerSearcher : public wxPanel

@@ -36,6 +36,7 @@
 #include "PatchCodeBuilder.h"
 
 #include "Clipboard.h"
+#include "fonts.h"
 #include "globals.h"
 
 // Set this to 1 if you want to use the old layout.

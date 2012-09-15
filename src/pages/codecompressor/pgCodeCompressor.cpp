@@ -159,6 +159,8 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
                                    wxDefaultPosition, wxDefaultSize,
                                    wxTE_MULTILINE | wxHSCROLL);
 
+    txtLoopOutput->SetFont(FIXED_FONT);
+
     // Copy Button
     btnLoopCopy = new wxButton(pnlMain, ID_LOOP_COPY,
                                _T("&Copy to Clipboard"));
@@ -194,6 +196,8 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
                               wxDefaultPosition, wxDefaultSize,
                               wxTE_MULTILINE | wxHSCROLL);
 
+    txtInput->SetFont(FIXED_FONT);
+
     // hbox to align the buttons in here
     hboxInputButtons = new wxBoxSizer(wxHORIZONTAL);
     btnPaste = new wxButton(pnlMain, ID_PATCH_PASTE, _T("&Paste"));
@@ -213,6 +217,8 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
     txtOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                                wxDefaultPosition, wxDefaultSize,
                                wxTE_MULTILINE | wxHSCROLL);
+
+    txtOutput->SetFont(FIXED_FONT);
 
     // hbox to align the buttons in here
     hboxOutputButtons = new wxBoxSizer(wxHORIZONTAL);

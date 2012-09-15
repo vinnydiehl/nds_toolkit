@@ -35,6 +35,7 @@
 #include "CodePorter.h"
 
 #include "Clipboard.h"
+#include "fonts.h"
 #include "globals.h"
 
 class pgCodePorter : public wxPanel

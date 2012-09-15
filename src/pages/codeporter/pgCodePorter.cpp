@@ -52,6 +52,8 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
                               wxDefaultPosition, wxDefaultSize,
                               wxTE_MULTILINE | wxHSCROLL);
 
+    txtInput->SetFont(FIXED_FONT);
+
     vboxInput->Add(lblInput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxInput->Add(txtInput, 1, wxEXPAND);
 
@@ -112,6 +114,8 @@ pgCodePorter::pgCodePorter(wxWindow *parent)
     txtOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                                wxDefaultPosition, wxDefaultSize,
                                wxTE_MULTILINE | wxHSCROLL);
+
+    txtOutput->SetFont(FIXED_FONT);
 
     vboxOutput->Add(lblOutput, 0, wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxOutput->Add(txtOutput, 1, wxEXPAND);

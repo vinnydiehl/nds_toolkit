@@ -38,6 +38,7 @@
 
 #include "Clipboard.h"
 #include "CodeParser.h"
+#include "fonts.h"
 #include "globals.h"
 
 class pgButtonActivatorGenerator : public wxPanel

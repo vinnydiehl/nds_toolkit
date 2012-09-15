@@ -52,6 +52,8 @@ pgCodeBeautifier::pgCodeBeautifier(wxWindow *parent)
                                   wxDefaultPosition, wxDefaultSize,
                                   wxTE_MULTILINE | wxHSCROLL);
 
+    txtCodeInput->SetFont(FIXED_FONT);
+
     vboxCodeInput->Add(lblCodeInput, 0,
                        wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
     vboxCodeInput->Add(txtCodeInput, 1, wxEXPAND);
@@ -119,6 +121,8 @@ pgCodeBeautifier::pgCodeBeautifier(wxWindow *parent)
     txtCodeOutput = new wxTextCtrl(pnlMain, wxID_ANY, wxEmptyString,
                                    wxDefaultPosition, wxDefaultSize,
                                    wxTE_MULTILINE | wxHSCROLL);
+
+    txtCodeOutput->SetFont(FIXED_FONT);
 
     vboxCodeOutput->Add(lblCodeOutput, 0,
                         wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, 5);
