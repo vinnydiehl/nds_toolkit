@@ -42,10 +42,14 @@ Original application by Demonic722.\n\
 This port is copyright (c) 2012 Vinny Diehl.\
 ");
 
-// Usrcheat Download Info
+/** Usrcheat Downloader **/
+
+// Usrcheat download info:
 const wxString USRCHEAT_URL =
     _T("http://syntechx.com/downloads/usrcheat.rar");
 const wxString USRCHEAT_FILE_NAME = _T("usrcheat.rar");
+
+/** Constants **/
 
 // The margin between the edge of each page and the contents of the page:
 const int MARGIN = 5;
