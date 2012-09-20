@@ -167,6 +167,8 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
 
     // Finish up svboxLoopCodeGenerator
 #if USE_OLD_LAYOUT
+#   warning "USE_OLD_LAYOUT has been deprecated."
+
     svboxLoopCodeGenerator->Add(hboxBaseCode, 0, wxEXPAND | wxBOTTOM, 5);
     svboxLoopCodeGenerator->Add(hboxTotalLoopCount, 0, wxEXPAND | wxBOTTOM, 5);
     svboxLoopCodeGenerator->Add(hboxOffsetIncrement, 0,
