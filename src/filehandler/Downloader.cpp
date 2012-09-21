@@ -73,7 +73,7 @@ bool Downloader::SelectPath(void)
 void Downloader::Download(void)
 {
     /**
-     * Download the file to the specified location.
+     * Download the file to the specified location, showing a progress dialog.
     **/
 
     // 16 KB read
@@ -124,8 +124,15 @@ void Downloader::Download(void)
                     divisor = 0x100000;
                 }
 
+                // If we're done, finish up before it displays the final
+                // message.
                 if (data_loaded >= total_len)
+                {
+                    wxPuts(wxString::Format(
+                      _T("Downloaded %ld bytes."), out.GetSize()
+                    ));
                     dlgProgress.SetTitle(_T("Download Complete"));
+                }
 
                 // Update the dialog if we know the file length, otherwise
                 // just pulse it. Set abort if they cancel the download.
@@ -149,20 +156,12 @@ void Downloader::Download(void)
                         : !dlgProgress.Pulse();
             }
 
-            // Console output for the download result.
-            wxPuts(
-                abort
-                ? _T("Download was cancelled.")
-                : wxString::Format(
-                      _T("Downloaded %ld bytes."), out.GetSize()
-                  )
-            );
-
             if (abort)
             {
                 // Delete the partial file if they cancelled the downloaded.
                 wxRemoveFile(mPath);
                 dlgProgress.Hide();
+                wxPuts(_T("Download was cancelled."));
                 wxMessageBox(_T("Your download has been cancelled."),
                              _T("Download Cancelled"));
             }
