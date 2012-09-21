@@ -26,6 +26,7 @@
 #define FILEHANDLER_H_INCLUDED
 
 #include <wx/filedlg.h>
+#include <wx/filefn.h>
 #include <wx/stream.h>
 #include <wx/string.h>
 #include <wx/textctrl.h>
