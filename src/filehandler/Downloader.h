@@ -22,6 +22,7 @@
 
 #include <wx/filedlg.h>
 #include <wx/filefn.h>
+#include <wx/msgdlg.h>
 #include <wx/progdlg.h>
 #include <wx/stream.h>
 #include <wx/string.h>
