@@ -103,7 +103,7 @@ pgCodeCompressor::pgCodeCompressor(wxWindow *parent)
 
     // Base Code:
     lblBaseCode = new wxStaticText(pnlMain, wxID_ANY, _T("Base Code:"));
-    txtBaseCode = new wxTextCtrl(pnlMain, wxID_ANY);
+    txtBaseCode = new ghCodeLineInput(pnlMain, wxID_ANY);
 
     // Total Loop Count:
     lblTotalLoopCount = new wxStaticText(pnlMain, wxID_ANY,

@@ -285,9 +285,10 @@ for option in config:
         break
 for option in config:
     if search(r'add[_-]options?\s+--add-code-compressor', option):
-        makefile_options.append(
-'CODE_COMPRESSOR = LoopCodeGenerator.o PatchCodeBuilder.o pgCodeCompressor.o'
-        )
+        makefile_options.append('''\
+CODE_COMPRESSOR = LoopCodeGenerator.o PatchCodeBuilder.o \\
+                  ghCodeLineInput.o pgCodeCompressor.o\
+''')
         config_header_options.append(
             '#define ADD_CODE_COMPRESSOR'
         )

@@ -33,9 +33,10 @@ PAGESINCDIR = $(ROOT)/pages/buttonactivatorgenerator \
 	      $(ROOT)/pages/codebeautifier
 PARSEINCDIR = $(ROOT)/codeparser
 PSRINCDIR = $(FHINCDIR)/psr
+WIDGETINCDIR = $(ROOT)/widgets
 INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMMONINCDIR) \
 	   $(COMPATINCDIR) $(FHINCDIR) $(PAGESINCDIR) $(PARSEINCDIR) \
-	   $(PSRINCDIR)
+	   $(PSRINCDIR) $(WIDGETINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 PAGESINCLDS = \

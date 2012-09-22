@@ -77,6 +77,8 @@ $(OBJDIR)/EBuilder.o:
 	$(MAKE) -C codecompressor $(MAKETGT)
 $(OBJDIR)/LoopCodeGenerator.o:
 	$(MAKE) -C codecompressor $(MAKETGT)
+$(OBJDIR)/ghCodeLineInput.o:
+	$(MAKE) -C $(ROOT)/widgets $(MAKETGT)
 
 $(OBJDIR)/pgCodeBeautifier.o:
 	$(MAKE) -C codebeautifier $(MAKETGT)

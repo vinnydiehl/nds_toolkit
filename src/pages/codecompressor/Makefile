@@ -25,8 +25,9 @@ CLIPINCDIR = $(ROOT)/clipboard
 COMMONINCDIR = $(ROOT)/common
 COMPATINCDIR = $(ROOT)/compatibility
 PARSEINCDIR = $(ROOT)/codeparser
+WIDGETINCDIR = $(ROOT)/widgets
 INCPATHS = $(INCDIR) $(CLIPINCDIR) $(COMMONINCDIR) $(COMPATINCDIR) \
-	   $(PARSEINCDIR)
+	   $(PARSEINCDIR) $(WIDGETINCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -63,14 +64,15 @@ $(OBJDIR)/pgCodeCompressor.o: $(INCDIR)/pgCodeCompressor.h \
     			      $(INCDIR)/PatchCodeBuilder.h \
      			      $(CLIPINCDIR)/Clipboard.h \
 			      $(COMMONINCDIR)/globals.h \
-			      $(PARSEINCDIR)/CodeParser.h
+			      $(PARSEINCDIR)/CodeParser.h \
+			      $(WIDGETINCDIR)/ghCodeLineInput.h
 	$(CXX) $(CFLAGS) pgCodeCompressor.cpp
 
 $(OBJDIR)/LoopCodeGenerator.o: $(INCDIR)/LoopCodeGenerator.h
 	$(CXX) $(CFLAGS) LoopCodeGenerator.cpp
 
 $(OBJDIR)/PatchCodeBuilder.o: $(INCDIR)/PatchCodeBuilder.h \
-	              $(COMPATINCDIR)/wx2.9/arrstr.h
+	                      $(COMPATINCDIR)/wx2.9/arrstr.h
 	$(CXX) $(CFLAGS) PatchCodeBuilder.cpp
 
 clean: configure

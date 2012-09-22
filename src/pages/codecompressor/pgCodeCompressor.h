@@ -32,6 +32,8 @@
 #include <wx/string.h>
 #include <wx/textctrl.h>
 
+#include "ghCodeLineInput.h"
+
 #include "LoopCodeGenerator.h"
 #include "PatchCodeBuilder.h"
 
@@ -75,8 +77,8 @@ public:
       wxFlexGridSizer *gridLoopCodeGenerator;
         wxStaticText *lblBaseCode, *lblTotalLoopCount,
                      *lblOffsetIncrement, *lblValueIncrement;
-        wxTextCtrl *txtBaseCode, *txtTotalLoopCount,
-                   *txtOffsetIncrement, *txtValueIncrement;
+        ghCodeLineInput *txtBaseCode;
+        wxTextCtrl *txtTotalLoopCount, *txtOffsetIncrement, *txtValueIncrement;
 #endif
       wxBoxSizer *hboxLoopControls;
         wxButton *btnGenerate, *btnClearAll;

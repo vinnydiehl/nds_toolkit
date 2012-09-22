@@ -55,9 +55,8 @@ ifeq ($(SETUP),default)
 				 pgButtonActivatorGenerator.o
     POINTER_SEARCHER = PointerSearcher.o PSR.o pgPointerSearcher.o
     CODE_PORTER = CodePorter.o pgCodePorter.o
-    CODE_COMPRESSOR = LoopCodeGenerator.o \
-		      PatchCodeBuilder.o \
-		      pgCodeCompressor.o
+    CODE_COMPRESSOR = LoopCodeGenerator.o PatchCodeBuilder.o \
+		      ghCodeLineInput.o pgCodeCompressor.o
     CODE_BEAUTIFIER = pgCodeBeautifier.o
 endif
 
@@ -183,6 +182,11 @@ $(OBJDIR)/FileHandler.o:
 
 $(OBJDIR)/PSR.o:
 	$(MAKE) -C filehandler $(MAKETGT)
+
+# widgets
+
+$(OBJDIR)/ghCodeLineInput.o:
+	$(MAKE) -C widgets $(MAKETGT)
 
 ### Library Builds
 

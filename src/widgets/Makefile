@@ -14,30 +14,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# @file Makefile - Builds the application base.
+# @file Makefile - Builds the custom widgets.
 
 # Orientation of this Makefile
 ROOT = ..
 
 # Source Directories
 INCDIR = .
-BASEINCDIR = $(ROOT)/base
-CLIPINCDIR = $(ROOT)/clipboard
-COMMONINCDIR = $(ROOT)/common
-COMPATINCDIR = $(ROOT)/compatibility
-FHINCDIR = $(ROOT)/filehandler
-FRAMEINCDIR = $(ROOT)/frames
-PAGESINCDIR = $(ROOT)/pages/buttonactivatorgenerator \
-	      $(ROOT)/pages/codecompressor \
-	      $(ROOT)/pages/codeporter \
-	      $(ROOT)/pages/pointersearcher \
-	      $(ROOT)/pages/codebeautifier
-PARSEINCDIR = $(ROOT)/codeparser
-PSRINCDIR = $(FHINCDIR)/psr
-WIDGETINCDIR = $(ROOT)/widgets
-INCPATHS = $(INCDIR) $(BASEINCDIR) $(CLIPINCDIR) $(COMMONINCDIR) \
-	   $(COMPATINCDIR) $(FHINCDIR) $(FRAMEINCDIR) $(PAGESINCDIR) \
-	   $(PARSEINCDIR) $(PSRINCDIR) $(WIDGETINCDIR)
+INCPATHS = $(INCDIR)
 INCFLAGS = $(addprefix -I,$(INCPATHS))
 
 # wxWidgets Options
@@ -48,7 +32,7 @@ BUILDROOT = $(ROOT)/build
 OBJDIR = $(BUILDROOT)/obj
 
 # Output Files
-OBJ = Program.o
+OBJ = ghCodeLineInput.o
 OPATHS = $(addprefix $(OBJDIR)/,$(OBJ))
 
 # Compiler
@@ -69,8 +53,8 @@ debug: $(OPATHS)
 configure:
 	@mkdir -p $(OBJDIR)
 
-$(OBJDIR)/Program.o: $(INCDIR)/Program.h $(FRAMEINCDIR)/frmMain.h
-	$(CXX) $(CFLAGS) Program.cpp
+$(OBJDIR)/ghCodeLineInput.o: $(INCDIR)/ghCodeLineInput.h
+	$(CXX) $(CFLAGS) ghCodeLineInput.cpp
 
 clean: configure
 	touch $(OPATHS) && rm $(OPATHS)
