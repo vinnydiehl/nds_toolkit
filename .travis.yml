@@ -1,0 +1,20 @@
+language: cpp
+compiler: gcc
+
+# Dependencies: wxWidgets 2.8.12 and CxxTest.
+# CxxTest is currently not functioning properly, so just build for now.
+# TODO: Figure out how to make cxxtestgen run on Travis-CI.
+install:
+# - echo | sudo apt-add-repository ppa:dhart/ppa
+# - sudo apt-get update -qq
+  - sudo apt-get install -qq libwxgtk2.8
+#env: CXXTEST=/usr/include
+
+# Test build success and unit test passing.
+script:
+  - make -C src
+# - make -C test
+
+# Only track the inbound branch.
+branches:
+  only: inbound
