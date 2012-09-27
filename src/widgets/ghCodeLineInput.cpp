@@ -72,15 +72,6 @@ void ghCodeLineInput::mFormatText(void)
         final += text[i];
     }
 
-    // An attempt at a hack to get it to just work, but no good.
-    // For some reason when you enter that 9th character, this method runs
-    // again, not going into the conditional the second time. Maybe it's the
-    // ChangeValue() that does it for some reason?
-    if (final.Len() == 10 && GetValue().Len() == 10)
-    {
-        SetInsertionPointEnd();
-    }
-
     // Most of the time this won't even change anything, so don't apply the
     // space adjustment unless it needs to be done.
     if (final != GetValue())
@@ -98,6 +89,7 @@ wxString ghCodeLineInput::mStripToHex(wxString str)
     **/
 
     wxString output;
+    output.Alloc(str.length());
 
     for (size_t i = 0; i < str.Len(); ++i)
         if (HEXCHAR.Matches(str[i]))
