@@ -3,7 +3,7 @@ compiler: gcc
 
 # Dependencies: wxWidgets 2.8.12 and CxxTest.
 # CxxTest is currently not functioning properly, so just build for now.
-# TODO: Figure out how to make cxxtestgen run on Travis-CI.
+# TODO: Figure out how to make cxxtestgen available on Travis-CI.
 install:
 # - echo | sudo apt-add-repository ppa:dhart/ppa
 # - sudo apt-get update -qq

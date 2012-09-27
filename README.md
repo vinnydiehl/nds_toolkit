@@ -1,4 +1,4 @@
-# NDS Toolkit
+# NDS Toolkit [![Build Status](https://secure.travis-ci.org/gbchaosmaster/nds-toolkit.png)](http://travis-ci.org/gbchaosmaster/nds-toolkit)
 
 *[GameHacking Release Thread](http://gamehacking.org/vb/threads/6772-NDS-Toolkit-Cross-Platform)*
 
