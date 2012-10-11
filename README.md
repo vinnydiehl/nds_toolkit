@@ -18,9 +18,10 @@ If you want to help develop on this code, feel free! If any contributions are
 made to this tool that give it features that Demonic722's version does not
 have, I will work to implement that feature in his version as well. See the
 [Contributing](#contributing) section below if you're new at this. If you're
-familiar with GitHub and know what you're doing, just don't develop on any of
-the main branches- create your own branch off of inbound, and be sure to
-submit your pull request to inbound.
+familiar with GitHub and know what you're doing, then have at it! The NDS
+Toolkit uses the
+[git-flow](http://nvie.com/posts/a-successful-git-branching-model/) branching
+model.
 
 The code is in the ```src``` directory. If you are a user of this program,
 follow the install instructions immediately below to get it installed on your
@@ -142,35 +143,50 @@ will be built and included in the application.
 
 All developers are welcome to contribute to the code for NDS Toolkit. All that
 I ask is that you follow the coding style of the existing codebase, and keep
-line length under 80 characters. To get working on the NDS Toolkit:
+line length under 80 characters.
+
+The branching model for the repository is
+[git-flow](http://nvie.com/posts/a-successful-git-branching-model/). Check it
+out if you haven't heard of it and take a look at
+[this](https://github.com/nvie/gitflow)- it gives some handy commands for using
+this workflow. To set up the extensions with this project, run
+```git flow init``` in the repository after cloning it and keep all of the
+defaults.
+
+To get working on the NDS Toolkit:
 
  1. Fork this project
 ([click here to fork](https://github.com/gbchaosmaster/nds-toolkit/fork_select))
  2. On your system, where ever you want to put the directory with the code:
     ```git clone git@github.com:<YOUR-GITHUB-USERNAME>/nds-toolkit.git```
  3. Go into your newly cloned directory: ```cd nds-toolkit```
- 4. Pull down the latest copy of the development branch:
-    ```git checkout -b inbound && git pull origin inbound```
- 5. Add the maintainer's repository to your repo:
+ 4. Add the maintainer's repository to your repo:
 ```git remote add upstream https://github.com/gbchaosmaster/nds-toolkit.git```
- 6. Create a branch for you to work in (name it whatever you'd like):
-    ```git checkout -b your-branch```
- 7. Write your code, making regular commits (see [below](#commits) for
+ 5. Create a feature branch for you to work in:
+    ```git checkout -b feature/###-name-of-branch```
+
+    Or, if using the git-flow extensions:
+    ```git flow feature start ###-name-of-branch```
+
+    The optional ```###``` is for the issue number, if you have created an
+    issue on the issue tracker to correspond with your changes.
+ 6. Write your code, making regular commits (see [below](#commits) for
     details)
- 8. *time passes, maintainer repo is being updated in the mean time*
- 9. Switch to your inbound branch and pull down the latest changes:
-```git checkout inbound && git fetch upstream && git rebase upstream/inbound```
- 10. Switch back to your working branch and rebase those changes:
-    ```git checkout your-branch && git rebase inbound```
- 11. Repeat 6-9 as necessary
- 12. When your code is finished, **make sure the test suite runs**. No pull
+ 7. *time passes, maintainer repo is being updated in the mean time*
+ 8. Switch to the development branch and pull down the latest changes:
+```git checkout develop && git fetch upstream && git rebase upstream/develop```
+ 9. Switch back to your working branch and rebase those changes:
+     ```git checkout feature/###-name-of-branch && git rebase develop```
+ 10. Repeat 6-9 as necessary.
+ 11. When your code is finished, **make sure the test suite runs**. No pull
      requests with failing tests (or tests modified to work around changes that
      you made, unless you had a good reason to do so that is mentioned in your
      commit/pull request) will be accepted. See the
-     [test documentation](inbound/tests#readme) for more information.
- 13. Push the code to your forked repository: ```git push origin your-branch```
- 14. Send a pull request to the maintainer- make sure that you select the
-     ```inbound``` branch for it to be pulled into.
+     [test documentation](develop/tests#readme) for more information.
+ 12. Push the code to your forked repository:
+     ```git push origin feature/###-name-of-branch```
+ 13. Send a pull request to the maintainer- make sure that the ```develop```
+     branch is selected for your request to be pulled into.
 
 ### Commits
 
