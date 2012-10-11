@@ -1,6 +1,7 @@
 # NDS Toolkit [![Build Status](https://secure.travis-ci.org/gbchaosmaster/nds-toolkit.png)](http://travis-ci.org/gbchaosmaster/nds-toolkit)
 
-*[GameHacking Release Thread](http://gamehacking.org/vb/threads/6772-NDS-Toolkit-Cross-Platform)*
+ * [Web Page](http://www.gbchaosmaster.tk/projects/nds_toolkit)
+ * [GameHacking Release Thread](http://gamehacking.org/vb/threads/6772-NDS-Toolkit-Cross-Platform)
 
 This version of the NDS Toolkit is a port of Demonic722's C#.NET tool. The
 original is located at:
